@@ -1,10 +1,11 @@
-import Section1 from "./components/section-4";
+import Hero from "./components/hero";
+import Section3 from "./components/section-3";
 
 const Home = () => {
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-red-500">
-      <Section1 />
-
+      <Hero />
+      <Section3 />
     </div>
   );
 }

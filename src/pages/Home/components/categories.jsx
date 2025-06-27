@@ -1,9 +1,11 @@
 import React from 'react'
+import {MoveRight} from "lucide-react";
+
 
 const Categories = () => {
   return (
     <div className="container mx-auto px-4 py-8 sm:px-6 sm:py-12">
-
+ 
       
       <div className="mb-8 sm:mb-12">
         <h1 className="text-2xl font-bold text-gray-800 mb-4 sm:text-3xl md:text-4xl">
@@ -19,7 +21,10 @@ const Categories = () => {
             href="" 
             className="inline-block px-4 py-2 font-bold text-sm sm:px-6 sm:py-3 sm:text-base"
           >
-            Ver todas las categorías
+            <span className="flex items-center gap-2">
+              Ver todas las categorías
+              <MoveRight />
+            </span>
           </a>
         </div>
       </div>

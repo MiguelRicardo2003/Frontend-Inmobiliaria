@@ -1,3 +1,6 @@
+import Feature from "../../../shared/featureOfPropieties";
+import Button from "../../../shared/button";
+
 const Section4 = () => {
     return (
         <section className="w-full">
@@ -13,9 +16,7 @@ const Section4 = () => {
                     <h2 className="text-xl sm:text-3xl md:text-4xl font-bold max-w-lg">
                         Descubre un lugar donde te encantará vivir
                     </h2>
-                    <button className="bg-[#E7C873] hover:bg-yellow-300 text-black font-medium px-6 py-3 rounded-xl">
-                        Ver Propiedades →
-                    </button>
+                    <Button funcion={"Ver Propiedades"} />
                 </div>
             </div>
 
@@ -29,10 +30,7 @@ const Section4 = () => {
                         className="w-full h-full object-cover rounded-2xl"
                     />
                     {/* Etiquetas */}
-                    <div className="absolute left-4 top-2 lg:top-6 flex gap-2">
-                        <span className="bg-[#1F4B43] text-white text-xs font-semibold px-3 py-1 rounded-full">FOR SALE</span>
-                        <span className="bg-[#E7C873] text-black text-xs font-semibold px-3 py-1 rounded-full">FEATURED</span>
-                    </div>
+                    <Feature />
                 </div>
 
                 {/* Información */}
@@ -59,10 +57,7 @@ const Section4 = () => {
                             <span className="flex items-center gap-1">📐 350 m²</span>
                         </div>
                     </div>
-
-                    <button className="self-start bg-[#E7C873] hover:bg-yellow-300 text-black font-medium px-6 py-3 rounded-xl">
-                        Más información →
-                    </button>
+                    <Button funcion={"Más información"} />
                 </div>
             </div>
         </section>

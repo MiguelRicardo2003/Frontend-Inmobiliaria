@@ -1,14 +1,14 @@
-import Hero from "./components/hero";
-import Section3 from "./components/section-3";
-import Section4 from "./components/section-4";
+import Hero from "./components/hero"
+import Section3 from "./components/section-3"
+import Categories from "./components/categories"
 
 const Home = () => {
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-red-500">
+    <>
       <Hero />
+      <Categories />
       <Section3 />
-      <Section4 />
-    </div>
+    </>
   );
 }
 

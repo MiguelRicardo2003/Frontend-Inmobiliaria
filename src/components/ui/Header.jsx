@@ -42,21 +42,22 @@ const Header = () => {
           ))}
         </nav>
 
-        <NavLink></NavLink>
         <div className="flex items-center gap-2 absolute right-4">
-          <CircleUserRound size={40} color="#ffffff" />
+          <NavLink to="/login" className="flex items-center gap-2">
+            <CircleUserRound size={40} color="#ffffff" />
+          </NavLink>
+          
+          {/* Version Menu Mobile */}
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="md:hidden text-white"
+          >
+            {isOpen ? <X size={24} /> : <Menu size={40} />}
+          </button>
         </div>
-
-        {/* Mobile menu button */}
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          className="md:hidden text-gray-700"
-        >
-          {isOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
       </div>
 
-      {/* Mobile nav */}
+      {/* Barra Nav Mobile */}
       {isOpen && (
         <div className="md:hidden bg-white shadow-md px-4 pb-4">
           {navItems.map((item) => (

@@ -4,7 +4,7 @@ const Hero = () => {
     <div className="w-full h-[calc(100vh-4rem)] flex flex-col  bg-[#1B4F5C]">
       <div className="flex-row flex-1 flex ">
         <div className="
-        ml-10 mt-20
+        ml-10 mt-10 mr-10
         2xl:ml-20 2xl:mt-24 
         xl:ml-20 xl:mt-36 
         lg:ml-20 lg:mt-44 
@@ -47,7 +47,9 @@ const Hero = () => {
       </div>
 
       <div className="relative w-full h-full">
-        <div className="absolute left-0 bottom-0 bg-[#e7c873] w-1/3 h-20 rounded-tr-2xl flex justify-around items-center ">
+        <div className="banner absolute left-0 bottom-0 bg-[#e7c873] sm:w-1/3 h-56 sm:h-20
+          rounded-tr-2xl sm:rounded-tr-2xl sm:flex sm:flex-row flex-col justify-around items-center
+          space-y-5 sm:space-y-0" >
           <div>
             <p className="font-bold text-2xl md:text-md">680</p>
             <p>Premiado</p>

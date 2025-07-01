@@ -1,25 +1,75 @@
+import { MoveRight } from "lucide-react";
 const Hero = () => {
   return (
-    <div className="w-full h-screen flex flex-col items-center bg-[#1B4F5C]">
-
-      <div className="flex-row">
-        <div className="text-left">
-          <div className="text-xl md:text-5xl font-bold text-white pt-20 pe-60">El sitio #1 en el que confían los profesionales inmobiliarios
-          </div>
-
-          <div className="text-lg  md:text-4xl  text-white pt-28">
-          Desde tan solo $10 por día con descuentos por tiempo limitado.
-          </div>
-
-          <button type ="button" className="text-yellow-400 text-xl font-semibold hover:text-yellow-300 transition inline-flex items-center pt-20" >Explorar más propiedades   ➜</button>
+    <div className="w-full h-[calc(100vh-4rem)] flex flex-col  bg-[#1B4F5C]">
+      <div className="flex-row flex-1 flex ">
+        <div className="
+        ml-10 mt-20
+        2xl:ml-20 2xl:mt-24 
+        xl:ml-20 xl:mt-36 
+        lg:ml-20 lg:mt-44 
+        md:ml-20 md:mt-52 
+        sm:ml-20 sm:mt-52 
+        ">
+          <div
+            className="font-bold text-white 
           
-        </div>
+          text-xl 
+          md:text-2xl  
+          lg:text-5xl 
+          xl:text-6xl 
+          2xl:text-6xl "
+          >
+            <p>El sitio #1 en el que</p>
+            <p>confían los profesionales</p>
+            <p>inmobiliarios</p>
+          </div>
+          <div className="text-lg  text-white mt-20
+          sm:text-sm 
+          md:text-sm  
+          lg:text-md 
+          xl:text-lg 
+          2xl:text-xl 
+          ">
+            <p>
+              Desde tan solo $10 por día con descuentos por tiempo limitado.
+            </p>
+          <a href=""
+            className="inline-block mt-10 font-bold text-[#e7c873]">
+            <span className="flex items-center gap-5 ">
+              Explorar más propiedades
+              <MoveRight />
+            </span>
+          </a>
+          </div>
 
-        <div></div>       
+        </div>
       </div>
 
-      
+      <div className="relative w-full h-full">
+        <div className="absolute left-0 bottom-0 bg-[#e7c873] w-1/3 h-20 rounded-tr-2xl flex justify-around items-center ">
+          <div>
+            <p className="font-bold text-2xl md:text-md">680</p>
+            <p>Premiado</p>
+          </div>
 
+          <div>
+            <p className="font-bold text-2xl md:text-md">8k+</p>
+            <p>Cliente feliz</p>
+          </div>
+
+          <div>
+            <p className="font-bold text-2xl md:text-md">500+</p>
+            <p>Propiedad lista</p>
+          </div>
+        </div>
+        <img 
+          src="/img/home.png"
+          alt="home"
+          className="absolute right-0 bottom-0 w-2/3 md:w-1/2 h-auto z-10 pointer-events-none select-none "
+          draggable={false}
+        />
+      </div>
     </div>
   );
 };

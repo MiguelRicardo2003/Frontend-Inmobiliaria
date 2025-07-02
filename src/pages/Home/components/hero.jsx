@@ -47,22 +47,24 @@ const Hero = () => {
       </div>
 
       <div className="relative w-full h-full">
-        <div className="banner absolute left-0 bottom-0 bg-[#e7c873] sm:w-1/3 h-56 sm:h-20
+        <div className="banner  absolute left-0 bottom-0 bg-[#e7c873] sm:w-1/3 h-56 sm:h-20
           rounded-tr-2xl sm:rounded-tr-2xl sm:flex sm:flex-row flex-col justify-around items-center
           space-y-5 sm:space-y-0" >
           <div>
-            <p className="font-bold text-2xl md:text-md">680</p>
-            <p>Premiado</p>
+            <p className="font-bold text-[20px]  md:text-md">680</p>
+            <p className="text-sm">Premiado</p>
           </div>
 
           <div>
-            <p className="font-bold text-2xl md:text-md">8k+</p>
-            <p>Cliente feliz</p>
+            <p className="font-bold  text-[20px] md:text-md">8k+</p>
+            <p className="text-sm">Cliente feliz</p>
           </div>
 
           <div>
-            <p className="font-bold text-2xl md:text-md">500+</p>
-            <p>Propiedad lista</p>
+            <p className="font-bold  text-[20px]  md:text-md">500+</p>
+            <p className="text-sm ">
+              Propiedad<br className="block sm:hidden" /> lista
+            </p>
           </div>
         </div>
         <img 

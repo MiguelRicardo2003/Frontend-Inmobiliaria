@@ -1,22 +1,37 @@
 import Button from "../../../shared/button";
+import { Phone } from "lucide-react";
 const Section7 = () => {
   return (
-    <div className="w-full flex flex-col bg-white py-16 px-6">
-      <div className="max-w-6xl mx-auto text-center">
+    <div className="w-full flex flex-col  py-16 px-6">
+      <div className="mx-auto text-center ">
 
         {/* Título */}
-        <div className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">
-          <div className=" decoration-gray-300">
-            Conviértete en agente inmobiliario
-            </div>
+        <div className="text-xl sm:text-4xl font-bold text-gray-900 mb-14 ">
+          Conviértete en agente inmobiliario
         </div>
 
         {/* Subtítulo */}
-        <div className="text-gray-600 text-base sm:text-lg mb-12">
-          <div>Quieres poner en arriendo tu casa o estas buscando tu hogar ideal,</div>
-          <div>que esperar para contactarnos.</div>
+        <div className="text-gray-600 sm:text-lg sm:text-right  ">
+          <div >Quieres poner en arriendo tu casa o estas buscando tu hogar ideal,
+            <div className=" flex  px-10">que esperar para contactarnos.</div>
+          </div>
         </div>
 
+        {/* Imagenes */}
+
+
+        {/* Botones */}
+        <div className="h-12 w-full items-center   ">
+          <Button info={"Registrarme Ahora"} className="self-start bg-[#E7C873] hover:bg-yellow-300 text-black font-semibold px-6 py-3 rounded-xl" onClick={() => console.log("hola")} />
+
+          <div className="flex flex-row font-semibold text-black justify-end ">
+            <div className="h-12 w-40 flex  justify-center py-3 gap-5"><Phone strokeWidth={1.25} />+57 123456789</div>  
+          </div>
+        </div>
+
+        
+        
+         
       </div>
     </div>
   );

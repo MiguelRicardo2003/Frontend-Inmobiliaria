@@ -1,27 +1,20 @@
 import { NavLink } from "react-router-dom";
 import { useState } from "react";
 import { Menu, X, CircleUserRound } from "lucide-react";
+import { navItems } from "../../data/navItems";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const navItems = [
-    { path: "/", label: "Inicio" },
-    { path: "/about", label: "Sobre Nosotros" },
-    { path: "/servicios", label: "Servicios" },
-    { path: "/propiedades", label: "Propiedades" },
-    { path: "/contacto", label: "Contáctanos" },
-    // { path: "/login", label: "Iniciar Sesión" },
-  ];
 
   return (
     <header className="bg-[#2D3A4E] shadow sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 py-3 flex relative items-center h-16">
         <div className="flex items-center gap-2 absolute left-4">
-          <img
+          {/* <img
             src="/LogoZeta.png"
             alt="Logo de la inmobiliaria"
             className="h-6"
-          />
+          /> */}
           <h1 className="text-xl font-bold text-white">Inmobiliaria</h1>
         </div>
 

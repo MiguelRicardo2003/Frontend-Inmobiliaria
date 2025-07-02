@@ -1,84 +1,107 @@
-import { ArrowRight,  Phone, Mail, } from "lucide-react";
+import { ArrowRight, Phone, Mail, Facebook, Twitter, Instagram, Linkedin } from "lucide-react";
 import { NavLink } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <div className="bg-[#2D3A4E] py-10 flex flex-col items-center gap-10 w-full">
-      {/* Logo y nombre */}
-      <div className="flex gap-2 items-center">
-        <img
-          src="/LogoZeta.png"
-          alt="Logo de la inmobiliaria"
-          className="h-6"
-        />
-        <h1 className="text-xl font-bold text-white">Inmobiliaria</h1>
-      </div>
-
-      {/* Suscripción */}
-      <div className="flex flex-col gap-4 items-center w-full max-w-md px-4">
-        <h2 className="text-white text-lg font-semibold">Suscribirse</h2>
-        <div className="flex flex-col sm:flex-row justify-between items-center w-full gap-2">
-          <input
-            type="email"
-            placeholder="Tu email"
-            className="rounded-full px-4 py-2 w-full sm:w-auto text-gray-700 focus:outline-none"
-          />
-          <button className="bg-blue-400 rounded-full w-full sm:w-24 h-10 flex flex-row items-center justify-center gap-2 text-white mt-2 sm:mt-0">
-            Enviar
-            <ArrowRight size={16} />
-          </button>
+    <footer className="bg-[#2D3A4E] text-white pt-12 pb-6 px-4 sm:px-8 lg:px-20">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-x-9 gap-y-9">
+        {/* Logo + Suscripción */}
+        <div className="flex flex-col gap-2">
+          {/* <div className="flex items-center gap-2 mb-4">
+            <img src="/LogoZeta.png" alt="Logo" className="h-6" />
+            <h1 className="text-xl font-bold">JustHome</h1>
+          </div> */}
+          <p className="text-sm mb-2">Suscribirse</p>
+          <div className="flex flex-col gap-4 mb-2">  
+            <input
+              type="email"
+              placeholder="Tu e-mail"
+              className="bg-transparent border-b border-white text-white placeholder-gray-300 focus:outline-none focus:border-blue-400 px-2 py-1 w-full sm:w-auto"
+            />
+            <button className="bg-[#4b658d] hover:bg-blue-600 px-4 py-2 rounded-full text-sm flex items-center gap-1 w-28">
+              Envia <ArrowRight size={16} />
+            </button>
+          </div>
+          <p className="text-sm text-gray-300">
+            Suscríbete a nuestro boletín para recibir nuestro feed semanal.
+          </p>
         </div>
-        <p className="text-white text-sm text-center">Suscríbete a nuestro boletín para recibir nuestro feed semanal</p>
-      </div>
 
-      {/* Secciones principales */}
-      <div className="w-full flex flex-col md:flex-row md:justify-center md:items-start gap-10 px-4">
         {/* Descubrir */}
-        <div className="flex flex-col items-center md:items-start gap-1 flex-1">
-          <p className="text-white font-semibold mb-2">Descubrir</p>
-          <p className="text-white text-sm">Arauca</p>
-          <p className="text-white text-sm">Antioquia</p>
-          <p className="text-white text-sm">Caldas</p>
-          <p className="text-white text-sm">Córdoba</p>
-          <p className="text-white text-sm">Medellín</p>
-          <p className="text-white text-sm">Carepa</p>
+        <div>
+          <h3 className="font-semibold mb-2">Descubrir</h3>
+          <ul className="text-sm space-y-1 text-gray-300">
+            <li>Carepa</li>
+            <li>Antioquia</li>
+            <li>Medellín</li>
+            <li>Córdoba</li>
+            <li>Envigado</li>
+            <li>Apartadó</li>
+          </ul>
         </div>
+
         {/* Enlaces Rápidos */}
-        <div className="flex flex-col items-center md:items-start gap-1 flex-1">
-          <p className="text-white font-semibold mb-2">Enlaces Rápidos</p>
-          <NavLink to="/" className="text-white text-sm hover:text-blue-400">Inicio</NavLink>
-          <NavLink to="/about" className="text-white text-sm hover:text-blue-400">Sobre Nosotros</NavLink>
-          <NavLink to="/servicios" className="text-white text-sm hover:text-blue-400">Servicios</NavLink>
-          <NavLink to="/propiedades" className="text-white text-sm hover:text-blue-400">Propiedades</NavLink>
-          <NavLink to="/politica" className="text-white text-sm hover:text-blue-400">Política de privacidad</NavLink>
-          <NavLink to="/terminos" className="text-white text-sm hover:text-blue-400">Términos & condiciones</NavLink>
+        <div>
+          <h3 className="font-semibold mb-2">Enlaces Rápidos</h3>
+          <ul className="text-sm space-y-1 text-gray-300">
+            <li>
+              <NavLink to="/">Inicio</NavLink>
+            </li>
+            <li>
+              <NavLink to="/about">Sobre Nosotros</NavLink>
+            </li>
+            <li>
+              <NavLink to="/servicios">Servicios</NavLink>
+            </li>
+            <li>
+              <NavLink to="/propiedades">Propiedades</NavLink>
+            </li>
+            <li>
+              <NavLink to="/politica">Políticas de Privacidad</NavLink>
+            </li>
+            <li>
+              <NavLink to="/terminos">Términos & Condiciones</NavLink>
+            </li>
+          </ul>
         </div>
-        {/* Contáctanos */}
-        <div className="flex flex-col items-center md:items-start gap-1 flex-1">
-          <p className="text-white font-semibold mb-2">Contáctanos</p>
-          <div className="flex items-center gap-2 text-white text-sm">
-            <Mail size={16} />
-            <span>info@inmobiliaria.com</span>
+
+        {/* Contactanos */}
+        <div>
+          <h3 className="font-semibold mb-2">Contáctanos</h3>
+          <div className="flex items-center gap-2 text-sm text-gray-300 mb-1">
+            <Mail size={16} /> <span>@inmobiliaria.com</span>
           </div>
-          <div className="flex items-center gap-2 text-white text-sm">
-            <Phone size={16} />
-            <span>+57 300 123 4567</span>
+          <div className="flex items-center gap-2 text-sm text-gray-300 mb-3">
+            <Phone size={16} /> <span>(+57) 456-7890</span>
+          </div>
+          <h4 className="font-semibold mb-1">Síguenos</h4>
+          <div className="flex gap-3">
+            <a href="#" className="hover:text-white">
+              <Facebook size={18} />
+            </a>
+            <a href="#" className="hover:text-white">
+              <Twitter size={18} />
+            </a>
+            <a href="#" className="hover:text-white">
+              <Instagram size={18} />
+            </a>
+            <a href="#" className="hover:text-white">
+              <Linkedin size={18} />
+            </a>
           </div>
         </div>
-        {/* Síguenos */}
-        <div className="flex flex-col items-center md:items-start gap-1 flex-1">
-          <p className="text-white font-semibold mb-2">Síguenos</p>
-          <div className="flex gap-4 mt-1">
-            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="text-white hover:text-blue-400"></a>
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-white hover:text-pink-400"></a>
-            <a href="https://wa.me/573001234567" target="_blank" rel="noopener noreferrer" className="text-white hover:text-green-400"></a>
-          </div>
+
+        {/* Dirección */}
+        <div>
+          <h3 className="font-semibold mb-2">Nuestras Direcciones</h3>
+          <p className="text-sm text-gray-300">Avenida Siempre viva</p>
         </div>
       </div>
 
-      {/* Footer base */}
-      <div className="w-full text-center text-white text-xs mt-8">© {new Date().getFullYear()} Inmobiliaria. Todos los derechos reservados.</div>
-    </div>
+      <div className="text-center text-xs text-gray-400 mt-10 border-t border-gray-700 pt-4">
+        Copyright © {new Date().getFullYear()} Inmobiliaria
+      </div>
+    </footer>
   );
 };
 

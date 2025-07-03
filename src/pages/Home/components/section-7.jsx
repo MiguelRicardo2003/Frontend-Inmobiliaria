@@ -29,10 +29,9 @@ const Section7 = () => {
         {/* Botones */}
         <div className="h-12 w-full items-center">
           <div className="flex  px-8">
-            <Button info={"Registrarme Ahora"} className="  self-start bg-[#E7C873] hover:bg-yellow-300 text-black font-semibold px-4 py-3 rounded-xl" onClick={() => console.log("hola")} />
+            <Button info={"Registrarme Ahora"} className="  self-start bg-[#E7C873] hover:bg-yellow-300 text-black font-semibold px-4 py-3 rounded-xl"/>
           </div>
           
-
           <div className="flex flex-row font-semibold text-black justify-end pr-3">
             <div className="h-12 w-40 flex  justify-center py-3 gap-5"><Phone strokeWidth={1.25} />+57 123456789</div>  
           </div>

@@ -11,7 +11,7 @@ const Header = () => {
       <div className="max-w-7xl mx-auto px-4 py-3 flex relative items-center h-16">
         {/* Logo */}
         <div className="flex items-center gap-2 absolute left-4">
-          <h1 className="text-xl font-bold text-white">Inmobiliaria</h1>
+          <h1 className="text-xl font-bold text-white">JustHome</h1>
         </div>
 
         {/* Nav visible desde 1024px (desktop) */}

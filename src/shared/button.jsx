@@ -1,10 +1,9 @@
-
-const Button = ({ info,className="",...action }) => {
+const Button = ({ info, className = "", icon, ...action }) => {
 
     return (
         <div className="absolute">
             <button className={`${className}`}{...action}>
-                {info} →
+                {info} {icon}
             </button>
         </div>
     )

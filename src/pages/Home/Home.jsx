@@ -1,6 +1,7 @@
 import Hero from "./components/hero"
 import Section3 from "./components/section-3"
-import Categories from "./components/categories"
+import Categories from "./components/Categories"
+import Testimonios from "./components/testimonios"
 
 const Home = () => {
   return (
@@ -8,6 +9,7 @@ const Home = () => {
       <Hero/>
       <Categories/>
       <Section3/>
+      <Testimonios/>
      </>
   );
 }

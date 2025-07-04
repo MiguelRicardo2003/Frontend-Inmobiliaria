@@ -31,7 +31,7 @@ const Section4 = () => {
             </div>
 
             {/* Sección de propiedad */}
-            <div className="max-w-6xl items-center py-8 flex flex-col md:flex-row lg:items-start">
+            <div className="max-w-6xl items-center py-8 flex flex-col md:flex-row lg:items-start lg:mx-auto lg:justify-center">
 
                 <div className="block md:hidden mb-4">
                     <Title title={"Villa One Hyde Park"} location={"Carepa, Colombia"} price={"120,000"} />

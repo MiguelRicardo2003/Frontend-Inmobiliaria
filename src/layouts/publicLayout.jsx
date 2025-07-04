@@ -3,6 +3,7 @@ import Header from '../components/ui/Header';
 import Footer from '../components/ui/Footer';
 
 
+
 const publicLayout = () => {
 
     return (

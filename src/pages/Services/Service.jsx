@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { services, colorVariants, iconMap } from "./serviceData";
-import { Clock8 } from "lucide-react";
+import ServiceCard from "./components/ServiceCard";
+import AttentionModal from "./components/AttentionModal";
 
 const Service = () => {
   const [showModal, setShowModal] = useState(false);
@@ -38,29 +39,13 @@ const Service = () => {
       <div className="max-w-7xl mx-auto px-4 py-12 md:py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {services.map((service, index) => (
-            <div
+            <ServiceCard
               key={index}
-              className={`relative bg-white rounded-[20px] border-2 ${
-                colorVariants[service.color]
-              } p-6 flex gap-6 items-center min-h-[150px]`}
-            >
-              <div
-                className={`flex-shrink-0 w-16 h-16 rounded-full flex items-center justify-center ${
-                  colorVariants[service.color]
-                } bg-opacity-20`}
-              >
-                {renderIcon(service.iconName)}
-              </div>
-
-              <div className="flex flex-col justify-center">
-                <h3 className="text-lg font-bold text-black mb-1 leading-snug text-center md:text-left">
-                  {service.title}
-                </h3>
-                <p className="text-gray-600 text-sm leading-relaxed text-center md:text-left">
-                  {service.description}
-                </p>
-              </div>
-            </div>
+              icon={renderIcon(service.iconName)}
+              title={service.title}
+              description={service.description}
+              colorClass={colorVariants[service.color]}
+            />
           ))}
         </div>
       </div>
@@ -95,29 +80,7 @@ const Service = () => {
       </div>
 
       {/* Modal */}
-      {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4 animate-fadeIn">
-          <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full text-center transform transition-all duration-300 scale-95 animate-zoomIn">
-            <h3 className="text-2xl font-bold mb-4 text-black">
-              Horarios de Atención
-            </h3>
-            <p className="text-black font-medium mb-2 flex flex-row gap-2 justify-center">
-              <Clock8 />
-              Lunes a Viernes: 8:00 a.m. - 6:00 p.m.
-            </p>
-            <div className="text-black font-medium mb-4 flex flex-row gap-2 justify-center">
-              <Clock8 />
-              Sábados: 9:00 a.m. - 1:00 p.m.
-            </div>
-            <button
-              onClick={() => setShowModal(false)}
-              className="mt-4 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md transition-colors"
-            >
-              Cerrar
-            </button>
-          </div>
-        </div>
-      )}
+      <AttentionModal show={showModal} onClose={() => setShowModal(false)} />
     </div>
   );
 };

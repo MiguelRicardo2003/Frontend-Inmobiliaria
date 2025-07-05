@@ -1,15 +1,20 @@
-// Filtra un array de propiedades según los filtros dados
-const filterProperties = (properties, filters) => {
-  return properties.filter((p) => {
+const filterProperties = (dataProperties, filters) => {
+  if (!Array.isArray(dataProperties)) return [];
+
+  return dataProperties.filter((p) => {
     const matchesSearch =
       !filters.search ||
       p.titulo.toLowerCase().includes(filters.search.toLowerCase()) ||
       p.ubicacion.toLowerCase().includes(filters.search.toLowerCase());
+
     const matchesTipo = !filters.tipo || p.tipo === filters.tipo;
     const matchesEstado = !filters.estado || p.estado === filters.estado;
-    const matchesCiudad = !filters.ciudad || p.ciudad.toLowerCase().includes(filters.ciudad.toLowerCase());
+    const matchesCiudad =
+      !filters.ciudad || p.ciudad.toLowerCase().includes(filters.ciudad.toLowerCase());
+
     const matchesPrecioMin = !filters.precioMin || p.precio >= Number(filters.precioMin);
     const matchesPrecioMax = !filters.precioMax || p.precio <= Number(filters.precioMax);
+
     return (
       matchesSearch &&
       matchesTipo &&
@@ -21,4 +26,4 @@ const filterProperties = (properties, filters) => {
   });
 };
 
-export default filterProperties; 
+export default filterProperties;

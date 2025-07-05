@@ -21,7 +21,7 @@ const features = [
 
 export default features;
 
-export const properties = [
+export const dataProperties = [
   {
     id: 1,
     imagen: "https://res.cloudinary.com/dmc8ifonk/image/upload/v1750914433/imagenes_publicas/m9jfryzef2g7h3qsuhwv.jpg",

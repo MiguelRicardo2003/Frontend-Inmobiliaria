@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { Bed, Bath, SquaresSubtract } from 'lucide-react';
 import PropertyTags from './PropertyTags';
+import PropertyModal from './PropertyModal';
 
-const CARD_SIZE = 'w-[280px] h-[280px]';
+const CARD_SIZE = 'w-[280px] h-[280px] 3xl:w-[350px] 3xl:h-[350px]';
+
 const PropertyCard = ({ property, cardClassName = '' }) => {
     const [open, setOpen] = useState(false);
 
@@ -12,19 +14,15 @@ const PropertyCard = ({ property, cardClassName = '' }) => {
                 className={`relative rounded-3xl overflow-hidden shadow-md mx-auto cursor-pointer group ${CARD_SIZE} ${cardClassName}`}
                 onClick={() => setOpen(true)}
             >
-                {/* Imagen de fondo */}
                 <img
                     src={property.imagen}
                     alt={property.titulo}
                     className="absolute inset-0 w-full h-full object-cover z-0"
                 />
-                {/* Overlay oscuro para legibilidad */}
                 <div className="absolute inset-0 bg-black bg-opacity-25 z-10" />
-                {/* Etiquetas */}
                 <div className="absolute top-4 left-4 z-20">
                     <PropertyTags estado={property.estado} featured={true} />
                 </div>
-                {/* Info principal */}
                 <div className="absolute left-0 bottom-16 px-4 z-20 w-full">
                     <h3 className="text-white text-lg font-bold mb-1 drop-shadow-lg">{property.titulo}</h3>
                     <div className="flex items-center gap-2 text-white text-sm drop-shadow-lg">
@@ -32,7 +30,6 @@ const PropertyCard = ({ property, cardClassName = '' }) => {
                         <span>{property.ubicacion}</span>
                     </div>
                 </div>
-                {/* Características y precio */}
                 <div className="absolute left-0 bottom-0 w-full bg-black bg-opacity-60 px-4 py-2 flex flex-wrap items-center gap-3 z-20">
                     <span className="text-white text-base font-bold mr-2">${property.precio.toLocaleString()}</span>
                     <span className="flex items-center gap-1 text-white text-sm"><Bed size={16} /> {property.habitaciones}</span>
@@ -40,21 +37,11 @@ const PropertyCard = ({ property, cardClassName = '' }) => {
                     <span className="flex items-center gap-1 text-white text-sm"><SquaresSubtract size={16} /> {property.area}</span>
                 </div>
             </div>
-            {open && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60">
-                    <div className="bg-white rounded-xl shadow-lg p-8 max-w-md w-full flex flex-col items-center">
-                        <button
-                            className="ml-auto mb-2 px-3 py-1 rounded bg-gray-200 hover:bg-gray-300 text-gray-700"
-                            onClick={() => setOpen(false)}
-                        >
-                            Cerrar
-                        </button>
-                        <div className="text-lg font-semibold text-gray-700">Modal de detalles</div>
-                    </div>
-                </div>
-            )}
+
+            {/* Modal separado */}
+            <PropertyModal open={open} onClose={() => setOpen(false)} />
         </>
     );
 };
 
-export default PropertyCard; 
+export default PropertyCard;

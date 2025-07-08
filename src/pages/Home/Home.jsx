@@ -14,7 +14,6 @@ const Home = () => {
       <WhyWorkWithUs />
       <FeaturedProperty />
       <ExclusiveProperties />
-      <ExclusiveProperties />
       <Reviews />
       <JoinAsAgent />
     </>

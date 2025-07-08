@@ -1,4 +1,4 @@
-import ButtonPhone from "./buttonlabelphone";
+import ButtonLabelPhone from "./buttonlabelphone";
 
 const JoinAsAgent = () => {
   return (
@@ -19,7 +19,7 @@ const JoinAsAgent = () => {
 
 
           <div className="h-12 w-full items-center hidden sm:hidden lg:block">
-            <ButtonPhone />
+            <ButtonLabelPhone />
           </div>
 
         </div>
@@ -36,7 +36,9 @@ const JoinAsAgent = () => {
         </div>
 
         {/* Botones y contacto */}
-        <div className="h-12 w-full items-center  block md:block lg:hidden mt-10"><ButtonPhone /></div>
+        <div className="h-12 w-full items-center  block md:block lg:hidden mt-10">
+          <ButtonLabelPhone />
+        </div>
       </div>
     </div>
   );

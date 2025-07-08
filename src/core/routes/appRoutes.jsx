@@ -9,6 +9,7 @@ import PublicLayout from "../../layouts/publicLayout";
 
 const appRoutes = createBrowserRouter([
 
+
   {
     path: "/",
     element: <PublicLayout />,

@@ -12,7 +12,7 @@ const FeaturedProperty = () => {
                 <img
                     src="https://res.cloudinary.com/dmc8ifonk/image/upload/v1750927247/imagenes_publicas/jyenucymyuqtporh8pil.jpg"
                     alt="Fondo"
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover "
                 />
                 <div className="absolute inset-0 bg-black bg-opacity-50" />
                 <div className="absolute inset-0 flex flex-col items-center justify-center text-white text-center space-y-4 sm:space-y-6 px-4">
@@ -41,10 +41,10 @@ const FeaturedProperty = () => {
                     <img
                         src="https://res.cloudinary.com/dmc8ifonk/image/upload/v1750914433/imagenes_publicas/m9jfryzef2g7h3qsuhwv.jpg"
                         alt="Propiedad"
-                        className="w-full h-full object-cover rounded-2xl"
+                        className="w-full h-full object-cover rounded-2xl transition-transform duration-500 ease-in-out hover:scale-105"
                     />
                     {/* Etiquetas */}
-                    <Feature />
+                    <Feature type="EN VENTA" feature="DESTACADA" />
                 </div>
 
 

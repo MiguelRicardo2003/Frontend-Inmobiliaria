@@ -3,7 +3,7 @@ import { LocateFixed } from "lucide-react";
 const Maps = () => {
   return (
     <div className="h-full">
-      <div className="bg-white shadow-md rounded-lg p-6 flex flex-col gap-4 h-full">
+      <div className="bg-gray-100 rounded-lg p-6 flex flex-col gap-4 h-full">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
           <h3 className="font-bold text-lg text-gray-800">Nuestra Ubicación</h3>
           <a

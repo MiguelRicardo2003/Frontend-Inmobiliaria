@@ -1,7 +1,7 @@
 import React from 'react'
 import { Quote } from 'lucide-react'
 
-const Testimonios = () => {
+const Reviews = () => {
   return (
     <div className="container mx-auto px-4 py-8 sm:px-6 sm:py-12">
       <div className="flex flex-col items-center gap-8 lg:justify-between">
@@ -92,4 +92,4 @@ const Testimonios = () => {
   )
 }
 
-export default Testimonios
+export default Reviews

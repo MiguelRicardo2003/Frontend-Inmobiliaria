@@ -1,5 +1,5 @@
 import { MapPin } from "lucide-react";
-import Price from "./pricePropieties";
+import Price from "./PricePropieties";
 
 const Title = ({ title, location, price }) => {
     return (

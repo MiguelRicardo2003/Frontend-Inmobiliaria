@@ -11,7 +11,7 @@ const PropertyCard = ({ property, cardClassName = '' }) => {
     return (
         <>
             <div
-                className={`relative rounded-3xl overflow-hidden shadow-md mx-auto cursor-pointer group ${CARD_SIZE} ${cardClassName}`}
+                className={`relative rounded-2xl overflow-hidden shadow-md mx-auto cursor-pointer group ${CARD_SIZE} ${cardClassName}`}
                 onClick={() => setOpen(true)}
             >
                 <img

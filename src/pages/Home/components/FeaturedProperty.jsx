@@ -1,8 +1,8 @@
-import Feature from "../../../shared/featureOfPropieties";
-import Button from "../../../shared/button";
+import Feature from "../../../shared/FeatureOfPropieties";
+import Button from "../../../shared/Button";
 import { SquaresSubtract, Bath, Bed, ArrowRight } from 'lucide-react'
-import Title from "../../../shared/tittlePropieties";
-import Price from "../../../shared/pricePropieties"
+import Title from "../../../shared/TitlePropieties";
+import Price from "../../../shared/PricePropieties"
 
 const Section4 = () => {
     return (

@@ -1,6 +1,6 @@
 import ButtonPhone from "./buttonlabelphone";
 
-const Section7 = () => {
+const JoinAsAgent = () => {
   return (
     <div className="w-full flex flex-col py-16 px-6 md:px-16">
       <div className="mx-auto text-center lg:flex lg:flex-row">
@@ -36,11 +36,11 @@ const Section7 = () => {
         </div>
 
         {/* Botones y contacto */}
-        <div className="h-12 w-full items-center  block md:block lg:hidden mt-10"><ButtonPhone/></div>
+        <div className="h-12 w-full items-center  block md:block lg:hidden mt-10"><ButtonPhone /></div>
       </div>
     </div>
   );
 };
 
-export default Section7;
+export default JoinAsAgent;
 

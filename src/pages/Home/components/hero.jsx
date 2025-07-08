@@ -1,4 +1,5 @@
 import { MoveRight } from "lucide-react";
+
 const Hero = () => {
   return (
     <div className="w-full h-[calc(100vh-4rem)] flex flex-col  bg-[#1B4F5C]">
@@ -34,13 +35,13 @@ const Hero = () => {
             <p>
               Desde tan solo $10 por día con descuentos por tiempo limitado.
             </p>
-          <a href=""
-            className="inline-block mt-10 font-bold text-[#e7c873]">
-            <span className="flex items-center gap-5 ">
-              Explorar más propiedades
-              <MoveRight />
-            </span>
-          </a>
+            <a href=""
+              className="inline-block mt-10 font-bold text-[#e7c873]">
+              <span className="flex items-center gap-5 ">
+                Explorar más propiedades
+                <MoveRight />
+              </span>
+            </a>
           </div>
 
         </div>
@@ -67,7 +68,7 @@ const Hero = () => {
             </p>
           </div>
         </div>
-        <img 
+        <img
           src="/img/home.png"
           alt="home"
           className="absolute right-0 bottom-0 w-2/3 md:w-1/2 h-auto z-10 pointer-events-none select-none "

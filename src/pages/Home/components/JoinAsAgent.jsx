@@ -1,4 +1,4 @@
-import ButtonLabelPhone from "./buttonlabelphone";
+import ButtonLabelPhone from "./ButtonLabelPhone";
 
 const JoinAsAgent = () => {
   return (

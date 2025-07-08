@@ -22,4 +22,4 @@ const ButtonLabelPhone = () => {
     );
 }
 
-export default ButtonPhone;
+export default ButtonLabelPhone;

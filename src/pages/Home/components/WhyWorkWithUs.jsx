@@ -1,6 +1,6 @@
 import features from "../../../shared/data";
 
-const Section3 = () => {
+const WhyWorkWithUs = () => {
 
     return (
         <section className="py-16 px-4 text-center bg-white">
@@ -25,4 +25,4 @@ const Section3 = () => {
     );
 }
 
-export default Section3;
+export default WhyWorkWithUs;

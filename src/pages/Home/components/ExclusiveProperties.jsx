@@ -1,7 +1,7 @@
-import Feature from "../../../shared/featureOfPropieties";
+import Feature from "../../../shared/FeatureOfPropieties";
 import { MapPin, Bed, Bath, Ruler, ChevronLeft, ChevronRight, PlayCircle } from "lucide-react";
 
-const Section6 = () => {
+const ExclusiveProperties = () => {
     return (
         <section className="w-full bg-[#39465A] py-10 px-4 flex flex-col items-center">
             <div className="w-full max-w-2xl mx-auto">
@@ -21,7 +21,7 @@ const Section6 = () => {
                         alt="Villa One Hyde Park"
                         className="absolute inset-0 w-full h-full object-cover z-0"
                     />
-                    
+
                     {/* En venta y casa*/}
                     <Feature />
                     {/* Contenido principal */}
@@ -34,11 +34,11 @@ const Section6 = () => {
                         <div className="flex items-center justify-between w-full text-white text-base sm:text-lg">
                             <span className="font-bold">$120,000</span>
                             <div className="flex items-center gap-2 sm:gap-3 mx-auto">
-                                <span className="flex items-center gap-1"><Bed size={16}/>4</span>
+                                <span className="flex items-center gap-1"><Bed size={16} />4</span>
                                 <span className="mx-1 sm:mx-2">|</span>
-                                <span className="flex items-center gap-1"><Bath size={16}/>2</span>
+                                <span className="flex items-center gap-1"><Bath size={16} />2</span>
                                 <span className="mx-1 sm:mx-2">|</span>
-                                <span className="flex items-center gap-1"><Ruler size={16}/>350</span>
+                                <span className="flex items-center gap-1"><Ruler size={16} />350</span>
                             </div>
                             <span className="opacity-0">$120,000</span>
                         </div>
@@ -92,4 +92,4 @@ const Section6 = () => {
     );
 };
 
-export default Section6;    
+export default ExclusiveProperties;    

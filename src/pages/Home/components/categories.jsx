@@ -1,12 +1,11 @@
 import React from 'react'
-import {MoveRight} from "lucide-react";
-
+import { MoveRight } from "lucide-react";
 
 const Categories = () => {
   return (
     <div className="container mx-auto px-4 py-8 sm:px-6 sm:py-12">
- 
-      
+
+
       <div className="mb-8 sm:mb-12">
         <h1 className="text-2xl font-bold text-gray-800 mb-4 sm:text-3xl md:text-4xl">
           Categorías
@@ -17,8 +16,8 @@ const Categories = () => {
             Selecciona la categoría ideal para ti
           </p>
 
-          <a 
-            href="" 
+          <a
+            href=""
             className="inline-block px-4 py-2 font-bold text-sm sm:px-6 sm:py-3 sm:text-base"
           >
             <span className="flex items-center gap-2">
@@ -35,7 +34,7 @@ const Categories = () => {
         {/* Primeras 3 imágenes */}
         <div className="lg:col-span-4 2xl:col-span-1">
           <div className="relative w-full h-[295px] rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300">
-            <img 
+            <img
               src="/img/houses.jpg"
               alt="Casas"
               className="w-full h-full object-cover"
@@ -50,7 +49,7 @@ const Categories = () => {
 
         <div className="lg:col-span-4 2xl:col-span-1">
           <div className="relative w-full h-[295px] rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300">
-            <img 
+            <img
               src="/img/apartments.jpg"
               alt="Apartamentos"
               className="w-full h-full object-cover"
@@ -65,7 +64,7 @@ const Categories = () => {
 
         <div className="lg:col-span-4 2xl:col-span-1">
           <div className="relative w-full h-[295px] rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300">
-            <img 
+            <img
               src="/img/offices.webp"
               alt="Oficinas"
               className="w-full h-full object-cover"
@@ -81,7 +80,7 @@ const Categories = () => {
         {/* Imágenes 4 y 5 - centradas en la segunda fila */}
         <div className="lg:col-start-3 lg:col-span-4 2xl:col-span-1">
           <div className="relative w-full h-[295px] rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300">
-            <img 
+            <img
               src="/img/unifamiliares.avif"
               alt="Unifamiliares"
               className="w-full h-full object-cover"
@@ -96,7 +95,7 @@ const Categories = () => {
 
         <div className="lg:col-span-4 2xl:col-span-1 hidden lg:block">
           <div className="relative w-full h-[295px] rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300">
-            <img 
+            <img
               src="/img/hotels.jpg"
               alt="Hoteles"
               className="w-full h-full object-cover"

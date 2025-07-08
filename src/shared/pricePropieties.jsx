@@ -1,4 +1,3 @@
-
 const Price = ({ price }) => {
     return (
         <div className="flex flex-wrap gap-4 text-sm text-gray-600 mb-2">

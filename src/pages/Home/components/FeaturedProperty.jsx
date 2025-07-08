@@ -4,7 +4,7 @@ import { SquaresSubtract, Bath, Bed, ArrowRight } from 'lucide-react'
 import Title from "../../../shared/TitlePropieties";
 import Price from "../../../shared/PricePropieties"
 
-const Section4 = () => {
+const FeaturedProperty = () => {
     return (
         <section className="w-full">
             {/* Banner superior */}
@@ -82,4 +82,4 @@ const Section4 = () => {
     );
 };
 
-export default Section4;
+export default FeaturedProperty;

@@ -1,6 +1,7 @@
 import Button from "../../../shared/Button";
 import { Phone, ArrowRight } from "lucide-react";
-const ButtonPhone = () => {
+
+const ButtonLabelPhone = () => {
     return (
         <>
             <div className="flex ">

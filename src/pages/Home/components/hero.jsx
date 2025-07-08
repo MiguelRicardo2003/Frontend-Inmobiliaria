@@ -1,6 +1,7 @@
 import { MoveRight } from "lucide-react";
 
 const Hero = () => {
+
   return (
     <div className="w-full h-[calc(100vh-4rem)] flex flex-col  bg-[#1B4F5C]">
       <div className="flex-row flex-1 flex ">

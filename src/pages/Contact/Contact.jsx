@@ -14,11 +14,11 @@ const Contact = () => {
       </div>
 
       {/* Contenido principal */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
         <div className="flex flex-col gap-6">
           <Form />
 
-          <div className="bg-white shadow-md rounded-lg p-6 flex flex-col gap-3 h-full">
+          <div className="bg-gray-100 rounded-lg p-6 flex flex-col gap-3 h-full max-w-lg">
             <div className="flex items-center gap-2 text-gray-800">
               <Phone className="w-4 h-4" />
               (+57) 300 254 34 10

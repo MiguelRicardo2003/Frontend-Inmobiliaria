@@ -8,10 +8,15 @@ import Login from "../../pages/Login/Login";
 import PublicLayout from "../../layouts/publicLayout";
 import Dashboard from "../../pages/Dashboard/Dashboard";
 import DashboardLayout from "../../layouts/DashboardLayout";
+import Clients from "../../pages/Dashboard/Clients";
+import Analytics from "../../pages/Dashboard/Analytics";
+import Calendar from "../../pages/Dashboard/Calendar";
+import Setting from "../../pages/Dashboard/Settings";
+import Message from "../../pages/Dashboard/Message";
+import Propertie from "../../pages/Dashboard/Properties";
+import Register from "../../pages/Register/Register";
 
 const appRoutes = createBrowserRouter([
-
-
   {
     path: "/",
     element: <PublicLayout />,
@@ -36,23 +41,29 @@ const appRoutes = createBrowserRouter([
         path: "services",
         element: <Service />,
       },
-    ]
+    ],
   },
   {
     path: "login",
     element: <Login />,
   },
   {
+    path: "register",
+    element: <Register />,
+  },
+  {
     path: "dashboard",
-    element: <DashboardLayout/>,
+    element: <DashboardLayout />,
     children: [
       { path: "", element: <Dashboard /> },
-      // { path: "clientes", element: <Clientes /> },
-      // { path: "analytics", element: <Analytics /> },
-      // más rutas internas
-    ]
-  }
-
+      { path: "clients", element: <Clients /> },
+      { path: "analytics", element: <Analytics /> },
+      { path: "calendar", element: <Calendar /> },
+      { path: "properties", element: <Propertie /> },
+      { path: "settings", element: <Setting /> },
+      { path: "messages", element: <Message /> },
+    ],
+  },
 ]);
 
 export default appRoutes;

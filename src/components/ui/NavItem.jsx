@@ -1,13 +1,16 @@
-import React from 'react';
+import { NavLink, useLocation } from "react-router-dom";
 
-const NavItem = ({ icon, label, active, isExpanded, badge }) => {
+const NavItem = ({ icon, label, to, isExpanded, badge }) => {
+  const location = useLocation();
+  const isActive = location.pathname === to;
+
   return (
     <li>
-      <a
-        href="#"
+      <NavLink
+        to={to}
         className={`flex items-center p-2 rounded-lg group transition-colors ${
-          active 
-            ? 'bg-blue-50 text-blue-600 dark:bg-blue-900/50 dark:text-blue-200' 
+          isActive
+            ? 'bg-blue-50 text-blue-600 dark:bg-blue-900/50 dark:text-blue-200'
             : 'text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800'
         }`}
       >
@@ -22,7 +25,7 @@ const NavItem = ({ icon, label, active, isExpanded, badge }) => {
             {badge}
           </span>
         )}
-      </a>
+      </NavLink>
     </li>
   );
 };

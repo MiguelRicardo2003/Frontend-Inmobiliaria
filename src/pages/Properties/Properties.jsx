@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import PropertyFilters from './components/PropertyFilters';
 import PropertyCardList from './components/PropertyCardList';
 import PropertyPagination from './components/PropertyPagination';
@@ -22,35 +22,49 @@ const Propertie = () => {
     const [page, setPage] = useState(1);
     const { properties: dataProperties, loading: initialLoading } = usePropertyLoader();
     const [loading, setLoading] = useState(true);
+    const [filteredProperties, setFilteredProperties] = useState([]);
+    const [paginatedProperties, setPaginatedProperties] = useState({ paginated: [], totalPages: 0 });
 
     useEffect(() => {
-        if (!initialLoading) setLoading(false);
-    }, [initialLoading]);
+        const applyFilters = async () => {
+            if (initialLoading) return;
+            setLoading(true);
+            try {
+                const filtered = await filterProperties(dataProperties, filters);
+                setFilteredProperties(filtered);
+            } catch (error) {
+                console.error('Error al filtrar propiedades:', error);
+                setFilteredProperties([]);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        applyFilters();
+    }, [dataProperties, filters, initialLoading]);
 
     useEffect(() => {
-        if (initialLoading) return;
+        const applyPagination = async () => {
+            if (filteredProperties.length === 0) {
+                setPaginatedProperties({ paginated: [], totalPages: 0 });
+                return;
+            }
 
-        setLoading(true);
-        const timeout = setTimeout(() => {
-            setLoading(false);
-        }, 500);
+            try {
+                const paginated = await getPaginatedProperties(filteredProperties, page, CARDS_PER_PAGE);
+                setPaginatedProperties(paginated);
+            } catch (error) {
+                console.error('Error al paginar propiedades:', error);
+                setPaginatedProperties({ paginated: [], totalPages: 0 });
+            }
+        };
 
-        return () => clearTimeout(timeout);
-    }, [filters]);
+        applyPagination();
+    }, [filteredProperties, page]);
 
     useEffect(() => {
         setPage(1);
     }, [filters]);
-
-    const filteredProperties = useMemo(
-        () => filterProperties(dataProperties, filters),
-        [dataProperties, filters]
-    );
-
-    const { paginated, totalPages } = useMemo(
-        () => getPaginatedProperties(filteredProperties, page, CARDS_PER_PAGE),
-        [filteredProperties, page]
-    );
 
     const handleClearFilters = () => setFilters(initialFilters);
 
@@ -77,10 +91,10 @@ const Propertie = () => {
                         </div>
                     ) : (
                         <>
-                            <PropertyCardList properties={paginated} />
+                            <PropertyCardList properties={paginatedProperties.paginated} />
                             <PropertyPagination
                                 page={page}
-                                totalPages={totalPages}
+                                totalPages={paginatedProperties.totalPages}
                                 onPageChange={setPage}
                             />
                         </>

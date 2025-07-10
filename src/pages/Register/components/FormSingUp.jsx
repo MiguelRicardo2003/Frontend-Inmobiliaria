@@ -13,42 +13,45 @@ const FormSingUp = () => {
             type="text"
             placeholder="Nombre"
             className="mb-2"
-            />
-            <Input
-            label="Apellido" 
+          />
+          <Input
+            label="Apellido"
             type="text"
             placeholder="Apellido"
-            className="mb-2" 
-            />
-            <Input
-            label="Correo Electrónico" 
+            className="mb-2"
+          />
+          <Input
+            label="Correo Electrónico"
             type="email"
             placeholder="Correo Electrónico"
-            className="mb-2" 
-            />
-            <Input
-            label="Telefono" 
+            className="mb-2"
+          />
+          <Input
+            label="Telefono"
             type="tel"
             placeholder="maxixo 10 digitos"
-            className="mb-2"     
-            />
-            <Input
-            label="Contraseña" 
+            className="mb-2"
+          />
+          <Input
+            label="Contraseña"
             type="password"
             placeholder="Contraseña"
-            className="mb-2"     
-            />
-            <Input
-            label="Confirmar Contraseña" 
+            className="mb-2"
+          />
+          <Input
+            label="Confirmar Contraseña"
             type="password"
             placeholder="Confirmar Contraseña"
-            className="mb-2"     
-            />
-            </form>
+            className="mb-2"
+          />
+        </form>
 
         {/* Botón de registro */}
-        <Button variant="primary" className="w-full  text-center py-3 rounded-lg  transition mb-4 mt-3">Registrarse</Button>
-        
+        <Button
+          variant="primary"
+          className="w-full  text-center py-3 rounded-lg  transition mb-4 mt-3">Registrarse
+        </Button>
+
         {/* Enlace de registro */}
         <div className="text-sm text-center text-gray-400">
           ¿Ya tienes cuenta?{" "}
@@ -56,7 +59,7 @@ const FormSingUp = () => {
             Inicia Sesión
           </span>
         </div>
-        
+
       </div>
     </div>
   )

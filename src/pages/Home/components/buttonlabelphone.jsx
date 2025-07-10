@@ -1,24 +1,26 @@
-import Button from "../../../shared/Button";
+import { Link } from "react-router-dom";
+import Button from "../../../components/ui/Button";
 import { Phone, ArrowRight } from "lucide-react";
 
 const ButtonLabelPhone = () => {
     return (
-        <>
-            <div className="flex ">
+        <div className="flex items-center justify-center lg:justify-start gap-6 md:gap-16 lg:gap-24">
+            <Link to="/contact" >
                 <Button
-                    info={"Contactanos"}
-                    className=" flex bg-[#E7C873] hover:bg-yellow-300 text-black font-semibold px-4 py-3 rounded-xl"
+                    variant="secondary"
+                    size="md"
+                    className="font-semibold px-4 py-3 rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-lg"
                     onClick={() => console.log("hola")}
-                    icon={<ArrowRight strokeWidth={1.25} />}
-                />
+                    icon={ArrowRight}
+                    iconPosition="right"
+                >
+                    Contáctanos
+                </Button>
+            </Link>
+            <div className="flex items-center font-semibold text-black">
+                <Phone strokeWidth={1.25} className="mr-2" />+57 123456789
             </div>
-
-            <div className="flex flex-row font-semibold text-black justify-end md:pr-24">
-                <div className="h-12 w-40 flex justify-center py-3 md:gap-5 gap-2">
-                    <Phone strokeWidth={1.25} />+57 123456789
-                </div>
-            </div>
-        </>
+        </div>
     );
 }
 

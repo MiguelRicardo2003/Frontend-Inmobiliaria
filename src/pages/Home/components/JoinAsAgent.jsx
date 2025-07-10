@@ -6,7 +6,7 @@ const JoinAsAgent = () => {
       <div className="mx-auto text-center lg:flex lg:flex-row">
 
         {/* Título */}
-        <div className="lg:flex-row lg:text-left lg:mt-28">
+        <div className="lg:flex-row lg:text-left lg:mt-28 lg:px-24">
 
           <div className="flex text-4xl font-bold  mb-8 justify-center md:text-4xl md:justify-center  lg:h-20 lg:w-auto  lg:font-semibold  lg:text-start lg:justify-start lg:mt-10 lg:text-balance  text-gray-900 ">
             Conviértete en agente inmobiliario
@@ -30,7 +30,7 @@ const JoinAsAgent = () => {
             <img
               src="/img/professionals.png"
               alt="Professionals"
-              className="w-[90%] h-[90%] "
+              className="w-[80%] h-[80%] "
             />
           </div>
         </div>

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, memo } from 'react';
 import PropertyFilters from './components/PropertyFilters';
 import PropertyCardList from './components/PropertyCardList';
 import PropertyPagination from './components/PropertyPagination';
@@ -105,4 +105,4 @@ const Propertie = () => {
     );
 };
 
-export default Propertie;
+export default memo(Propertie);

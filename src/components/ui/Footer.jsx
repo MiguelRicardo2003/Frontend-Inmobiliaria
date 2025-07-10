@@ -1,5 +1,7 @@
 import { NavLink } from "react-router-dom";
-import {ArrowRight, Mail, Phone, Facebook, Twitter, Instagram, Linkedin, Home} from "lucide-react";
+import { ArrowRight, Mail, Phone, Facebook, Twitter, Instagram, Linkedin, Home } from "lucide-react";
+import Button from '../ui/Button';
+import Input from '../ui/Input';
 
 const Footer = () => {
   return (
@@ -14,14 +16,20 @@ const Footer = () => {
         <div className="flex flex-col items-center gap-4 text-center lg:hidden">
           <h2 className="text-base font-semibold">Suscribirse</h2>
           <div className="flex flex-col sm:flex-row gap-3 w-full max-w-md pb-4">
-            <input
+            <Input
               type="email"
               placeholder="Tú email"
-              className="bg-transparent text-white placeholder-gray-300 focus:outline-none focus:border-blue-400 px-2 py-1 w-full border-b border-white"
+              className="bg-transparent text-white focus:outline-none focus:border-blue-400 px-2 py-1 w-full border-b border-white"
             />
-            <button className="bg-[#4b658d] hover:bg-blue-600 px-4 py-2 rounded-full text-sm flex items-center gap-1 w-full sm:w-24 justify-center">
-              Enviar <ArrowRight size={16} />
-            </button>
+            <Button
+              variant="primary"
+              size="sm"
+              className="bg-[#4b658d] hover:bg-blue-600 px-4 py-2 rounded-full text-sm flex items-center gap-1 w-full sm:w-24 justify-center transition-all duration-300 transform hover:scale-105 hover:shadow-lg"
+              icon={ArrowRight}
+              iconPosition="right"
+            >
+              Enviar
+            </Button>
           </div>
           <p className="text-sm text-gray-300 max-w-md">
             Suscríbete a nuestro boletín para recibir nuestro feed semanal.
@@ -33,14 +41,20 @@ const Footer = () => {
           <div className="hidden lg:flex flex-col items-start gap-4 text-left">
             <h2 className="text-base font-semibold">Suscribirse</h2>
             <div className="flex flex-col gap-3 w-full max-w-xs pb-2">
-              <input
+              <Input
                 type="email"
                 placeholder="Tú email"
                 className="bg-transparent text-white placeholder-gray-300 focus:outline-none focus:border-blue-400 px-2 py-1 w-full border-b border-white"
               />
-              <button className="bg-[#4b658d] hover:bg-blue-600 px-4 py-2 rounded-full text-sm flex items-center gap-1 w-full justify-center">
-                Enviar <ArrowRight size={16} />
-              </button>
+              <Button
+                variant="primary"
+                size="sm"
+                className="bg-[#4b658d] hover:bg-blue-600 px-4 py-2 rounded-full text-sm flex items-center gap-1 w-full justify-center transition-all duration-300 transform hover:scale-105 hover:shadow-lg"
+                icon={ArrowRight}
+                iconPosition="right"
+              >
+                Enviar
+              </Button>
             </div>
             <p className="text-sm text-gray-300 max-w-xs">
               Suscríbete a nuestro boletín para recibir nuestro feed semanal.

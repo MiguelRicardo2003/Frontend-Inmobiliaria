@@ -2,6 +2,9 @@ import { useState } from "react";
 import { services, colorVariants, iconMap } from "./serviceData";
 import ServiceCard from "./components/ServiceCard";
 import AttentionModal from "./components/AttentionModal";
+import Button from '../../components/ui/Button';
+import { ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const Service = () => {
   const [showModal, setShowModal] = useState(false);
@@ -61,20 +64,25 @@ const Service = () => {
             mismo para una consulta personalizada.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a
-              href="https://wa.me/573189267246"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 transition-colors"
-            >
-              Contáctanos
-            </a>
-            <button
+            <Link to="/contact">
+              <Button
+                variant="primary"
+                size="md"
+                className="px-6 py-3 text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 transition-all duration-300 transform hover:scale-105 hover:shadow-lg"
+                icon={ArrowRight}
+                iconPosition="right"
+              >
+                Contáctanos
+              </Button>
+            </Link>
+            <Button
               onClick={() => setShowModal(true)}
-              className="inline-flex items-center justify-center px-6 py-3 border border-gray-300 text-base font-medium rounded-md text-white bg-[#2D3A4E] hover:bg-gray-700 transition-colors"
+              variant="primary"
+              size="md"
+              className="px-6 py-3 text-base font-medium rounded-md text-white bg-[#2D3A4E] hover:bg-gray-700 transition-all duration-300 transform hover:scale-105 hover:shadow-lg"
             >
               Ver Horarios de Atención
-            </button>
+            </Button>
           </div>
         </div>
       </div>

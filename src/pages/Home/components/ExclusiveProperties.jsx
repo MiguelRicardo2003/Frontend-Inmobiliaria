@@ -1,5 +1,6 @@
 import Feature from "../../../shared/FeatureOfPropieties";
 import { MapPin, Bed, Bath, Ruler, ChevronLeft, ChevronRight, PlayCircle } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const ExclusiveProperties = () => {
     return (
@@ -78,9 +79,11 @@ const ExclusiveProperties = () => {
                                 <span className="text-[#39465A] text-xs mb-6 sm:mb-8">
                                     Explora nuestra amplia variedad de propiedades para encontrar la casa de tus sueños hoy mismo.
                                 </span>
-                                <button className="absolute bottom-4 sm:bottom-5 right-4 sm:right-5 bg-white rounded-full w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center shadow">
-                                    <ChevronRight size={20} className="sm:w-6 sm:h-6 text-[#39465A]" />
-                                </button>
+                                <Link to="/properties">
+                                    <button className="absolute bottom-4 sm:bottom-5 right-4 sm:right-5 bg-white rounded-full w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center shadow">
+                                        <ChevronRight size={20} className="sm:w-6 sm:h-6 text-[#39465A]" />
+                                    </button>
+                                </Link>
                             </div>
                         </div>
                     </div>

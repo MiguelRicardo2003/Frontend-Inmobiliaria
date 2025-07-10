@@ -12,7 +12,6 @@ const Maps = () => {
             rel="noopener noreferrer"
             className="flex flex-row gap-2 rounded-lg bg-[#2D3A4E] hover:bg-gray-700 px-4 py-2 items-center justify-center text-sm text-white w-full sm:w-48"
           >
-            <LocateFixed className="w-4 h-4" />
             Ver en Google Maps
           </a>
         </div>

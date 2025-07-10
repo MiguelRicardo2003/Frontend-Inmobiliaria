@@ -4,6 +4,7 @@ import { DivideIcon as LucideIcon } from 'lucide-react';
 const Input = ({
     label,
     error,
+    type,
     icon: Icon,
     iconPosition = 'left',
     className = '',
@@ -24,6 +25,7 @@ const Input = ({
                     <Icon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-secondary-400 dark:text-secondary-500 w-4 h-4" />
                 )}
                 <input
+                    type={type}
                     id={inputId}
                     className={`
             w-full px-3 py-2 border border-secondary-300 dark:border-secondary-600 rounded-lg 

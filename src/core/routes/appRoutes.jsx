@@ -8,12 +8,12 @@ import Login from "../../pages/Login/Login";
 import PublicLayout from "../../layouts/publicLayout";
 import Dashboard from "../../pages/Dashboard/Dashboard";
 import DashboardLayout from "../../layouts/DashboardLayout";
-import Clients from "../../pages/Dashboard/Clients";
-import Analytics from "../../pages/Dashboard/Analytics";
-import Calendar from "../../pages/Dashboard/Calendar";
-import Setting from "../../pages/Dashboard/Settings";
-import Message from "../../pages/Dashboard/Message";
-import Propertie from "../../pages/Dashboard/Properties";
+import Clients from "../../pages/Dashboard/Clients/Clients";
+import Analytics from "../../pages/Dashboard/Analytics/Analytics";
+import Calendar from "../../pages/Dashboard/Calendar/Calendar";
+import Setting from "../../pages/Dashboard/Settings/Settings";
+import Message from "../../pages/Dashboard/Messages/Message";
+import Propertie from "../../pages/Dashboard/Properties/Properties";
 import Register from "../../pages/Register/Register";
 
 const appRoutes = createBrowserRouter([

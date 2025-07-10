@@ -3,7 +3,6 @@ import {
   BarChart2,
   Settings,
   Users,
-  Folder,
   Calendar,
   Mail,
   HelpCircle,

@@ -1,5 +1,6 @@
 import React from 'react'
 import { MoveRight } from "lucide-react";
+import { Link } from 'react-router-dom';
 
 const Categories = () => {
   return (
@@ -16,7 +17,7 @@ const Categories = () => {
             Selecciona la categoría ideal para ti
           </p>
 
-          <a
+          <Link to="/properties"
             href=""
             className="inline-block px-4 py-2 font-bold text-sm sm:px-6 sm:py-3 sm:text-base"
           >
@@ -24,7 +25,7 @@ const Categories = () => {
               Ver todas las categorías
               <MoveRight />
             </span>
-          </a>
+          </Link>
         </div>
       </div>
 

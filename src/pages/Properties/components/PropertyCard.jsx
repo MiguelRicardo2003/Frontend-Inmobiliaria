@@ -1,9 +1,7 @@
-import { useState } from 'react';
+import { useState, memo } from 'react';
 import { Bed, Bath, SquaresSubtract, MapPin } from 'lucide-react';
 import PropertyTags from './PropertyTags';
 import PropertyModal from './PropertyModal';
-
-const CARD_SIZE = 'w-[280px] h-[280px] 3xl:w-[350px] 3xl:h-[350px]';
 
 const PropertyCard = ({ property, cardClassName = '' }) => {
     const [open, setOpen] = useState(false);
@@ -11,12 +9,16 @@ const PropertyCard = ({ property, cardClassName = '' }) => {
     return (
         <>
             <div
-                className={`relative rounded-2xl overflow-hidden shadow-md mx-auto cursor-pointer group ${CARD_SIZE} ${cardClassName} transition-transform duration-500 ease-in-out hover:scale-105`}
+                className={
+                    `relative rounded-2xl overflow-hidden shadow-md mx-auto cursor-pointer group 
+                  w-full aspect-square transition-transform duration-500 ease-in-out hover:scale-105 ${cardClassName}`
+                }
                 onClick={() => setOpen(true)}
             >
                 <img
                     src={property.imagen}
                     alt={property.titulo}
+                    loading='lazy'
                     className="absolute inset-0 w-full h-full object-cover z-0"
                 />
                 <div className="absolute inset-0 bg-black bg-opacity-25 z-10" />
@@ -47,4 +49,4 @@ const PropertyCard = ({ property, cardClassName = '' }) => {
     );
 };
 
-export default PropertyCard;
+export default memo(PropertyCard);

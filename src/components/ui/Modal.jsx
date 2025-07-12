@@ -36,9 +36,9 @@ const Modal = ({ isOpen, onClose, title, children, size = 'md' }) => {
                         size="sm"
                         onClick={onClose}
                         icon={X}
-                        className=" hover:text-gray-600 "
+                        classNameIcon={"justify-center"}
+                        className=" hover:text-gray-600"
                     >
-                        <span className="sr-only">Cerrar</span>
                     </Button>
                 </div>
                 <div className="p-6 overflow-y-auto max-h-[80vh]">

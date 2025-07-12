@@ -10,6 +10,7 @@ const Button = ({
     children,
     className = '',
     disabled,
+    classNameIcon,
     ...props
 }) => {
     const baseClasses =
@@ -52,9 +53,13 @@ const Button = ({
                 </>
             ) : (
                 <>
-                    {Icon && iconPosition === 'left' && <Icon className="w-4 h-4 mr-2" />}
+                    {Icon && iconPosition === 'left' && (
+                        <Icon className={classNameIcon ? `w-4 h-4 ${classNameIcon}` : 'w-4 h-4 mr-2'} />
+                    )}
                     {children}
-                    {Icon && iconPosition === 'right' && <Icon className="w-4 h-4 ml-2" />}
+                    {Icon && iconPosition === 'right' && (
+                        <Icon className={classNameIcon ? `w-4 h-4 ${classNameIcon}` : 'w-4 h-4 ml-2'} />
+                    )}
                 </>
             )}
         </button>

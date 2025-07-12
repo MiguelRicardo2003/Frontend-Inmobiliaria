@@ -5,25 +5,21 @@ const About = () => {
       <div className="container mx-auto px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-8 sm:mb-12">
-            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 sm:mb-6 leading-tight">
+            <h1 className="text-4xl font-bold text-gray-900 mb-4 sm:mb-6 leading-tight">
               Acerca de Nosotros
             </h1>
           </div>
-          
+
           <div className="bg-white p-6 sm:p-8 lg:p-10 rounded-2xl shadow-lg border border-gray-200">
-            <p className="text-base sm:text-lg lg:text-xl text-gray-700 leading-relaxed sm:leading-loose">
-              En JustHome, nos apasiona conectar personas con espacios donde puedan
-              construir sus sueños. Con más de 10 años de experiencia en el mercado
-              inmobiliario, nos destacamos por brindar un acompañamiento cercano,
-              transparente y eficiente en todo el proceso de compra, venta o arriendo
-              de inmuebles. Nuestro compromiso va más allá de mostrarte propiedades:
-              te ofrecemos asesoría personalizada basada en tus necesidades, criterios
-              y estilo de vida. Cada cliente es único, y por eso te guiamos con
-              responsabilidad y claridad desde la primera visita hasta la firma final.
-              Ya sea que busques tu primera vivienda, una inversión inteligente o un
-              nuevo lugar para crecer, estamos aquí para ayudarte a tomar la mejor
-              decisión. Confía en nosotros y descubre por qué cientos de personas ya
-              encontraron con nosotros su lugar ideal.
+            <p className="text-1xl text-gray-700 leading-relaxed">
+              En JustHome, conectamos personas con espacios donde puedan construir sus sueños.
+              Con más de 10 años de experiencia, brindamos acompañamiento cercano y transparente
+              en todo el proceso inmobiliario. Nuestro compromiso va más allá de mostrar propiedades:
+              ofrecemos asesoría personalizada basada en tus necesidades y estilo de vida.
+              Cada cliente es único, por eso te guiamos con responsabilidad desde la primera
+              visita hasta la firma final. Ya sea tu primera vivienda, una inversión o un nuevo
+              lugar para crecer, estamos aquí para ayudarte a tomar la mejor decisión.
+              Confía en nosotros y descubre por qué cientos de personas ya encontraron su lugar ideal.
             </p>
           </div>
         </div>
@@ -32,10 +28,10 @@ const About = () => {
       {/* Sección: Equipo de Liderazgo */}
       <div className="container mx-auto px-4 py-8 sm:px-6 sm:py-12">
         <div className="text-center mb-12">
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
+          <h1 className="text-4xl font-bold text-gray-900 mb-6">
             Conozca a Nuestro Equipo de Liderazgo
           </h1>
-          <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-1xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
             "Somos un equipo de expertos inmobiliarios dedicados a ayudarte a alcanzar
             tus objetivos. Ofrecemos un servicio de excelencia y asesoría personalizada
             para que encuentres el hogar perfecto para ti."
@@ -111,10 +107,10 @@ const About = () => {
       {/* Sección: Valores Fundamentales */}
       <div className="container mx-auto px-4 py-8 sm:px-6 sm:py-12">
         <div className="text-center mb-12">
-          <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">
             Nuestros valores fundamentales
           </h1>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <p className="text-1xl text-gray-600 max-w-xl mx-auto">
             Estos principios guían todo lo que hacemos y nos ayudan a brindar un servicio excepcional
             a nuestros clientes.
           </p>

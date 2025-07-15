@@ -10,7 +10,6 @@ const ButtonLabelPhone = () => {
                     variant="secondary"
                     size="md"
                     className="font-semibold px-4 py-3 rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-lg"
-                    onClick={() => console.log("hola")}
                     icon={ArrowRight}
                     iconPosition="right"
                 >

@@ -21,7 +21,7 @@ const Register = () => {
             Inicia Sesión
           </Link>
         </div>
-        
+
       </div>
     </div>
   );

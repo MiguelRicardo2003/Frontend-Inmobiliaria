@@ -58,7 +58,7 @@ const FormSignUp = () => {
           placeholder="Nombre"
           value={formData.nombre}
           onChange={handleChange}
-          className="flex-1"
+          className="flex-1 border-2"
         />
         <Input
           label="Apellido"
@@ -67,7 +67,7 @@ const FormSignUp = () => {
           placeholder="Apellido"
           value={formData.apellido}
           onChange={handleChange}
-          className="flex-1"
+          className="flex-1 border-2"
         />
       </div>
 
@@ -79,7 +79,7 @@ const FormSignUp = () => {
           placeholder="Correo Electrónico"
           value={formData.email}
           onChange={handleChange}
-          className="flex-1"
+          className="flex-1 border-2"
         />
         <Input
           label="Teléfono"
@@ -88,7 +88,7 @@ const FormSignUp = () => {
           placeholder="Máximo 10 dígitos"
           value={formData.telefono}
           onChange={handleChange}
-          className="flex-1"
+          className="flex-1 border-2"
         />
       </div>
 
@@ -101,6 +101,7 @@ const FormSignUp = () => {
           placeholder="Contraseña"
           value={formData.password}
           onChange={handleChange}
+          className='border-2'
         />
         <button
           type="button"
@@ -120,6 +121,7 @@ const FormSignUp = () => {
           placeholder="Confirmar Contraseña"
           value={formData.confirmPassword}
           onChange={handleChange}
+          className='border-2'
         />
         <button
           type="button"

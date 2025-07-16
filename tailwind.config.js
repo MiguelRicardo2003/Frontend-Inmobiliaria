@@ -20,6 +20,10 @@ export default {
           "100%": { transform: "scale(1)", opacity: "1" },
         },
       },
+      colors: {
+        "brand-dark": "#1E2A3A",
+        // ... otros colores
+      },
     },
     plugins: [],
   },

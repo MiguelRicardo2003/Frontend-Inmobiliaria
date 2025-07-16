@@ -3,7 +3,7 @@ import Input from "../../../components/ui/Input";
 import Button from "../../../components/ui/Button";
 import { Eye, EyeOff } from 'lucide-react';
 
-const FormSingUp = () => {
+const FormSignUp = () => {
   const [formData, setFormData] = useState({
     nombre: '',
     apellido: '',
@@ -152,4 +152,4 @@ const FormSingUp = () => {
   );
 };
 
-export default FormSingUp;
+export default FormSignUp;

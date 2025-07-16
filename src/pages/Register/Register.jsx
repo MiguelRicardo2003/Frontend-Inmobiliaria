@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import FormSingUp from "./components/FormSingUp";
+import FormSingUp from "./components/FormSignUp";
 
 const Register = () => {
   return (
@@ -8,11 +8,12 @@ const Register = () => {
     // para que las divisiones horizontales sean visibles.
     <main className="relative min-h-screen w-full bg-[#1E2A3A] md:bg-transparent">
       
-      {/* 2. Mitad superior (oscura) con la imagen a la izquierda */}
+      {/* 2. El contenedor azul ahora es visible desde 'md' */}
       <div className="hidden md:flex items-center justify-start absolute top-0 left-0 w-full h-1/2 bg-[#1E2A3A] p-12">
-        <img src="/img/rocket.png" alt="Rocket Launch" className="w-40 h-auto" />
+        {/* La imagen dentro del contenedor solo es visible desde 'xl' */}
+        <img src="/img/rocket.png" alt="Rocket Launch" className="hidden xl:block h-4/5 w-auto object-contain" />
       </div>
-      
+
       {/* 3. Mitad inferior (blanca), solo visible en 'md' y superiores */}
       <div className="hidden md:block absolute bottom-0 left-0 w-full h-1/2 bg-gray-100" />
 

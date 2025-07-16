@@ -5,8 +5,11 @@ const Login = () => {
   return (
     <div className="relative h-screen w-full">
       {/* Fondo dividido */}
+      <div className="absolute top-6 left-6 z-20">
+      <img src="/img/logo_justhome.png" alt="JustHome Logo" className="h-10 w-auto" />
+      </div>
       <div className="absolute top-0 w-full h-full flex flex-col">
-        <div className="lg:h-1/2 h-full flex bg-[#1E2A3A] relative justify-center pr-52">
+        <div className="lg:h-1/2 h-full flex bg-[#1E2A3A] relative justify-center pr-96">
         <img 
         src="/img/rocket.png"
         alt="cohete" 
@@ -26,7 +29,6 @@ const Login = () => {
           <FormSingIn />
           {/* Botón de registro */}
           <Button variant="primary" className="w-full  py-3 rounded-lg font-semibold transition mb-4 mt-3">Acceder</Button>
-
           {/* Enlace de registro */}
           <div className="text-sm text-center text-gray-400">
             ¿No tienes cuenta?{" "}
@@ -36,10 +38,7 @@ const Login = () => {
           </div>
         </div>
       </div>
-
     </div>
-
   )
 }
-
 export default Login;

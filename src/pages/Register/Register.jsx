@@ -1,29 +1,48 @@
-import FormSingUp from "./components/FormSingUp";
-import Button from "../../../src/components/ui/Button"; 
 import { Link } from "react-router-dom";
+import FormSingUp from "./components/FormSingUp";
+
 const Register = () => {
   return (
-      <div className="h-screen w-full  flex flex-col items-center justify-center bg-[#1E2A3A]">
-      <div className="bg-white h-[75%] w-[75%] md:w-[50%] md:h-[55%] p-8 rounded-xl shadow-md">
-        {/* Encabezado */}
-        <div className="text-base  mb-1">Bienvenido a JustHome </div>
-        <div className="text-3xl font-semibold mb-6 text-black">Crear cuenta</div>
-        
-        <FormSingUp/>
-
-        {/* Botón de registro */}
-        <Button variant="primary" className="w-full  text-center py-3 rounded-lg  transition mb-4 mt-3">Registrarse</Button>
-
-        {/* Enlace de registro */}
-        <div className="text-sm text-center text-gray-400">
-          ¿Ya tienes cuenta?{" "}
-          <Link to="/login" className="text-[#1E2A3A] font-medium cursor-pointer hover:underline">
-            Inicia Sesión
-          </Link>
-        </div>
-        
+    // 1. Contenedor principal con posicionamiento relativo.
+    // En móvil, el fondo es oscuro. En 'md' y superior, el fondo se vuelve transparente
+    // para que las divisiones horizontales sean visibles.
+    <main className="relative min-h-screen w-full bg-[#1E2A3A] md:bg-transparent">
+      
+      {/* 2. Mitad superior (oscura) con la imagen a la izquierda */}
+      <div className="hidden md:flex items-center justify-start absolute top-0 left-0 w-full h-1/2 bg-[#1E2A3A] p-12">
+        <img src="/img/rocket.png" alt="Rocket Launch" className="w-40 h-auto" />
       </div>
-    </div>
+      
+      {/* 3. Mitad inferior (blanca), solo visible en 'md' y superiores */}
+      <div className="hidden md:block absolute bottom-0 left-0 w-full h-1/2 bg-gray-100" />
+
+      {/* 4. Contenedor del formulario, centrado y por encima del fondo */}
+      <div className="relative z-10 flex items-center justify-center min-h-screen p-4">
+        <section className="w-full max-w-md bg-white p-6 sm:p-8 rounded-xl shadow-2xl">
+          
+          {/* Encabezado */}
+          <header className="text-center mb-8">
+            <p className="text-gray-500 text-left mb-4">Bienvenido a JustHome</p>
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">Crear Cuenta</h1>
+          </header>
+          
+          {/* El componente del formulario */}
+          <div className="flex-grow">
+            <FormSingUp />
+          </div>
+
+          {/* Enlace de inicio de sesión */}
+          <footer className="mt-6 text-sm text-center text-gray-500">
+            ¿Ya tienes una cuenta?{" "}
+            <Link to="/login" className="font-semibold text-[#1E2A3A] hover:underline">
+              Inicia Sesión
+            </Link>
+          </footer>
+          
+        </section>
+      </div>
+    </main>
   );
 }
+
 export default Register;

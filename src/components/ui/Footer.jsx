@@ -1,16 +1,27 @@
 import { NavLink } from "react-router-dom";
-import { ArrowRight, Mail, Phone, Facebook, Twitter, Instagram, Linkedin, Home } from "lucide-react";
-import Button from '../ui/Button';
-import Input from '../ui/Input';
+import {
+  ArrowRight,
+  Mail,
+  Phone,
+  Facebook,
+  Twitter,
+  Instagram,
+  Linkedin,
+  Home,
+} from "lucide-react";
+import Button from "../ui/Button";
+import Input from "../ui/Input";
 
 const Footer = () => {
   return (
     <footer className="bg-[#2D3A4E] text-white pt-12 pb-6 px-4 sm:px-8 lg:px-20">
       <div className="max-w-7xl mx-auto flex flex-col gap-10">
-        <div className="flex items-center gap-2">
-          <Home size={24} />
-          <h1 className="text-xl font-bold">JustHome</h1>
-        </div>
+        <NavLink to="/">
+          <div className="flex items-center gap-2">
+            <Home size={24} />
+            <h1 className="text-xl font-bold">JustHome</h1>
+          </div>
+        </NavLink>
 
         {/* Sección SUSCRIBIRSE */}
         <div className="flex flex-col items-center gap-4 text-center lg:hidden">
@@ -85,10 +96,10 @@ const Footer = () => {
                 <NavLink to="/about">Sobre Nosotros</NavLink>
               </li>
               <li>
-                <NavLink to="/servicios">Servicios</NavLink>
+                <NavLink to="/services">Servicios</NavLink>
               </li>
               <li>
-                <NavLink to="/propiedades">Propiedades</NavLink>
+                <NavLink to="/properties">Propiedades</NavLink>
               </li>
               <li>
                 <NavLink to="/politica">Política de privacidad</NavLink>

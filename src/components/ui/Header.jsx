@@ -10,34 +10,36 @@ const Header = () => {
     <header className="bg-[#2D3A4E] shadow sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 py-3 flex relative items-center h-16">
         {/* Logo */}
-        <div className="flex items-center gap-2 absolute left-4">
-          <h1 className="text-xl font-bold text-white">JustHome</h1>
-        </div>
+        <NavLink to="/">
+          <div className="flex items-center gap-2 left-4">
+            <h1 className="text-xl font-bold text-white">JustHome</h1>
+          </div>
+        </NavLink>
 
-        {/* Nav visible desde 1024px (desktop) */}
-        <nav className="hidden lg:flex gap-10 text-sm font-medium mx-auto">
+        {/* Desktop nav con íconos */}
+        <nav className="hidden lg:flex gap-10 text-base font-medium mx-auto">
           {navItems.map((item) => (
             <NavLink
               key={item.path}
               to={item.path}
               className={({ isActive }) =>
-                `hover:text-blue-400 transition ${
+                `flex items-center gap-1 hover:text-blue-400 transition ${
                   isActive ? "text-blue-400 font-semibold" : "text-white"
                 }`
               }
             >
+              {item.icon && <item.icon size={18} />} {/* Se añade el ícono */}
               {item.label}
             </NavLink>
           ))}
         </nav>
 
-        {/* Ícono login + hamburguesa */}
+        {/* Icono usuario + hamburguesa */}
         <div className="flex items-center gap-2 absolute right-4">
           <NavLink to="/login" className="flex items-center gap-2">
             <CircleUserRound size={32} color="#ffffff" />
           </NavLink>
 
-          {/* Botón hamburguesa visible hasta lg (1024px) */}
           <button
             onClick={() => setIsOpen(!isOpen)}
             className="lg:hidden text-white"
@@ -47,7 +49,7 @@ const Header = () => {
         </div>
       </div>
 
-      {/* Menú mobile visible solo en <1024px */}
+      {/* Menú móvil */}
       {isOpen && (
         <div className="lg:hidden bg-white shadow-md px-4 pb-4">
           <h2 className="text-center font-bold text-lg mb-2">Menú</h2>
@@ -65,7 +67,8 @@ const Header = () => {
                   }`
                 }
               >
-                {item.icon && <item.icon size={18} />}
+                {item.icon && <item.icon size={18} />}{" "}
+                {/* Ícono también en mobile */}
                 {item.label}
               </NavLink>
             ))}

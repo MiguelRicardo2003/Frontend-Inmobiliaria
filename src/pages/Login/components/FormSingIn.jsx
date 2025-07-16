@@ -1,5 +1,5 @@
 import Input from "../../../components/ui/Input";
-import Button from "../../../components/ui/Button"; // Asegúrate de importarlo si no estaba
+import { Eye } from "lucide-react"; // Asegúrate de importarlo si no estaba
 
 const FormSingIn = () => {
   return (
@@ -7,17 +7,18 @@ const FormSingIn = () => {
       <div className="h-50 w-auto mb-2">
         <form action="">
           <Input
-            label="Ingresa tu usuario o correo electronico"
+            label="Ingresa tu correo electronico"
             type="email"
             placeholder="Correo Electrónico"
             className="mb-8"
           />
           <Input
-            label="Introduce tu contraseña"
+            label="Introduce la contraseña"
             type="password"
             placeholder="Contraseña"
-            className="mb-2"
-          />
+            icon={Eye}
+            iconPosition="right"
+          />  
         </form>
       </div>
       <div className="flex text-xs text-right justify-end mb-1">

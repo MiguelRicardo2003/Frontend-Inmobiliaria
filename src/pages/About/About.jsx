@@ -1,3 +1,4 @@
+import Card from "../../components/ui/Card";
 const About = () => {
   return (
     <div>
@@ -10,7 +11,7 @@ const About = () => {
             </h1>
           </div>
 
-          <div className="bg-white p-6 sm:p-8 lg:p-10 rounded-2xl shadow-lg border border-gray-200">
+          <Card className="bg-white p-6 sm:p-8 lg:p-10 rounded-2xl shadow-lg border border-gray-200">
             <p className="text-1xl text-gray-700 leading-relaxed">
               En JustHome, conectamos personas con espacios donde puedan construir sus sueños.
               Con más de 10 años de experiencia, brindamos acompañamiento cercano y transparente
@@ -21,7 +22,7 @@ const About = () => {
               lugar para crecer, estamos aquí para ayudarte a tomar la mejor decisión.
               Confía en nosotros y descubre por qué cientos de personas ya encontraron su lugar ideal.
             </p>
-          </div>
+          </Card>
         </div>
       </div>
 
@@ -40,7 +41,7 @@ const About = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
           {/* Carta 1 */}
-          <div className="bg-white p-6 rounded-2xl border-2 border-gray-200 shadow-sm hover:shadow-lg transition-shadow duration-300">
+          <Card className="bg-white p-6 rounded-2xl border-2 border-gray-200 shadow-sm hover:shadow-lg transition-shadow duration-300">
             <div className="flex flex-col items-center text-center">
               <img
                 src="https://randomuser.me/api/portraits/women/44.jpg"
@@ -58,10 +59,10 @@ const About = () => {
                 estrategias innovadoras para el sector inmobiliario.
               </p>
             </div>
-          </div>
+          </Card>
 
           {/* Carta 2 */}
-          <div className="bg-white p-6 rounded-2xl border-2 border-gray-200 shadow-sm hover:shadow-lg transition-shadow duration-300">
+          <Card className="bg-white p-6 rounded-2xl border-2 border-gray-200 shadow-sm hover:shadow-lg transition-shadow duration-300">
             <div className="flex flex-col items-center text-center">
               <img
                 src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"
@@ -79,10 +80,10 @@ const About = () => {
                 en el mercado inmobiliario residencial y comercial.
               </p>
             </div>
-          </div>
+          </Card>
 
           {/* Carta 3 centrada en md */}
-          <div className="bg-white p-6 rounded-2xl border-2 border-gray-200 shadow-sm hover:shadow-lg transition-shadow duration-300 md:col-span-2 md:mx-auto md:w-1/2 lg:col-span-1 lg:mx-0 lg:w-auto">
+          <Card className="bg-white p-6 rounded-2xl border-2 border-gray-200 shadow-sm hover:shadow-lg transition-shadow duration-300 md:col-span-2 md:mx-auto md:w-1/2 lg:col-span-1 lg:mx-0 lg:w-auto">
             <div className="flex flex-col items-center text-center">
               <img
                 src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"
@@ -100,7 +101,7 @@ const About = () => {
                 transacciones cumplan con la normativa legal vigente.
               </p>
             </div>
-          </div>
+          </Card>
         </div>
       </div>
 
@@ -117,7 +118,7 @@ const About = () => {
         </div>
 
         <div className="flex flex-col gap-6 max-w-2xl mx-auto">
-          <div className="bg-white p-6 rounded-2xl border-2 border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-300">
+          <Card className="bg-white p-6 rounded-2xl border-2 border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-300">
             <h2 className="text-xl font-semibold text-gray-900 mb-3">
               Integridad
             </h2>
@@ -125,9 +126,9 @@ const About = () => {
               Mantenemos los más altos estándares éticos en todos nuestros tratos,
               garantizando transparencia y confianza en cada transacción.
             </p>
-          </div>
+          </Card>
 
-          <div className="bg-white p-6 rounded-2xl border-2 border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-300">
+          <Card className="bg-white p-6 rounded-2xl border-2 border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-300">
             <h2 className="text-xl font-semibold text-gray-900 mb-3">
               Excelencia
             </h2>
@@ -135,9 +136,9 @@ const About = () => {
               Nos esforzamos por la excelencia en todos los aspectos de nuestro servicio,
               superando constantemente las expectativas de nuestros clientes.
             </p>
-          </div>
+          </Card>
 
-          <div className="bg-white p-6 rounded-2xl border-2 border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-300">
+          <Card className="bg-white p-6 rounded-2xl border-2 border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-300">
             <h2 className="text-xl font-semibold text-gray-900 mb-3">
               Innovación
             </h2>
@@ -145,7 +146,7 @@ const About = () => {
               Adoptamos tecnología de vanguardia y soluciones innovadoras para brindar el mejor
               servicio posible a nuestros clientes.
             </p>
-          </div>
+          </Card>
         </div>
       </div>
     </div>

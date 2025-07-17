@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { services, colorVariants, iconMap } from "./serviceData";
+import { services, colorVariants, iconMap } from "./utils/serviceData";
 import ServiceCard from "./components/ServiceCard";
 import AttentionModal from "./components/AttentionModal";
 import Button from '../../components/ui/Button';
@@ -56,33 +56,35 @@ const Service = () => {
       {/* Horarios de atención */}
       <div className="bg-white py-10">
         <div className="max-w-7xl mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold text-black mb-6">
-            ¿Necesitas ayuda con tu propiedad?
-          </h2>
-          <p className="text-xl text-black mb-8 max-w-2xl mx-auto">
-            Nuestro equipo de expertos está listo para ayudarte. Contáctanos hoy
-            mismo para una consulta personalizada.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/contact">
+          <div className="bg-white max-w-2xl mx-auto p-8 rounded-2xl shadow-lg">
+            <h2 className="text-3xl font-bold text-black mb-6">
+              ¿Necesitas ayuda con tu propiedad?
+            </h2>
+            <p className="text-xl text-black mb-8 max-w-2xl mx-auto">
+              Nuestro equipo de expertos está listo para ayudarte. Contáctanos hoy
+              mismo para una consulta personalizada.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link to="/contact">
+                <Button
+                  variant="primary"
+                  size="md"
+                  className="px-6 py-3 text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 transition-all duration-300 transform hover:scale-105 hover:shadow-lg"
+                  icon={ArrowRight}
+                  iconPosition="right"
+                >
+                  Contáctanos
+                </Button>
+              </Link>
               <Button
+                onClick={() => setShowModal(true)}
                 variant="primary"
                 size="md"
-                className="px-6 py-3 text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 transition-all duration-300 transform hover:scale-105 hover:shadow-lg"
-                icon={ArrowRight}
-                iconPosition="right"
+                className="px-6 py-3 text-base font-medium rounded-md text-white bg-[#2D3A4E] hover:bg-gray-700 transition-all duration-300 transform hover:scale-105 hover:shadow-lg"
               >
-                Contáctanos
+                Ver Horarios de Atención
               </Button>
-            </Link>
-            <Button
-              onClick={() => setShowModal(true)}
-              variant="primary"
-              size="md"
-              className="px-6 py-3 text-base font-medium rounded-md text-white bg-[#2D3A4E] hover:bg-gray-700 transition-all duration-300 transform hover:scale-105 hover:shadow-lg"
-            >
-              Ver Horarios de Atención
-            </Button>
+            </div>
           </div>
         </div>
       </div>

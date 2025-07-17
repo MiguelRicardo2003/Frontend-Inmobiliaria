@@ -3,6 +3,7 @@ import Button from "../../../components/ui/Button";
 import { SquaresSubtract, Bath, Bed, ArrowRight } from 'lucide-react'
 import Title from "../../../shared/TitlePropieties";
 import { Link } from "react-router-dom";
+import Card from '../../../components/ui/Card';
 
 const FeaturedProperty = () => {
     return (
@@ -42,7 +43,7 @@ const FeaturedProperty = () => {
                     <Title title={"Villa One Hyde Park"} location={"Carepa, Colombia"} price={"120,000"} />
                 </div>
 
-                <div className="relative h-full md:ml-5 w-[330px] sm:h-[340px] md:h-[350px] lg:w-[500px] lg:h-[500px] xl:h-[500px] rounded-2xl overflow-hidden">
+                <Card className="relative h-full md:ml-5 w-[330px] sm:h-[340px] md:h-[350px] lg:w-[500px] lg:h-[500px] xl:h-[500px] rounded-2xl overflow-hidden p-0">
                     <img
                         src="https://res.cloudinary.com/dmc8ifonk/image/upload/v1750914433/imagenes_publicas/m9jfryzef2g7h3qsuhwv.jpg"
                         alt="Propiedad"
@@ -50,8 +51,7 @@ const FeaturedProperty = () => {
                     />
                     {/* Etiquetas */}
                     <Feature type="EN VENTA" feature="DESTACADA" />
-                </div>
-
+                </Card>
 
                 {/* Información */}
                 <div className="flex-1 w-full flex flex-col md:ml-4 lg:ml-12 py-4 max-w-xl lg:py-16">

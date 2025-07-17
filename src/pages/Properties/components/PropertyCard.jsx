@@ -2,18 +2,17 @@ import { useState, memo } from 'react';
 import { Bed, Bath, SquaresSubtract, MapPin } from 'lucide-react';
 import PropertyTags from './PropertyTags';
 import PropertyModal from './PropertyModal';
+import Card from '../../../components/ui/Card';
 
 const PropertyCard = ({ property, cardClassName = '' }) => {
     const [open, setOpen] = useState(false);
 
     return (
         <>
-            <div
-                className={
-                    `relative rounded-2xl overflow-hidden shadow-md mx-auto cursor-pointer group 
-                  w-full aspect-square transition-transform duration-500 ease-in-out hover:scale-105 ${cardClassName}`
-                }
+            <Card
+                className={`relative rounded-2xl overflow-hidden shadow-md mx-auto cursor-pointer group w-full aspect-square transition-transform duration-500 ease-in-out hover:scale-105 ${cardClassName}`}
                 onClick={() => setOpen(true)}
+                hover
             >
                 <img
                     src={property.imagen}
@@ -38,13 +37,12 @@ const PropertyCard = ({ property, cardClassName = '' }) => {
                     <span className="flex items-center gap-1 text-white text-sm"><Bath size={16} /> {property.banos}</span>
                     <span className="flex items-center gap-1 text-white text-sm"><SquaresSubtract size={16} /> {property.area}</span>
                 </div>
-            </div>
+            </Card>
             <PropertyModal
                 open={open}
                 onClose={() => setOpen(false)}
                 property={property}
             />
-
         </>
     );
 };

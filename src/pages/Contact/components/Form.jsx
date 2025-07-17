@@ -1,9 +1,10 @@
 import Input from '../../../components/ui/Input';
 import Button from '../../../components/ui/Button';
+import Card from '../../../components/ui/Card';
 
 const Form = () => {
   return (
-    <div className="w-full bg-gray-100 rounded-lg p-6 max-w-lg">
+    <Card className="w-full bg-gray-100 rounded-lg p-6 max-w-lg">
       <form className="flex flex-col gap-4">
         <Input
           type="text"
@@ -68,7 +69,7 @@ const Form = () => {
           Enviar mensaje
         </Button>
       </form>
-    </div>
+    </Card>
   );
 };
 

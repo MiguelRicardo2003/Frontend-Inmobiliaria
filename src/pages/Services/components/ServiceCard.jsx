@@ -1,9 +1,8 @@
 import React from "react";
+import Card from '../../../components/ui/Card';
 
 const ServiceCard = ({ icon, title, description, colorClass }) => (
-  <div
-    className={`relative bg-white rounded-[20px] border-2 ${colorClass} p-6 flex gap-6 items-center min-h-[150px]`}
-  >
+  <Card className={`relative bg-white rounded-[20px] border-2 ${colorClass} p-6 flex gap-6 items-center min-h-[150px]`}>
     <div
       className={`flex-shrink-0 w-16 h-16 rounded-full flex items-center justify-center ${colorClass} bg-opacity-20`}
     >
@@ -17,7 +16,7 @@ const ServiceCard = ({ icon, title, description, colorClass }) => (
         {description}
       </p>
     </div>
-  </div>
+  </Card>
 );
 
 export default ServiceCard; 

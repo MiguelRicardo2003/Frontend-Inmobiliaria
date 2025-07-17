@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { LineChart, Line, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import Card from '../../../../components/ui/Card';
 
 const ChartControls = ({ chartType, setChartType }) => (
   <div className="flex flex-wrap gap-2 mb-4">
@@ -72,7 +73,7 @@ const DynamicChart = ({ salesData, propertyTypeData, colors }) => {
   };
 
   return (
-    <div className="bg-white dark:bg-gray-800 p-4 sm:p-6 rounded-xl shadow-md">
+    <Card className="bg-white dark:bg-gray-800 p-4 sm:p-6 rounded-xl shadow-md border border-blue-500">
       <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-4">Rendimiento de Ventas y Rentas</h3>
       <ChartControls chartType={chartType} setChartType={setChartType} />
       <div className="w-full h-96">
@@ -80,7 +81,7 @@ const DynamicChart = ({ salesData, propertyTypeData, colors }) => {
           {renderChart()}
         </ResponsiveContainer>
       </div>
-    </div>
+    </Card>
   );
 };
 

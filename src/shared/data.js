@@ -348,3 +348,49 @@ export const dataProperties = [
     ciudad: "Leticia"
   }
 ];
+
+export const reviews = [
+  {
+    name: "Juliana Galvis",
+    role: "Cliente",
+    image: "https://i.pinimg.com/736x/a5/2c/44/a52c4459940205d17c98ab5c254689f5.jpg",
+    text: "JustHome demostró un alto nivel de profesionalismo y compromiso en cada etapa del proceso. Su equipo brindó un acompañamiento claro y eficiente, lo que generó confianza y seguridad. Recomiendo sus servicios por su seriedad y calidad en la atención.",
+  },
+  {
+    name: "Carlos Pérez",
+    role: "Abogado",
+    image: "https://randomuser.me/api/portraits/men/32.jpg",
+    text: "Destaco su atención al cliente, el manejo eficiente de los trámites y la transparencia durante todo el proceso. Es una empresa confiable y recomendable para quienes buscan servicios inmobiliarios serios y responsables.",
+  },
+  {
+    name: "María López",
+    role: "Psicologa",
+    image: "https://randomuser.me/api/portraits/women/44.jpg",
+    text: "Mi experiencia con JustHome fue satisfactoria. Destaco su puntualidad, buen trato y conocimiento del mercado. Su gestión facilitó todo el proceso, lo que demuestra su compromiso con un servicio de calidad.",
+  },
+];
+
+export const salesData = [
+  { month: 'Ene', ventas: 40, rentas: 24 },
+  { month: 'Feb', ventas: 30, rentas: 14 },
+  { month: 'Mar', ventas: 20, rentas: 58 },
+  { month: 'Abr', ventas: 27, rentas: 39 },
+  { month: 'May', ventas: 18, rentas: 48 },
+  { month: 'Jun', ventas: 23, rentas: 38 },
+];
+
+export const propertyTypeData = [
+  { name: 'Casas', value: 400 },
+  { name: 'Aptos', value: 300 },
+  { name: 'Oficinas', value: 300 },
+  { name: 'Terrenos', value: 200 },
+];
+
+export const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
+
+export const stats = [
+  { title: 'Total de Visitas', value: '2.4M', change: '+14.5%', icon: 'Eye' },
+  { title: 'Propiedades Activas', value: '1,204', change: '+2.1%', icon: 'Home' },
+  { title: 'Nuevos Usuarios', value: '350', change: '-1.8%', icon: 'Users' },
+  { title: 'Ingresos del Mes', value: '$45,231', change: '+5.9%', icon: 'DollarSign' },
+];

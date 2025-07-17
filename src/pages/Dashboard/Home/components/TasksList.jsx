@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import { Card, CardContent, CardHeader, CardFooter } from '../ui/Card';
-import Button from '../ui/Button';
+import { Card, CardContent, CardHeader, CardFooter } from '../components/Card';
+import Button from '../components/Button';
 import { Check, X, Plus } from 'lucide-react';
 
 const initialTasks = [
-  { id: 1, title: 'Complete project proposal', status: 'pending' },
-  { id: 2, title: 'Design meeting with client', status: 'pending' },
-  { id: 3, title: 'Update weekly statistics', status: 'completed' },
-  { id: 4, title: 'Review marketing materials', status: 'pending' },
-  { id: 5, title: 'Send follow-up emails', status: 'completed' },
+  { id: 1, title: 'Crear un cliente', status: 'pending' },
+  { id: 2, title: 'Actualizar una propiedad', status: 'pending' },
+  { id: 3, title: 'Actualizar un cliente', status: 'completed' },
+  { id: 4, title: 'Reunion con un cliente', status: 'pending' },
+  { id: 5, title: 'Publicar una propiedad', status: 'completed' },
 ];
 
 const TasksList = () => {
@@ -49,9 +49,9 @@ const TasksList = () => {
   return (
     <Card className="h-full">
       <CardHeader className="flex justify-between items-center">
-        <h3 className="font-medium text-gray-900 dark:text-gray-100">Tasks</h3>
+        <h3 className="font-medium text-gray-900 dark:text-gray-100">Tareas</h3>
         <div className="flex space-x-2 text-sm">
-          {['all', 'pending', 'completed'].map(status => (
+          {['todas', 'pendientes', 'completadas'].map(status => (
             <button
               key={status}
               className={`px-2 py-1 rounded-md transition-colors ${
@@ -106,7 +106,7 @@ const TasksList = () => {
 
           {filteredTasks.length === 0 && (
             <div className="text-center py-4 text-gray-500 dark:text-gray-400">
-              No tasks found
+              No se encontraron tareas
             </div>
           )}
         </div>
@@ -116,7 +116,7 @@ const TasksList = () => {
         <div className="flex w-full">
           <input
             type="text"
-            placeholder="Add a new task..."
+            placeholder="Agregar una nueva tarea..."
             className="flex-1 bg-gray-100 dark:bg-gray-800 border-0 rounded-l-lg focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 text-gray-600 dark:text-gray-300 placeholder-gray-400"
             value={newTaskTitle}
             onChange={(e) => setNewTaskTitle(e.target.value)}
@@ -130,7 +130,7 @@ const TasksList = () => {
             leftIcon={<Plus size={16} />}
             onClick={addTask}
           >
-            Add
+            Agregar
           </Button>
         </div>
       </CardFooter>

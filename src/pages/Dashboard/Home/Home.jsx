@@ -51,7 +51,7 @@ const Dashboard = () => {
             Resumen general del rendimiento inmobiliario
           </p>
         </div>
-        <div className="space-x-2">
+        <div className="space-x-2 sm:gap-2 flex">
           <Button variant="outline">Exportar Datos</Button>
           <Button>Generar Informe</Button>
         </div>

@@ -4,7 +4,7 @@ import { useState } from "react";
 import Sidebar from "../components/ui/SidebarDashboard";
 import HeaderDashboard from "../components/ui/DashboardHeader/DashboardHeader";
 
-const DashboardLayout = () => {
+const AdminLayout = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleSidebar = () => setIsOpen((prev) => !prev);
@@ -24,4 +24,4 @@ const DashboardLayout = () => {
   );
 };
 
-export default DashboardLayout;
+export default AdminLayout;

@@ -1,13 +1,7 @@
 import React from 'react';
-import { Card, CardContent } from './Card';
+import { Card, CardContent } from './CardAdmin';
 
-const Stat = ({ 
-  title, 
-  value, 
-  icon,
-  trend,
-  className = '' 
-}) => {
+const StatCard = ({ title, value, icon,trend,className = '' }) => {
   return (
     <Card className={`${className} hover:translate-y-[-2px] transition-all`}>
       <CardContent className="flex items-start">
@@ -27,7 +21,7 @@ const Stat = ({
               }`}>
                 {trend.isPositive ? '↑' : '↓'} {Math.abs(trend.value)}%
               </span>
-              <span className="text-xs text-gray-500 dark:text-gray-400 ml-1">vs last month</span>
+              <span className="text-xs text-gray-500 dark:text-gray-400 ml-1">vs mes anterior</span>
             </div>
           )}
         </div>
@@ -36,4 +30,4 @@ const Stat = ({
   );
 };
 
-export default Stat;
+export default StatCard;

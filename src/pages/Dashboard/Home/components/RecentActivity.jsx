@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, CardContent, CardHeader } from '../components/Card';
+import { Card, CardContent, CardHeader } from '../../../../components/ui/Admin/CardAdmin';
 import { Calendar, File, MessageSquare, Users } from 'lucide-react';
 
 const activities = [

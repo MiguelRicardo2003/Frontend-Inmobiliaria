@@ -1,11 +1,11 @@
 import React from "react";
 import { BarChart2, Users, Home, Building2, Wallet, ArrowUp, ArrowDown, DollarSign,Key, } from "lucide-react";
-import Stat from "../Home/components/Stat";
-import Button from "../Home/components/Button";
+import StatCard from "../../../components/ui/Admin/StatCard";
+import Button from "../../../components/ui/Admin/ButtonAdmin";
 import ActivityChart from "../Home/components/ActivityChart";
 import RecentActivity from "../Home/components/RecentActivity";
 import TasksList from "../Home/components/TasksList";
-import { Card, CardContent, CardHeader, } from "../Home/components/Card";
+import { Card, CardContent, CardHeader, } from "../../../components/ui/Admin/CardAdmin";
 
 const Dashboard = () => {
   // Datos de ejemplo para el dashboard
@@ -58,25 +58,25 @@ const Dashboard = () => {
       </div>
 
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
-        <Stat
+        <StatCard
           title="Ingresos Totales"
           value={formatCurrency(stats.revenue.total)}
           icon={<DollarSign size={20} />}
           trend={stats.revenue.trend}
         />
-        <Stat
+        <StatCard
           title="Propiedades Vendidas"
           value={stats.properties.sold.toString()}
           icon={<Home size={20} />}
           trend={stats.properties.trend}
         />
-        <Stat
+        <StatCard
           title="Clientes Activos"
           value={stats.customers.active.toString()}
           icon={<Users size={20} />}
           trend={stats.customers.trend}
         />
-        <Stat
+        <StatCard
           title="Transacciones Mensuales"
           value={stats.transactions.monthly.toString()}
           icon={<Wallet size={20} />}

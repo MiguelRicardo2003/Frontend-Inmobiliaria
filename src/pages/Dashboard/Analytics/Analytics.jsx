@@ -1,14 +1,14 @@
 import React from 'react';
 import { Users, Home, Eye, DollarSign } from 'lucide-react';
-import StatCard from './components/StatCard';
+import Stat from '../../../components/ui/Admin/StatCard'; // Cambiado de StatCard a Stat
 import DynamicChart from './components/DynamicChart';
 import { salesData, propertyTypeData, COLORS, stats as statsData } from '../../../shared/data';
 
 const iconMap = {
-  Eye,
-  Home,
-  Users,
-  DollarSign,
+  Eye: <Eye />,
+  Home: <Home />,
+  Users: <Users />,
+  DollarSign: <DollarSign />,
 };
 
 const Analytics = () => {
@@ -21,12 +21,15 @@ const Analytics = () => {
       {/* Sección de Tarjetas de Estadísticas */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         {statsData.map((stat, index) => (
-          <StatCard
+          <Stat
             key={index}
             icon={iconMap[stat.icon]}
             title={stat.title}
             value={stat.value}
-            change={stat.change}
+            trend={{
+              value: parseFloat(stat.change),
+              isPositive: parseFloat(stat.change) >= 0,
+            }}
           />
         ))}
       </div>

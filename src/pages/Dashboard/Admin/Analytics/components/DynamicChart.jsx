@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { LineChart, Line, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import Card from '../../../../components/ui/Card';
+import Card from '../../../../../components/ui/Card';
 
 const ChartControls = ({ chartType, setChartType }) => (
   <div className="flex flex-wrap gap-2 mb-4">

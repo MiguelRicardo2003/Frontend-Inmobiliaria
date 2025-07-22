@@ -8,7 +8,7 @@ import {
   CartesianGrid,
   ResponsiveContainer,
 } from 'recharts';
-import { Card, CardContent, CardHeader } from '../../../../components/ui/Admin/CardAdmin';
+import { Card, CardContent, CardHeader } from '../../../../../components/ui/Admin/CardAdmin';
 
 const ActivityChart = () => {
   // Datos simulados para la gráfica

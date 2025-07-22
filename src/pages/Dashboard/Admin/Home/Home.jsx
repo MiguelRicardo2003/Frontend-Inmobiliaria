@@ -1,11 +1,11 @@
 import React from "react";
 import { BarChart2, Users, Home, Building2, Wallet, ArrowUp, ArrowDown, DollarSign,Key, } from "lucide-react";
-import StatCard from "../../../components/ui/Admin/StatCard";
-import Button from "../../../components/ui/Admin/ButtonAdmin";
-import ActivityChart from "../Home/components/ActivityChart";
-import RecentActivity from "../Home/components/RecentActivity";
-import TasksList from "../Home/components/TasksList";
-import { Card, CardContent, CardHeader, } from "../../../components/ui/Admin/CardAdmin";
+import StatCard from "../../../../components/ui/Admin/StatCard";
+import Button from "../../../../components/ui/Admin/ButtonAdmin";
+import ActivityChart from "./components/ActivityChart";
+import RecentActivity from "./components/RecentActivity";
+import TasksList from "./components/TasksList";
+import { Card, CardContent, CardHeader, } from "../../../../components/ui/Admin/CardAdmin";
 
 const Dashboard = () => {
   // Datos de ejemplo para el dashboard

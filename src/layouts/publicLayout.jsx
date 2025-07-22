@@ -1,15 +1,16 @@
 import { Outlet } from "react-router-dom";
 import Header from '../components/ui/Header';
 import Footer from '../components/ui/Footer';
-
+import WhatsAppButton from "../components/share/WhatsappButton";
 
 const publicLayout = () => {
 
-    return(
+    return (
         <div className="">
-            <Header/>
-            <Outlet/>
-            <Footer/>
+            <Header />
+            <Outlet />
+            <WhatsAppButton />
+            <Footer />
         </div>
     )
 }

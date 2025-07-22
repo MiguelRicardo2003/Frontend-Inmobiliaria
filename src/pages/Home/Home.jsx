@@ -1,12 +1,22 @@
-import Hero from "./components/hero";
-import Section3 from "./components/section-3";
+import Hero from "./components/hero"
+import WhyWorkWithUs from "./components/WhyWorkWithUs"
+import FeaturedProperty from "./components/FeaturedProperty"
+import Categories from "./components/Categories"
+import JoinAsAgent from "./components/JoinAsAgent"
+import ExclusiveProperties from "./components/ExclusiveProperties"
+import Reviews from "./components/Reviews"
 
 const Home = () => {
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-red-500">
+    <>
       <Hero />
-      <Section3 />
-    </div>
+      <Categories />
+      <WhyWorkWithUs />
+      <FeaturedProperty />
+      <ExclusiveProperties />
+      <Reviews />
+      <JoinAsAgent />
+    </>
   );
 }
 

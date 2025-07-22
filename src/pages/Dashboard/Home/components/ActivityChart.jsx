@@ -1,13 +1,26 @@
 import React from 'react';
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Tooltip,
+  CartesianGrid,
+  ResponsiveContainer,
+} from 'recharts';
 import { Card, CardContent, CardHeader } from '../../../../components/ui/Admin/CardAdmin';
 
 const ActivityChart = () => {
   // Datos simulados para la gráfica
-  const daysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-  const activityData = [25, 40, 30, 65, 45, 20, 35];
-
-  // Escalado basado en el valor máximo
-  const maxValue = Math.max(...activityData);
+  const activityData = [
+    { day: 'Lun', actividad: 25 },
+    { day: 'Mar', actividad: 40 },
+    { day: 'Mié', actividad: 30 },
+    { day: 'Jue', actividad: 65 },
+    { day: 'Vie', actividad: 45 },
+    { day: 'Sáb', actividad: 20 },
+    { day: 'Dom', actividad: 35 },
+  ];
 
   return (
     <Card className="h-full">
@@ -20,22 +33,16 @@ const ActivityChart = () => {
         </select>
       </CardHeader>
       <CardContent>
-        <div className="h-48">
-          <div className="flex h-full items-end space-x-2">
-            {activityData.map((value, index) => (
-              <div key={index} className="flex-1 flex flex-col items-center">
-                <div
-                  className="w-full bg-blue-100 dark:bg-blue-900/30 rounded-t-sm hover:bg-blue-200 dark:hover:bg-blue-800/50 transition-colors relative group"
-                  style={{ height: `${(value / maxValue) * 100}%` }}
-                >
-                  <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white px-2 py-1 rounded text-xs opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-                    {value}
-                  </div>
-                </div>
-                <span className="text-xs text-gray-500 dark:text-gray-400 mt-2">{daysOfWeek[index]}</span>
-              </div>
-            ))}
-          </div>
+        <div className="w-full h-60">
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart data={activityData}>
+              <CartesianGrid strokeDasharray="3 3" strokeOpacity={0.2} />
+              <XAxis dataKey="day" strokeOpacity={0.6} />
+              <YAxis strokeOpacity={0.6} />
+              <Tooltip />
+              <Bar dataKey="actividad" fill="#3b82f6" />
+            </BarChart>
+          </ResponsiveContainer>
         </div>
       </CardContent>
     </Card>

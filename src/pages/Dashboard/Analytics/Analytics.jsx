@@ -1,7 +1,10 @@
 import React from 'react';
 import { Users, Home, Eye, DollarSign } from 'lucide-react';
-import Stat from '../../../components/ui/Admin/StatCard'; // Cambiado de StatCard a Stat
+import StatCard from '../../../components/ui/Admin/StatCard';
 import DynamicChart from './components/DynamicChart';
+
+// Wrapper para mantener el nombre original 'Stat'
+const Stat = (props) => <StatCard {...props} />;
 import { salesData, propertyTypeData, COLORS, stats as statsData } from '../../../shared/data';
 
 const iconMap = {

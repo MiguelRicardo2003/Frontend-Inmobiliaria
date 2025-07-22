@@ -46,7 +46,7 @@ const Sidebar = ({ isOpen }) => {
             />
             <NavItem
               icon={<Users size={20} />}
-              label="Clientes"
+              label="Usuarios"
               to="/dashboard/clients"
               isExpanded={isOpen}
             />

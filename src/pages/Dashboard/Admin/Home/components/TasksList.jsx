@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Card, CardContent, CardHeader, CardFooter } from '../../../../components/ui/Admin/CardAdmin';
-import Button from '../../../../components/ui/Admin/ButtonAdmin';
+import { Card, CardContent, CardHeader, CardFooter } from '../../../../../components/ui/Admin/CardAdmin';
+import Button from '../../../../../components/ui/Admin/ButtonAdmin';
 import { Check, X, Plus } from 'lucide-react';
 
 const initialTasks = [

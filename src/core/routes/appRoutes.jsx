@@ -15,6 +15,7 @@ import Setting from "../../pages/Dashboard/shared/Settings/Settings";
 import Message from "../../pages/Dashboard/Messages/Message";
 import Propertie from "../../pages/Dashboard/Admin/Properties/Properties";
 import Register from "../../pages/Register/Register";
+import ForgotPassword from "../../pages/Login/ForgotPassword";
 
 const appRoutes = createBrowserRouter([
   {
@@ -46,6 +47,10 @@ const appRoutes = createBrowserRouter([
   {
     path: "login",
     element: <Login />,
+  },
+  {
+    path: "forgotPassword",
+    element: <ForgotPassword />,
   },
   {
     path: "register",

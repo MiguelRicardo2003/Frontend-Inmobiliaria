@@ -1,9 +1,9 @@
 import Input from "../../../components/ui/Input";
-import { Eye,EyeOff } from "lucide-react"; // Asegúrate de importarlo si no estaba
+import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const FormSingIn = () => {
-  
   const [showPassword, setShowPassword] = useState(false);
 
   return (
@@ -24,13 +24,16 @@ const FormSingIn = () => {
             iconPosition="right"
             onIconClick={() => setShowPassword(!showPassword)}
             className="mt-2 border-2"
-          />  
+          />
         </form>
       </div>
-      <div className="flex text-xs text-right justify-end mb-1">
-        <span className="text-gray-600 font-medium cursor-pointer hover:underline">
+      <div className="text-xs text-right mb-1 mt-2">
+        <Link
+          to="/forgotPassword"
+          className="text-gray-600 font-medium hover:underline"
+        >
           Olvide la contraseña
-        </span>
+        </Link>
       </div>
     </div>
   );

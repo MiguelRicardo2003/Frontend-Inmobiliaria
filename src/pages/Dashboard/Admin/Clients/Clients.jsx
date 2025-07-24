@@ -1,12 +1,16 @@
-import { useState } from "react";
-import { Pencil, Trash2, Search, Filter } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Pencil, Trash2 } from "lucide-react";
 import Button from "../../../../components/ui/Admin/ButtonAdmin";
 import UserStatsCards from "./components/UserStatsCards";
-import { Card, CardContent } from "../../../../components/ui/Admin/CardAdmin";
-import Input from "../../../../components/ui/Input";
 import NewItemButton from "../../../../components/ui/Admin/NewItemButton";
 import Pagination from "../../../../components/ui/Pagination";
 import CreateUserModal from "./components/CreateUserModal";
+import UserSearchBar from "./components/UserSearchBar";
+import { useFilteredUsers } from "../../../../hooks/useFilteredUsers";
+import EditUserModal from "./components/EditUserModal";
+import SuccessModal from "./components/SuccessModal";
+import DeleteConfirmModal from "./components/DeleteConfirmModal";
+import DeleteSuccessModal from "./components/DeleteSuccessModal";
 
 const usuarios = [
   {
@@ -65,7 +69,43 @@ const Clients = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 3;
-  const totalPages = Math.ceil(usuarios.length / itemsPerPage);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [editUser, setEditUser] = useState(null);
+
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
+
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [showDeleteSuccess, setShowDeleteSuccess] = useState(false);
+  const [userToDelete, setUserToDelete] = useState(null);
+
+  // Cerrar el modal de éxito después de 3 segundos
+  useEffect(() => {
+    if (showSuccessModal) {
+      const timeout = setTimeout(() => {
+        setShowSuccessModal(false);
+        setSuccessMessage("");
+      }, 2000);
+      return () => clearTimeout(timeout);
+    }
+  }, [showSuccessModal]);
+
+  const handleUpdateUser = (updatedUser) => {
+    const idx = usuarios.findIndex((u) => u.id === updatedUser.id);
+    if (idx !== -1) {
+      usuarios[idx] = { ...usuarios[idx], ...updatedUser };
+    }
+    setEditUser(null);
+    setSuccessMessage("Usuario actualizado correctamente");
+    setShowSuccessModal(true);
+  };
+
+  const { filteredUsers, paginatedUsers, totalPages } = useFilteredUsers(
+    usuarios,
+    searchTerm,
+    currentPage,
+    itemsPerPage
+  );
 
   const totalUsuarios = usuarios.length;
   const totalClientes = usuarios.filter((u) => u.rol === "Cliente").length;
@@ -74,13 +114,41 @@ const Clients = () => {
     (u) => u.descripcion === "Activo"
   ).length;
 
-  const paginatedUsers = usuarios.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
+  const handleDeleteClick = (user) => {
+    setUserToDelete(user);
+    setShowDeleteConfirm(true);
+  };
+
+  const handleDelete = () => {
+    if (userToDelete) {
+      const idx = usuarios.findIndex((u) => u.id === userToDelete.id);
+      if (idx !== -1) {
+        usuarios.splice(idx, 1);
+      }
+    }
+    setShowDeleteConfirm(false);
+    setShowDeleteSuccess(true);
+    setUserToDelete(null);
+  };
+
+  const handleCancelDelete = () => {
+    setShowDeleteConfirm(false);
+    setUserToDelete(null);
+  };
+
+  const handleCloseDeleteSuccess = () => {
+    setShowDeleteSuccess(false);
+  };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 relative dark:bg-gray-900 min-h-screen text-gray-900 dark:text-gray-100">
+      {showSuccessModal && (
+        <SuccessModal
+          message={successMessage}
+          onClose={() => setShowSuccessModal(false)}
+        />
+      )}
+
       {/* Encabezado */}
       <div className="flex justify-between items-center">
         <div>
@@ -88,10 +156,10 @@ const Clients = () => {
             Usuarios
           </h1>
           <p className="text-gray-500 dark:text-gray-400 mt-1">
-            Gestión de usuarios
+            Gestión y administración de los usuarios del sistema
           </p>
         </div>
-        <div className="space-x-2 sm:gap-2 flex">
+        <div className="space-x-2 sm:gap-2 flex items-center">
           <Button variant="outline">Exportar Datos</Button>
           <Button>Generar Informe</Button>
         </div>
@@ -105,41 +173,48 @@ const Clients = () => {
         activos={totalActivos}
       />
 
-      {/* Filtro + Búsqueda + Botón nuevo */}
-      <Card className="bg-transparent shadow-none">
-        <CardContent className="p-0">
-          <div className="flex flex-col md:flex-row md:items-center gap-4">
-            {/* Input de búsqueda */}
-            <div className="w-full md:w-1/4 relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-              <Input placeholder="Buscar usuarios..." className="pl-10" />
-            </div>
+      {/* Buscador + botón nuevo */}
+      <div>
+        <div className="flex flex-col md:flex-row gap-4 md:items-center justify-between">
+          <UserSearchBar
+            value={searchTerm}
+            onChange={(value) => {
+              setSearchTerm(value);
+              setCurrentPage(1);
+            }}
+          />
+          <NewItemButton
+            label="Nuevo Cliente"
+            onClick={() => setIsModalOpen(true)}
+            className="bg-blue-500 hover:bg-blue-600 text-white h-12"
+          />
+        </div>
+      </div>
 
-            {/* Botón Filtros */}
-            <Button variant="outline" className="w-full md:w-40">
-              <Filter className="w-4 h-4 mr-2" />
-              Filtros
-            </Button>
+      {/* Modal de crear usuario */}
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+          <CreateUserModal
+            onClose={() => setIsModalOpen(false)}
+            onSubmit={() => {
+              setIsModalOpen(false);
+              setSuccessMessage("Usuario creado correctamente");
+              setShowSuccessModal(true);
+            }}
+          />
+        </div>
+      )}
 
-            <NewItemButton
-              label="Nuevo Cliente"
-              onClick={() => setIsModalOpen(true)}
-            />
-
-            {isModalOpen && (
-              <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-                <CreateUserModal
-                  onClose={() => setIsModalOpen(false)}
-                  onSubmit={() => {
-                    // Aquí procesas el formulario
-                    setIsModalOpen(false);
-                  }}
-                />
-              </div>
-            )}
-          </div>
-        </CardContent>
-      </Card>
+      {/* Modal de edición */}
+      {editUser && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+          <EditUserModal
+            user={editUser}
+            onClose={() => setEditUser(null)}
+            onSubmit={handleUpdateUser}
+          />
+        </div>
+      )}
 
       {/* Tabla de usuarios */}
       <div className="overflow-x-auto p-4 rounded-lg shadow-md bg-white dark:bg-gray-800">
@@ -173,10 +248,16 @@ const Clients = () => {
                 <td className="px-4 py-2">{user.descripcion}</td>
                 <td className="px-4 py-2">
                   <div className="flex space-x-2 items-center justify-center">
-                    <button className="text-blue-500 hover:text-blue-700">
+                    <button
+                      className="text-blue-500 hover:text-blue-700"
+                      onClick={() => setEditUser(user)}
+                    >
                       <Pencil size={18} />
                     </button>
-                    <button className="text-blue-500 hover:text-blue-700">
+                    <button
+                      className="text-blue-500 hover:text-blue-700"
+                      onClick={() => handleDeleteClick(user)}
+                    >
                       <Trash2 size={18} />
                     </button>
                   </div>
@@ -193,6 +274,18 @@ const Clients = () => {
         total={totalPages}
         onPageChange={(page) => setCurrentPage(page)}
       />
+
+      {/* Confirmación de eliminación */}
+      {showDeleteConfirm && (
+        <DeleteConfirmModal
+          onCancel={handleCancelDelete}
+          onConfirm={handleDelete}
+        />
+      )}
+      {/* Éxito de eliminación */}
+      {showDeleteSuccess && (
+        <DeleteSuccessModal onClose={handleCloseDeleteSuccess} />
+      )}
     </div>
   );
 };

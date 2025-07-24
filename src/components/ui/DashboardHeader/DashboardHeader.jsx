@@ -4,6 +4,7 @@ import BrandLogo from "./components/BrandLogo";
 import SearchBar from "./components/SearchBar";
 import NotificationBell from "./components/NotificationBell";
 import UserMenu from "./components/UserMenu";
+import ThemeToggle from "../common/ThemeToggle";
 
 const HeaderDashboard = ({ toggleSidebar, isSidebarOpen }) => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -32,6 +33,7 @@ const HeaderDashboard = ({ toggleSidebar, isSidebarOpen }) => {
 
         <div className="flex items-center space-x-3 relative">
           <NotificationBell />
+          <ThemeToggle />
           <UserMenu />
         </div>
       </div>

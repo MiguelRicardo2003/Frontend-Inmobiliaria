@@ -10,7 +10,7 @@ const StatCard = ({ title, value, icon,trend,className = '' }) => {
         </div>
         <div className="flex-1">
           <p className="text-sm font-medium text-gray-500 dark:text-gray-400">{title}</p>
-          <p className="text-2xl font-semibold mt-1">{value}</p>
+          <p className="text-2xl font-semibold mt-1 text-gray-900 dark:text-gray-100">{value}</p>
           
           {trend && (
             <div className="flex items-center mt-1">

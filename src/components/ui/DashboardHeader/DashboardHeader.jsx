@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import SidebarToggle from "./components/SidebarToggle";
 import BrandLogo from "./components/BrandLogo";
-import SearchBar from "./components/SearchBar";
 import NotificationBell from "./components/NotificationBell";
 import UserMenu from "./components/UserMenu";
 import ThemeToggle from "../common/ThemeToggle";
@@ -28,8 +27,6 @@ const HeaderDashboard = ({ toggleSidebar, isSidebarOpen }) => {
           <SidebarToggle toggleSidebar={toggleSidebar} isSidebarOpen={isSidebarOpen} />
           <BrandLogo />
         </div>
-
-        <SearchBar />
 
         <div className="flex items-center space-x-3 relative">
           <NotificationBell />

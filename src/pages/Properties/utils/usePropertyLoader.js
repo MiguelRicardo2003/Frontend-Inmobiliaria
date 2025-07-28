@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { dataProperties } from '../../../shared/data';
+import { dataProperties } from '../../../shared/utils/data';
 
 const usePropertyLoader = () => {
   const [properties, setProperties] = useState([]);

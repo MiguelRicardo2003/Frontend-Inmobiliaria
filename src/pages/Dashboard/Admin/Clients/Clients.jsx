@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
-import { Pencil, Trash2 } from "lucide-react";
-import Button from "../../../../components/ui/Admin/ButtonAdmin";
+import { Pencil, Trash2, Plus } from "lucide-react";
+import Button from "../../../../components/ui/Button";
 import UserStatsCards from "./components/UserStatsCards";
-import NewItemButton from "../../../../components/ui/Admin/NewItemButton";
 import Pagination from "../../../../components/ui/Pagination";
 import CreateUserModal from "./components/CreateUserModal";
 import UserSearchBar from "./components/UserSearchBar";
@@ -160,8 +159,8 @@ const Clients = () => {
           </p>
         </div>
         <div className="space-x-2 sm:gap-2 flex items-center">
-          <Button variant="outline">Exportar Datos</Button>
-          <Button>Generar Informe</Button>
+          <Button variant="outline" className="bg-blue-500 hover:bg-blue-600 dark:bg-gray-800 dark:text-white h-12 flex items-center gap-2">Exportar Datos</Button>
+          <Button className="bg-blue-500 hover:bg-blue-600 text-white h-12 flex items-center gap-2">Generar Informe</Button>
         </div>
       </div>
 
@@ -183,11 +182,13 @@ const Clients = () => {
               setCurrentPage(1);
             }}
           />
-          <NewItemButton
-            label="Nuevo Cliente"
+          <Button
             onClick={() => setIsModalOpen(true)}
-            className="bg-blue-500 hover:bg-blue-600 text-white h-12"
-          />
+            className="bg-blue-500 hover:bg-blue-600 text-white h-12 flex items-center gap-2"
+          >
+            <Plus className="w-4 h-4" />
+            Nuevo Cliente
+          </Button>
         </div>
       </div>
 

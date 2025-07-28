@@ -2,7 +2,7 @@ import React from 'react';
 import { Users, Home, Eye, DollarSign } from 'lucide-react';
 import StatCard from './components/StatCard';
 import DynamicChart from './components/DynamicChart';
-import { salesData, propertyTypeData, COLORS, stats as statsData } from '../../../../shared/data';
+import { salesData, propertyTypeData, COLORS, stats as statsData } from '../../../../shared/utils/data';
 
 const iconMap = {
   Eye,

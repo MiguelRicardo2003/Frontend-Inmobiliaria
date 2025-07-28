@@ -39,8 +39,8 @@ const Pagination = ({ current, total, onPageChange }) => {
           className={`px-3 h-8 border rounded transition-colors
             ${
               page === current
-                ? "bg-blue-50 text-blue-600 border-blue-300 hover:bg-blue-100 hover:text-blue-700 dark:bg-gray-700 dark:text-white"
-                : "bg-white text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                ? "bg-blue-500 text-white border-blue-500 hover:bg-blue-600"
+                : "bg-white text-gray-500 hover:bg-gray-100 hover:text-gray-700 border-gray-300 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:border-gray-600"
             }`}
         >
           {page}

@@ -8,7 +8,7 @@ import {
   CartesianGrid,
   ResponsiveContainer,
 } from 'recharts';
-import { Card, CardContent, CardHeader } from '../../../../../components/ui/Admin/CardAdmin';
+import { Card, CardContent, CardHeader } from '../../../../../components/ui/Card';
 
 const ActivityChart = () => {
   // Datos simulados para la gráfica
@@ -22,11 +22,14 @@ const ActivityChart = () => {
     { day: 'Dom', actividad: 35 },
   ];
 
+  // Check if dark mode is active
+  const isDarkMode = document.documentElement.classList.contains('dark');
+
   return (
     <Card className="h-full">
-      <CardHeader className="flex justify-between items-center">
+      <CardHeader className="flex justify-between items-center bg-white dark:bg-gray-800">
         <h3 className="font-medium text-gray-900 dark:text-gray-100">Actividad semanal</h3>
-        <select className="text-sm bg-transparent border-gray-200 dark:border-gray-700 rounded">
+        <select className="text-sm bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded px-2 py-1 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
           <option>Esta semana</option>
           <option>La semana pasada</option>
           <option>Mes pasado</option>
@@ -36,11 +39,35 @@ const ActivityChart = () => {
         <div className="w-full h-60">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={activityData}>
-              <CartesianGrid strokeDasharray="3 3" strokeOpacity={0.2} />
-              <XAxis dataKey="day" strokeOpacity={0.6} />
-              <YAxis strokeOpacity={0.6} />
-              <Tooltip />
-              <Bar dataKey="actividad" fill="#3b82f6" />
+              <CartesianGrid 
+                strokeDasharray="3 3" 
+                strokeOpacity={isDarkMode ? 0.1 : 0.2}
+                stroke={isDarkMode ? "#374151" : "#e5e7eb"}
+              />
+              <XAxis 
+                dataKey="day" 
+                strokeOpacity={isDarkMode ? 0.7 : 0.6}
+                stroke={isDarkMode ? "#9ca3af" : "#6b7280"}
+                tick={{ fill: isDarkMode ? "#9ca3af" : "#6b7280" }}
+              />
+              <YAxis 
+                strokeOpacity={isDarkMode ? 0.7 : 0.6}
+                stroke={isDarkMode ? "#9ca3af" : "#6b7280"}
+                tick={{ fill: isDarkMode ? "#9ca3af" : "#6b7280" }}
+              />
+              <Tooltip 
+                contentStyle={{
+                  backgroundColor: isDarkMode ? "#1f2937" : "#ffffff",
+                  border: isDarkMode ? "1px solid #374151" : "1px solid #e5e7eb",
+                  borderRadius: "8px",
+                  color: isDarkMode ? "#f9fafb" : "#111827"
+                }}
+              />
+              <Bar 
+                dataKey="actividad" 
+                fill={isDarkMode ? "#60a5fa" : "#3b82f6"}
+                radius={[4, 4, 0, 0]}
+              />
             </BarChart>
           </ResponsiveContainer>
         </div>

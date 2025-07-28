@@ -1,5 +1,5 @@
 import React from "react";
-import Button from "../../../../../components/ui/Admin/ButtonAdmin";
+import Button from "../../../../../components/ui/Button";
 
 const EditUserModal = ({ user, onClose, onSubmit }) => {
   const [form, setForm] = React.useState({
@@ -35,7 +35,7 @@ const EditUserModal = ({ user, onClose, onSubmit }) => {
             placeholder="Nombre"
             value={form.nombre}
             onChange={handleChange}
-            className="w-full px-4 py-2 rounded-md border border-gray-300 text-sm text-gray-700 dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-sm text-gray-700 dark:text-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder-gray-400 dark:placeholder-gray-400"
           />
           <input
             type="text"
@@ -43,7 +43,7 @@ const EditUserModal = ({ user, onClose, onSubmit }) => {
             placeholder="Apellido"
             value={form.apellido}
             onChange={handleChange}
-            className="w-full px-4 py-2 rounded-md border border-gray-300 text-sm text-gray-700 dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-sm text-gray-700 dark:text-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder-gray-400 dark:placeholder-gray-400"
           />
           <input
             type="email"
@@ -51,7 +51,7 @@ const EditUserModal = ({ user, onClose, onSubmit }) => {
             placeholder="Correo"
             value={form.correo}
             onChange={handleChange}
-            className="w-full px-4 py-2 rounded-md border border-gray-300 text-sm text-gray-700 dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-sm text-gray-700 dark:text-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder-gray-400 dark:placeholder-gray-400"
           />
           <input
             type="tel"
@@ -59,7 +59,7 @@ const EditUserModal = ({ user, onClose, onSubmit }) => {
             placeholder="Teléfono"
             value={form.telefono}
             onChange={handleChange}
-            className="w-full px-4 py-2 rounded-md border border-gray-300 text-sm text-gray-700 dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-sm text-gray-700 dark:text-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder-gray-400 dark:placeholder-gray-400"
           />
           <input
             type="text"
@@ -67,13 +67,13 @@ const EditUserModal = ({ user, onClose, onSubmit }) => {
             placeholder="Dirección"
             value={form.direccion}
             onChange={handleChange}
-            className="w-full px-4 py-2 rounded-md border border-gray-300 text-sm text-gray-700 dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-sm text-gray-700 dark:text-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder-gray-400 dark:placeholder-gray-400"
           />
           <select
             name="rol"
             value={form.rol}
             onChange={handleChange}
-            className="w-full px-4 py-2 rounded-md border border-gray-300 text-sm text-gray-700 dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-sm text-gray-700 dark:text-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
           >
             <option value="">Seleccionar Rol</option>
             <option value="Cliente">Cliente</option>
@@ -83,7 +83,7 @@ const EditUserModal = ({ user, onClose, onSubmit }) => {
             name="descripcion"
             value={form.descripcion}
             onChange={handleChange}
-            className="w-full px-4 py-2 rounded-md border border-gray-300 text-sm text-gray-700 dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-sm text-gray-700 dark:text-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
           >
             <option value="">Seleccionar Estado</option>
             <option value="Activo">Activo</option>

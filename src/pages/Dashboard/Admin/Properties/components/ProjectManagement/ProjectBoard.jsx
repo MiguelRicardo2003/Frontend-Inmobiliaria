@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ListColumn from "./ListColumn";
 import PropertyCard from "./PropertyCard";
-import Button from "../../../../../components/ui/Button";
-import Modal from "../../../../../components/ui/Modal";
-import Input from "../../../../../components/ui/Input";
-import Select from "../../../../../components/ui/Select";
-import ImageUpload from "../../../../../components/ui/ImageUpload";
+import Button from "../../../../../../components/ui/Button";
+import Modal from "../../../../../../components/ui/Modal";
+import Input from "../../../../../../components/ui/Input";
+import Select from "../../../../../../components/ui/Select";
+import ImageUpload from "../../../../../../components/ui/ImageUpload";
+import useToast from "../../../../../../services/Toast/useToast";
+import ToastContainer from "../../../../../../components/ui/ToastContainer";
 import {
   DndContext,
   closestCenter,
@@ -121,16 +123,18 @@ async function updatePropertyEstado(propertyId, nuevoEstadoId) {
   });
 }
 
-const ProjectBoard = ({ projectName, onBack }) => {
-  // Cambiar el estado para manejar todas las propiedades y no listas
+export default function ProjectBoard({ projectName, onBack }) {
   const [properties, setProperties] = useState(initialProperties);
   const [showAddPropertyModal, setShowAddPropertyModal] = useState(false);
+  const [showDeletePropertyModal, setShowDeletePropertyModal] = useState(false);
+  const [propertyToDelete, setPropertyToDelete] = useState(null);
   const [propertyListId, setPropertyListId] = useState(null); // ahora es el estado destino
   const [propertyForm, setPropertyForm] = useState(defaultPropertyForm);
   const [propertyError, setPropertyError] = useState({});
   const [editingPropertyId, setEditingPropertyId] = useState(null);
   const [activeProperty, setActiveProperty] = useState(null);
   const sensors = useSensors(useSensor(PointerSensor));
+  const { showSuccess, showError, toasts, removeToast } = useToast();
 
   // Abrir modal para agregar propiedad en un estado
   const openAddPropertyModal = (estado) => {
@@ -160,16 +164,17 @@ const ProjectBoard = ({ projectName, onBack }) => {
   // Guardar propiedad (agregar o editar)
   const handleAddProperty = (e) => {
     e.preventDefault();
-    const errors = {};
-    if (!propertyForm.name.trim()) errors.name = "El nombre es requerido";
-    if (!propertyForm.address.trim()) errors.address = "La dirección es requerida";
-    if (!propertyForm.price || isNaN(propertyForm.price)) errors.price = "Precio válido requerido";
-    if (!propertyForm.propietario.nombre.trim()) errors.propietarioNombre = "Nombre del propietario requerido";
-    if (!propertyForm.propietario.telefono.trim()) errors.propietarioTelefono = "Teléfono del propietario requerido";
-    if (Object.keys(errors).length > 0) {
-      setPropertyError(errors);
+    if (!propertyForm.name.trim() || !propertyForm.address.trim() || !propertyForm.price) {
+      showError("Por favor completa todos los campos requeridos");
       return;
     }
+
+    const newProperty = {
+      id: editingPropertyId ? editingPropertyId : Date.now(),
+      ...propertyForm,
+      estado: propertyListId || "disponible",
+    };
+
     if (editingPropertyId) {
       // Editar
       setProperties((prev) =>
@@ -179,27 +184,38 @@ const ProjectBoard = ({ projectName, onBack }) => {
             : prop
         )
       );
+      showSuccess("Propiedad actualizada exitosamente");
     } else {
       // Agregar
-      setProperties((prev) => [
-        ...prev,
-        {
-          ...propertyForm,
-          id: Date.now(),
-          estado: propertyListId,
-        },
-      ]);
+      setProperties((prev) => [...prev, newProperty]);
+      showSuccess("Propiedad agregada exitosamente");
     }
-    setShowAddPropertyModal(false);
-    setPropertyListId(null);
+
     setPropertyForm(defaultPropertyForm);
-    setPropertyError({});
+    setShowAddPropertyModal(false);
     setEditingPropertyId(null);
+    setPropertyListId(null);
   };
 
   // Eliminar propiedad
   const handleDeleteProperty = (estado, propertyId) => {
-    setProperties((prev) => prev.filter((prop) => prop.id !== propertyId));
+    const property = properties.find(p => p.id === propertyId);
+    setPropertyToDelete({ id: propertyId, estado, property });
+    setShowDeletePropertyModal(true);
+  };
+
+  const confirmDeleteProperty = () => {
+    if (propertyToDelete) {
+      setProperties((prev) => prev.filter((prop) => prop.id !== propertyToDelete.id));
+      showSuccess("Propiedad eliminada exitosamente");
+    }
+    setShowDeletePropertyModal(false);
+    setPropertyToDelete(null);
+  };
+
+  const cancelDeleteProperty = () => {
+    setShowDeletePropertyModal(false);
+    setPropertyToDelete(null);
   };
 
   // Drag helpers
@@ -473,17 +489,32 @@ const ProjectBoard = ({ projectName, onBack }) => {
             />
           </div>
           <div className="flex justify-end gap-2">
-            <Button variant="outline" type="button" onClick={() => setShowAddPropertyModal(false)}>
+            <Button variant="danger" type="button" className="h-12 flex items-center gap-2" onClick={() => setShowAddPropertyModal(false)}>
               Cancelar
             </Button>
-            <Button variant="primary" type="submit">
+            <Button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white h-12 flex items-center gap-2">
               {editingPropertyId ? "Actualizar" : "Agregar"}
             </Button>
           </div>
         </form>
       </Modal>
+
+      {/* Modal de confirmación de eliminación */}
+      <Modal isOpen={showDeletePropertyModal} onClose={cancelDeleteProperty} title="Confirmar eliminación" size="sm">
+        <div className="text-center py-6">
+          <p className="text-lg font-semibold text-red-600">¿Estás seguro de que quieres eliminar esta propiedad?</p>
+          <p className="text-sm text-gray-600">Esta acción no se puede deshacer.</p>
+        </div>
+        <div className="flex justify-end gap-2">
+          <Button variant="outline" size="sm" onClick={cancelDeleteProperty}>
+            Cancelar
+          </Button>
+          <Button variant="danger" size="sm" onClick={confirmDeleteProperty}>
+            Eliminar
+          </Button>
+        </div>
+      </Modal>
+      <ToastContainer toasts={toasts} onRemoveToast={removeToast} />
     </div>
   );
-};
-
-export default ProjectBoard; 
+}; 

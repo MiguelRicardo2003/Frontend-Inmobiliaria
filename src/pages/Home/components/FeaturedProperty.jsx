@@ -1,7 +1,7 @@
-import Feature from "../../../shared/FeatureOfPropieties";
+import Feature from "../../../shared/components/featureOfPropieties";
 import Button from "../../../components/ui/Button";
 import { SquaresSubtract, Bath, Bed, ArrowRight } from 'lucide-react'
-import Title from "../../../shared/TitlePropieties";
+import Title from "../../../shared/components/TitlePropieties";
 import { Link } from "react-router-dom";
 import Card from '../../../components/ui/Card';
 

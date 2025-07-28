@@ -27,21 +27,21 @@ const Modal = ({ isOpen, onClose, title, children, size = 'md' }) => {
     return (
         <div className="fixed inset-0 z-50 overflow-y-auto bg-black bg-opacity-60 flex items-center justify-center px-4 animate-fadeIn">
             <div
-                className={`w-full ${sizeClasses[size]} bg-white border border-secondary-200 rounded-lg shadow-xl overflow-hidden transform transition-all duration-300 scale-95 animate-zoomIn`}
+                className={`w-full ${sizeClasses[size]} bg-white dark:bg-gray-800 border border-secondary-200 dark:border-gray-700 rounded-lg shadow-xl overflow-hidden transform transition-all duration-300 scale-95 animate-zoomIn`}
             >
-                <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-secondary-600">
-                    <h2 className="text-lg font-semibold text-gray-800">{title}</h2>
+                <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
+                    <h2 className="text-lg font-semibold text-gray-800 dark:text-white">{title}</h2>
                     <Button
                         variant="ghost"
                         size="sm"
                         onClick={onClose}
                         icon={X}
                         classNameIcon={"justify-center"}
-                        className=" hover:text-gray-600"
+                        className="hover:text-gray-600 dark:hover:text-gray-400"
                     >
                     </Button>
                 </div>
-                <div className="p-6 overflow-y-auto max-h-[80vh]">
+                <div className="p-6 overflow-y-auto max-h-[80vh] bg-white dark:bg-gray-800">
                     {children}
                 </div>
             </div>

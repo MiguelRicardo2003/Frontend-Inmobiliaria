@@ -116,7 +116,7 @@ const ImageUpload = ({
   return (
     <div className="space-y-4">
       {/* Upload Button */}
-      <div className="border-2 border-dashed border-secondary-300 dark:border-secondary-600 rounded-lg p-6 text-center">
+      <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6 text-center">
         <input
           ref={fileInputRef}
           type="file"
@@ -136,7 +136,7 @@ const ImageUpload = ({
         >
           {isUploading ? 'Subiendo...' : `Seleccionar ${multiple ? 'imágenes' : 'imagen'}`}
         </Button>
-        <p className="text-sm text-secondary-500 dark:text-secondary-400 mt-2">
+        <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
           {multiple ? `Máximo ${maxFiles} imágenes` : 'Una imagen por vez'}
         </p>
       </div>
@@ -165,9 +165,9 @@ const ImageUpload = ({
       {images.length > 0 && (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {images.map((image, index) => (
-            <div key={index} className="relative border border-secondary-200 dark:border-secondary-600 rounded-lg overflow-hidden">
+            <div key={index} className="relative border border-gray-200 dark:border-gray-600 rounded-lg overflow-hidden">
               {/* Image */}
-              <div className="aspect-square bg-secondary-100 dark:bg-secondary-800 relative">
+              <div className="aspect-square bg-gray-100 dark:bg-gray-800 relative">
                 {image.url ? (
                   <img
                     src={image.url}
@@ -176,7 +176,7 @@ const ImageUpload = ({
                   />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center">
-                    <ImageIcon className="w-8 h-8 text-secondary-400" />
+                    <ImageIcon className="w-8 h-8 text-gray-400" />
                   </div>
                 )}
                 {/* Principal Badge */}
@@ -201,7 +201,7 @@ const ImageUpload = ({
                   value={image.descripcion}
                   onChange={(e) => updateImageDescription(index, e.target.value)}
                   placeholder="Descripción de la imagen"
-                  className="w-full px-2 py-1 text-sm border border-secondary-300 dark:border-secondary-600 rounded focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white dark:bg-secondary-800 text-secondary-900 dark:text-white"
+                  className="w-full px-2 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
                 />
                 <div className="flex gap-2">
                   <Button

@@ -4,13 +4,13 @@ import Card from '../../../../../components/ui/Card';
 
 const ChartControls = ({ chartType, setChartType }) => (
   <div className="flex flex-wrap gap-2 mb-4">
-    <button onClick={() => setChartType('line')} className={`px-4 py-2 text-sm rounded-lg font-semibold ${chartType === 'line' ? 'bg-blue-600 text-white' : 'bg-gray-200 dark:bg-gray-700 dark:text-gray-300'}`}>
+    <button onClick={() => setChartType('line')} className={`px-4 py-2 text-sm rounded-lg font-semibold transition-colors ${chartType === 'line' ? 'bg-blue-500 text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'}`}>
       Líneas
     </button>
-    <button onClick={() => setChartType('bar')} className={`px-4 py-2 text-sm rounded-lg font-semibold ${chartType === 'bar' ? 'bg-blue-600 text-white' : 'bg-gray-200 dark:bg-gray-700 dark:text-gray-300'}`}>
+    <button onClick={() => setChartType('bar')} className={`px-4 py-2 text-sm rounded-lg font-semibold transition-colors ${chartType === 'bar' ? 'bg-blue-500 text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'}`}>
       Barras
     </button>
-    <button onClick={() => setChartType('pie')} className={`px-4 py-2 text-sm rounded-lg font-semibold ${chartType === 'pie' ? 'bg-blue-600 text-white' : 'bg-gray-200 dark:bg-gray-700 dark:text-gray-300'}`}>
+    <button onClick={() => setChartType('pie')} className={`px-4 py-2 text-sm rounded-lg font-semibold transition-colors ${chartType === 'pie' ? 'bg-blue-500 text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'}`}>
       Pastel
     </button>
   </div>
@@ -73,7 +73,7 @@ const DynamicChart = ({ salesData, propertyTypeData, colors }) => {
   };
 
   return (
-    <Card className="bg-white dark:bg-gray-800 p-4 sm:p-6 rounded-xl shadow-md border border-blue-500">
+    <Card className="bg-white dark:bg-gray-800 p-4 sm:p-6 rounded-xl shadow-md ">
       <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-4">Rendimiento de Ventas y Rentas</h3>
       <ChartControls chartType={chartType} setChartType={setChartType} />
       <div className="w-full h-96">

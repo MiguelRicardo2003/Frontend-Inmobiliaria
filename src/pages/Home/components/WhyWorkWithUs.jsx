@@ -1,4 +1,4 @@
-import features from "../../../shared/data";
+import features from "../../../shared/utils/data";
 import Card from '../../../components/ui/Card';
 
 const WhyWorkWithUs = () => {

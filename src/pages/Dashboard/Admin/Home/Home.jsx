@@ -1,11 +1,11 @@
 import React from "react";
 import { BarChart2, Users, Home, Building2, Wallet, ArrowUp, ArrowDown, DollarSign,Key, } from "lucide-react";
-import StatCard from "../../../../components/ui/Admin/StatCard";
-import Button from "../../../../components/ui/Admin/ButtonAdmin";
+import StatCard from "../../../../components/ui/StatCard";
+import Button from "../../../../components/ui/Button";
 import ActivityChart from "./components/ActivityChart";
 import RecentActivity from "./components/RecentActivity";
 import TasksList from "./components/TasksList";
-import { Card, CardContent, CardHeader, } from "../../../../components/ui/Admin/CardAdmin";
+import { Card, CardContent, CardHeader, } from "../../../../components/ui/Card";
 
 const Dashboard = () => {
   // Datos de ejemplo para el dashboard
@@ -52,8 +52,8 @@ const Dashboard = () => {
           </p>
         </div>
         <div className="space-x-2 sm:gap-2 flex">
-          <Button variant="outline">Exportar Datos</Button>
-          <Button>Generar Informe</Button>
+          <Button variant="outline" className="h-12 flex items-center gap-2">Exportar Datos</Button>
+          <Button className="bg-blue-500 hover:bg-blue-600 text-white h-12 flex items-center gap-2">Generar Informe</Button>
         </div>
       </div>
 
@@ -87,11 +87,11 @@ const Dashboard = () => {
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         <div className="lg:col-span-2">
           <Card className="h-full">
-            <CardHeader className="flex justify-between items-center">
+            <CardHeader className="flex justify-between items-center bg-white dark:bg-gray-800">
               <h3 className="font-medium text-gray-900 dark:text-gray-100">
                 Rendimiento de Ventas
               </h3>
-              <select className="text-sm bg-transparent border-gray-200 dark:border-gray-700 rounded">
+              <select className="text-sm bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded px-2 py-1 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
                 <option>Este Año</option>
                 <option>Último Año</option>
                 <option>Últimos 2 Años</option>
@@ -107,7 +107,7 @@ const Dashboard = () => {
 
         <div>
           <Card className="h-full">
-            <CardHeader>
+            <CardHeader className="flex justify-between items-center bg-white dark:bg-gray-800">
               <h3 className="font-medium text-gray-900 dark:text-gray-100">
                 Estado de Propiedades
               </h3>

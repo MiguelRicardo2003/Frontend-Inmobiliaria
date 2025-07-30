@@ -1,5 +1,5 @@
 import React from "react";
-import Button from "../../../../../components/ui/Admin/ButtonAdmin";
+import Button from "../../../../../components/ui/Button";
 
 const CreateUserModal = ({ onClose, onSubmit }) => {
   return (
@@ -12,34 +12,34 @@ const CreateUserModal = ({ onClose, onSubmit }) => {
         <input
           type="text"
           placeholder="Nombre"
-          className="w-full px-4 py-2 rounded-md border border-gray-300 text-sm text-gray-700 dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          className="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-sm text-gray-700 dark:text-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder-gray-400 dark:placeholder-gray-400"
         />
         <input
           type="text"
           placeholder="Apellido"
-          className="w-full px-4 py-2 rounded-md border border-gray-300 text-sm text-gray-700 dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          className="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-sm text-gray-700 dark:text-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder-gray-400 dark:placeholder-gray-400"
         />
         <input
           type="email"
           placeholder="Correo"
-          className="w-full px-4 py-2 rounded-md border border-gray-300 text-sm text-gray-700 dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          className="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-sm text-gray-700 dark:text-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder-gray-400 dark:placeholder-gray-400"
         />
         <input
           type="tel"
           placeholder="Teléfono"
-          className="w-full px-4 py-2 rounded-md border border-gray-300 text-sm text-gray-700 dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          className="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-sm text-gray-700 dark:text-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder-gray-400 dark:placeholder-gray-400"
         />
         <input
           type="text"
           placeholder="Dirección"
-          className="w-full px-4 py-2 rounded-md border border-gray-300 text-sm text-gray-700 dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          className="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-sm text-gray-700 dark:text-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder-gray-400 dark:placeholder-gray-400"
         />
-        <select className="w-full px-4 py-2 rounded-md border border-gray-300 text-sm text-gray-700 dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+        <select className="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-sm text-gray-700 dark:text-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
           <option value="">Seleccionar Rol</option>
           <option value="Cliente">Cliente</option>
           <option value="Agente">Agente</option>
         </select>
-        <select className="w-full px-4 py-2 rounded-md border border-gray-300 text-sm text-gray-700 dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+        <select className="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-sm text-gray-700 dark:text-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
           <option value="">Seleccionar Estado</option>
           <option value="Activo">Activo</option>
           <option value="Inactivo">Inactivo</option>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, CardContent, CardHeader } from '../../../../../components/ui/Admin/CardAdmin';
+import { Card, CardContent, CardHeader } from '../../../../../components/ui/Card';
 import { Calendar, File, MessageSquare, Users } from 'lucide-react';
 
 const activities = [
@@ -44,7 +44,7 @@ const activities = [
 const RecentActivity = () => {
   return (
     <Card className="h-full">
-      <CardHeader>
+      <CardHeader className="flex justify-between items-center bg-white dark:bg-gray-800">
         <h3 className="font-medium text-gray-900 dark:text-gray-100">Actividad Reciente</h3>
       </CardHeader>
       <CardContent>

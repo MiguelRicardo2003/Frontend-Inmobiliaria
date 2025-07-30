@@ -1,11 +1,19 @@
 import React from 'react';
-import { Card, CardContent } from './CardAdmin';
+import { Card, CardContent } from './Card';
 
-const StatCard = ({ title, value, icon,trend,className = '' }) => {
+const StatCard = ({ title, value, icon, trend, className = '', variant = 'default' }) => {
+  const variantClasses = {
+    default: 'bg-blue-50 dark:bg-blue-900/30 text-blue-500 dark:text-blue-400',
+    success: 'bg-green-50 dark:bg-green-900/30 text-green-500 dark:text-green-400',
+    warning: 'bg-amber-50 dark:bg-amber-900/30 text-amber-500 dark:text-amber-400',
+    danger: 'bg-red-50 dark:bg-red-900/30 text-red-500 dark:text-red-400',
+    info: 'bg-sky-50 dark:bg-sky-900/30 text-sky-500 dark:text-sky-400',
+  };
+
   return (
-    <Card className={`${className} hover:translate-y-[-2px] transition-all`}>
+    <Card className={`${className} hover:translate-y-[-2px] transition-all duration-200`}>
       <CardContent className="flex items-start">
-        <div className="mr-4 p-2 rounded-md bg-blue-50 dark:bg-blue-900/30 text-blue-500 dark:text-blue-400">
+        <div className={`mr-4 p-2 rounded-md ${variantClasses[variant]}`}>
           {icon}
         </div>
         <div className="flex-1">
@@ -30,4 +38,4 @@ const StatCard = ({ title, value, icon,trend,className = '' }) => {
   );
 };
 
-export default StatCard;
+export default StatCard; 

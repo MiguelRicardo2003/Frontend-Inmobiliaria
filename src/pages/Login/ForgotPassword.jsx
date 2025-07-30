@@ -1,11 +1,25 @@
 import Card from "../../../src/components/ui/Card";
 import Button from "../../components/ui/Button";
-import { Toaster, toast } from "react-hot-toast";
+import { toast, Toaster } from "react-hot-toast";
 
 const ForgotPassword = () => {
+
+  const correoTest = "test@example.com";
+
+
+  const handleForgotPassword = (email) => {
+    if (email === correoTest) {
+      toast.success("Instrucciones de recuperación enviadas a tu correo.");
+    } else {
+      toast.error("Error: Correo no válido");
+    }
+  };
+
 return(
   <div className="relative h-screen w-full">
-    <Toaster position="top-left" />
+    {/* Toaster component */}
+    <Toaster position="top-right" />
+    
     {/* Fondo dividido */}
     <div className="absolute top-6 left-6 z-20">
       <img src="/img/logo_justhome.png" alt="JustHome Logo" className="h-10 w-auto" />
@@ -41,8 +55,10 @@ return(
               </div>
 
               <Button variant="primary" className="w-full  py-3 rounded-lg font-semibold transition mb-4 mt-3" 
-              onClick={(e) => {e.preventDefault(); toast.error("Error: Correo no válido")}}>
-                Enviar Instruccione
+              onClick={(e) => {e.preventDefault();
+              handleForgotPassword(document.getElementById("email").value);
+              }}>
+                Restablecer contraseña
               </Button>           
           </form>
       </Card>

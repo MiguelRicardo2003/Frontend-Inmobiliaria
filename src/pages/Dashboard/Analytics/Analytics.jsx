@@ -1,6 +1,6 @@
 import React from 'react';
 import { Users, Home, Eye, DollarSign } from 'lucide-react';
-import StatCard from '../../../components/ui/Admin/StatCard';
+import StatCard from '../../../components/ui/StatCard';
 import DynamicChart from './components/DynamicChart';
 
 // Wrapper para mantener el nombre original 'Stat'

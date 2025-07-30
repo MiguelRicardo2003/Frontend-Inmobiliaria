@@ -1,4 +1,4 @@
-import Feature from "../../../shared/FeatureOfPropieties";
+import Feature from "../../../shared/components/featureOfPropieties";
 import { MapPin, Bed, Bath, Ruler, ChevronLeft, ChevronRight, PlayCircle } from "lucide-react";
 import { Link } from "react-router-dom";
 import Card from '../../../components/ui/Card';

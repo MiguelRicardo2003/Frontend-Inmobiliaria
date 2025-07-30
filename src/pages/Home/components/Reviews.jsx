@@ -1,7 +1,7 @@
 import React from 'react'
 import { Quote } from 'lucide-react'
 import Card from '../../../components/ui/Card';
-import { reviews } from '../../../shared/data';
+import { reviews } from '../../../shared/utils/data';
 
 const ReviewCard = ({ name, role, image, text }) => (
   <Card className="bg-[#f9f9f9] p-6 shadow-md w-96 h-72 justify-self-center">

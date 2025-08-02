@@ -371,13 +371,40 @@ export const reviews = [
 ];
 
 export const salesData = [
-  { month: 'Ene', ventas: 40, rentas: 24 },
+  { month: 'Ene',ventas: 40, rentas: 24  },
   { month: 'Feb', ventas: 30, rentas: 14 },
   { month: 'Mar', ventas: 20, rentas: 58 },
   { month: 'Abr', ventas: 27, rentas: 39 },
   { month: 'May', ventas: 18, rentas: 48 },
   { month: 'Jun', ventas: 23, rentas: 38 },
 ];
+
+export const ventasData = {
+  'Sede 1': [
+    { month: 'Ene', ventas: 40, rentas: 24 },
+    { month: 'Feb', ventas: 30, rentas: 14 },
+    { month: 'Mar', ventas: 20, rentas: 58 },
+    { month: 'Abr', ventas: 27, rentas: 39 },
+    { month: 'May', ventas: 18, rentas: 48 },
+    { month: 'Jun', ventas: 23, rentas: 38 },
+  ],
+  'Sede 2': [
+    { month: 'Ene', ventas: 35, rentas: 20 },
+    { month: 'Feb', ventas: 25, rentas: 10 },
+    { month: 'Mar', ventas: 15, rentas: 50 },
+    { month: 'Abr', ventas: 22, rentas: 35 },
+    { month: 'May', ventas: 12, rentas: 45 },
+    { month: 'Jun', ventas: 20, rentas: 30 },
+  ],
+  'Sede 3': [
+    { month: 'Ene', ventas: 50, rentas: 30 },
+    { month: 'Feb', ventas: 40, rentas: 20 },
+    { month: 'Mar', ventas: 30, rentas: 60 },
+    { month: 'Abr', ventas: 35, rentas: 45 },
+    { month: 'May', ventas: 25, rentas: 55 },
+    { month: 'Jun', ventas: 30, rentas: 40 },
+  ],
+};
 
 export const propertyTypeData = [
   { name: 'Casas', value: 400 },

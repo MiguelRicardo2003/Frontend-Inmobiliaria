@@ -8,6 +8,7 @@ const Calendar = () => {
   const [fechaSeleccionada, setFechaSeleccionada] = useState(new Date());
   const [eventos, setEventos] = useState([]);
   const [modalAbierto, setModalAbierto] = useState(false);
+  const [modalAdvertencia, setModalAdvertencia] = useState(false);
   const [eventoSeleccionado, setEventoSeleccionado] = useState(null);
   const [formulario, setFormulario] = useState({
     id: null,
@@ -30,7 +31,19 @@ const Calendar = () => {
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(eventos));
   }, [eventos]);
 
+  // Cambia la función iniciarNuevoEvento:
   const iniciarNuevoEvento = (fecha) => {
+    const hoy = new Date();
+    hoy.setHours(0, 0, 0, 0);
+    const fechaClick = new Date(fecha);
+    fechaClick.setHours(0, 0, 0, 0);
+
+    // Si es fecha pasada, mostrar advertencia
+    if (fechaClick < hoy) {
+      setModalAdvertencia(true);
+      return;
+    }
+
     const fechaISO = new Date(fecha).toISOString().slice(0, 16);
     setFormulario({
       id: Date.now(),
@@ -85,7 +98,7 @@ const Calendar = () => {
 
       <div className="flex w-full px-6 pb-6 gap-6">
         {/* CALENDARIO */}
-        <div className="w-full h-full bg-white shadow flex">
+        <div className="w-full h-full bg-white flex ">
           <CalendarView
             onChange={setFechaSeleccionada}
             value={fechaSeleccionada}
@@ -100,15 +113,26 @@ const Calendar = () => {
               date.toLocaleDateString(locale, { weekday: "short" }).slice(0, 3)
             }
             tileClassName={({ date }) => {
-              const today = new Date().toDateString();
-              const fecha = date.toDateString();
+              const today = new Date();
+              today.setHours(0, 0, 0, 0);
+              const fecha = new Date(date);
+              fecha.setHours(0, 0, 0, 0);
               let clases =
-                "flex h-36 rounded  flex-col items-center justify-center text-xl bg-slate-50 border border-gray-200 m-1 relative transition-all";
-              if (fecha === today)
+                "flex h-36 rounded flex-col items-center justify-center text-base bg-white border border-gray-200 m-1  transition-all relative";
+              // Quitar opacidad para fechas pasadas
+              if (fecha.toDateString() === new Date().toDateString())
                 clases += " bg-indigo-100 text-blue-700 font-bold";
-              if (fecha === fechaSeleccionada.toDateString())
+              if (fecha.toDateString() === fechaSeleccionada.toDateString())
                 clases += " bg-blue-600 text-white font-bold";
               return clases;
+            }}
+            tileDisabled={({ date, view }) => {
+              // Deshabilita días pasados
+              const today = new Date();
+              today.setHours(0, 0, 0, 0);
+              const fecha = new Date(date);
+              fecha.setHours(0, 0, 0, 0);
+              return view === "month" && fecha < today;
             }}
             tileContent={({ date }) => {
               const hayEvento = eventos.some(
@@ -117,10 +141,10 @@ const Calendar = () => {
               return hayEvento ? (
                 <span
                   className="event-dot absolute left-1/2 -translate-x-1/2 bottom-2 w-2 h-2 bg-blue-700 rounded-full"
+                  //style={{ bottom: '8px' }} // Puedes ajustar este valor si lo necesitas
                 ></span>
               ) : null;
             }}
-            tileDisabled={({ date, view }) => view === "month" && date.getMonth() !== fechaSeleccionada.getMonth()}
           />
         </div>
 

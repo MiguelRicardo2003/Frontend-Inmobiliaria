@@ -16,6 +16,7 @@ import Message from "../../pages/Dashboard/Messages/Message";
 import Propertie from "../../pages/Dashboard/Admin/Properties/Properties";
 import Register from "../../pages/Register/Register";
 import ForgotPassword from "../../pages/Login/ForgotPassword";
+import ProtectedRoute from "../components/ProtectedRoute"; // importa el componente
 
 const appRoutes = createBrowserRouter([
   {
@@ -58,7 +59,11 @@ const appRoutes = createBrowserRouter([
   },
   {
     path: "dashboard",
-    element: <AdminLayout />,
+    element: (
+      <ProtectedRoute requiredRole="admin">
+        <AdminLayout />
+      </ProtectedRoute>
+    ),
     children: [
       { path: "", element: <Dashboard /> },
       { path: "clients", element: <Clients /> },

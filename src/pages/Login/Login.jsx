@@ -3,6 +3,7 @@ import Button from "../../../src/components/ui/Button";
 import { Link } from "react-router-dom";
 import Card from "../../../src/components/ui/Card";
 const Login = () => {
+
   return (
     <div className="relative h-screen w-full">
       {/* Fondo dividido */}
@@ -28,7 +29,8 @@ const Login = () => {
           <div className="h-20 w-auto flex text-4xl text-center items-center justify-center font-bold mb-4 text-black">Iniciar sesión</div>
           <FormSingIn />
           {/* Botón de registro */}
-          <Button variant="primary" className="w-full  py-3 rounded-lg font-semibold transition mb-4 mt-3">Acceder</Button>
+          <Button type="submit" variant="primary" className="w-full  py-3 rounded-lg font-semibold transition mb-4 mt-3">Acceder
+          </Button>
           {/* Enlace de registro */}
           <div className="text-sm text-center text-gray-400">
             ¿No tienes cuenta?{" "}
@@ -41,4 +43,6 @@ const Login = () => {
     </div>
   )
 }
+
+
 export default Login;

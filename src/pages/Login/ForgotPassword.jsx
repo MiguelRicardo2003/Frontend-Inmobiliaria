@@ -1,6 +1,7 @@
 import Card from "../../../src/components/ui/Card";
 import Button from "../../components/ui/Button";
 import { toast, Toaster } from "react-hot-toast";
+import HomeButton from "../../components/ui/HomeButton";
 
 const ForgotPassword = () => {
 
@@ -22,7 +23,9 @@ return(
     
     {/* Fondo dividido */}
     <div className="absolute top-6 left-6 z-20">
-      <img src="/img/logo_justhome.png" alt="JustHome Logo" className="h-10 w-auto" />
+      {/* <img src="/img/logo_justhome.png" alt="JustHome Logo" className="h-10 w-auto" /> */}
+      <HomeButton/>
+
     </div>
     <div className="absolute top-0 w-full h-full flex flex-col">
       <div className="lg:h-1/2 h-full flex bg-[#1E2A3A] relative justify-center pr-96">

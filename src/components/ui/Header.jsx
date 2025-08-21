@@ -2,19 +2,21 @@ import { NavLink } from "react-router-dom";
 import { useState } from "react";
 import { Menu, X, CircleUserRound } from "lucide-react";
 import { navItems } from "../../data/navItems";
-
+import HomeButton from "./HomeButton";
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <header className="bg-[#2D3A4E] shadow sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 py-3 flex relative items-center h-16">
-        {/* Logo */}
+        {/* Logo
         <NavLink to="/">
           <div className="flex items-center gap-2 left-4">
             <h1 className="text-xl font-bold text-white">JustHome</h1>
           </div>
-        </NavLink>
+        </NavLink> */}
+
+        <HomeButton />
 
         {/* Desktop nav con íconos */}
         <nav className="hidden lg:flex gap-10 text-base font-medium mx-auto">

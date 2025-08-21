@@ -2,13 +2,16 @@ import FormSingIn from "./components/FormSingIn";
 import Button from "../../../src/components/ui/Button";
 import { Link } from "react-router-dom";
 import Card from "../../../src/components/ui/Card";
+import HomeButton from "../../components/ui/HomeButton";
 const Login = () => {
 
   return (
     <div className="relative h-screen w-full">
       {/* Fondo dividido */}
       <div className="absolute top-6 left-6 z-20">
-        <img src="/img/logo_justhome.png" alt="JustHome Logo" className="h-10 w-auto" />
+        {/* <img src="/img/logo_justhome.png" alt="JustHome Logo" className="h-10 w-auto" /> */}
+      <HomeButton />
+      
       </div>
       <div className="absolute top-0 w-full h-full flex flex-col">
         <div className="lg:h-1/2 h-full flex bg-[#1E2A3A] relative justify-center pr-96">

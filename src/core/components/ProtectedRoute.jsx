@@ -39,7 +39,7 @@ const ProtectedRoute = ({
   }
 
   // Verificar rol específico
-  if (requiredRole && !hasRole(requiredRole)) {
+  if (requiredRole && hasRole(requiredRole)) {
     return fallbackComponent || (
       <AccessDeniedMessage
         title="Acceso Denegado"

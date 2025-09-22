@@ -1,81 +1,66 @@
-import React from 'react';
-import { DivideIcon as LucideIcon } from 'lucide-react';
-import { Eye, EyeOff } from "lucide-react";
+import React from "react";
 
 const Input = ({
   label,
   error,
-  type,
-  placeholder,
   icon: Icon,
-  iconPosition = 'left',
-  className = '',
-  id,
-  onIconClick, // <-- NUEVO: se recibe la función como prop
+  iconPosition = "left",
+  onIconClick,
+  className = "",
   ...props
 }) => {
-  const inputId = id || `input-${Math.random().toString(36).substr(2, 9)}`;
+  const hasIcon = Boolean(Icon);
+  const isRight = iconPosition === "right";
 
   return (
     <div className="w-full">
       {label && (
-        <label
-          htmlFor={inputId}
-          className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
-        >
+        <label className="block mb-1 text-sm font-medium text-gray-700">
           {label}
         </label>
       )}
-      <div className="relative">
-        {Icon && iconPosition === 'left' && (
-          onIconClick ? (
-            <div
-              onClick={onIconClick}
-              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 w-4 h-4 cursor-pointer"
-            >
-              <Icon />
-            </div>
-          ) : (
-            <Icon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 w-4 h-4" />
-          )
-        )}
 
+      <div className="relative">
         <input
-          type={type}
-          id={inputId}
-          placeholder={placeholder}
-          className={`
-            w-full px-3 py-2 border-gray-300 dark:border-gray-600 rounded-lg 
-            focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent 
-            transition-colors dark:bg-gray-700 text-gray-900 dark:text-gray-100
-            placeholder-gray-400 dark:placeholder-gray-500
-            ${Icon && iconPosition === 'left' ? 'pl-10' : ''}
-            ${Icon && iconPosition === 'right' ? 'pr-10' : ''}
-            ${error ? 'border-red-500 focus:ring-red-500 dark:border-red-400' : ''}
-            ${className}
-          `}
+          className={[
+            "block w-full rounded-md",
+            "border-2 border-gray-300 focus:border-gray-500 focus:ring-2 focus:ring-gray-200",
+            "placeholder:text-gray-400",
+            "px-4 py-3", // más padding horizontal y vertical
+            hasIcon && (isRight ? "pr-12" : "pl-12"), // espacio para el ícono
+            className,
+          ].join(" ")}
           {...props}
         />
 
-        {Icon && iconPosition === 'right' && (
-          onIconClick ? (
-            <div
-              onClick={onIconClick}
-              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 w-4 h-4 cursor-pointer"
-            >
-              <Icon />
-            </div>
-          ) : (
-            <Icon className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 w-4 h-4" />
-          )
+        {hasIcon && (
+          <div
+            className={[
+              "absolute inset-y-0 flex items-center", // centra verticalmente
+              isRight ? "right-3" : "left-3",
+            ].join(" ")}
+          >
+            {onIconClick ? (
+              <button
+                type="button"
+                onClick={onIconClick}
+                className="p-1 rounded hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-gray-300"
+                aria-label="toggle-visibility"
+              >
+                <Icon size={20} className="text-gray-500" />
+              </button>
+            ) : (
+              <Icon size={20} className="text-gray-500 pointer-events-none" />
+            )}
+          </div>
         )}
       </div>
+
       {error && (
-        <p className="mt-1 text-sm text-red-600 dark:text-red-400">{error}</p>
+        <p className="mt-1 text-xs text-red-500">{error}</p>
       )}
     </div>
   );
 };
-
 
 export default Input;

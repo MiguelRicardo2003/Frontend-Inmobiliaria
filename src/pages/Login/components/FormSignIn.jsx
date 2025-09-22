@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import Button from "../../../components/ui/Button";
 
-const FormSingIn = () => {
+const FormSignIn = () => {
   const [showPassword, setShowPassword] = useState(false);
   const { register, handleSubmit, formState: { errors } } = useForm();
 

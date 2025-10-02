@@ -1,0 +1,1 @@
+<!-- aqui va la documentacion d ela estructura del frontend -->

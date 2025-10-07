@@ -3,7 +3,7 @@ import Input from '../../../../../components/ui/Input';
 import Select from '../../../../../components/ui/Select';
 import ImageUpload from '../../../../../components/ui/ImageUpload';
 import Button from '../../../../../components/ui/Button';
-import useToast from '../../../../../services/Toast/useToast';
+import toast from 'react-hot-toast';
 import { 
   typeOptions, 
   operationOptions, 
@@ -24,14 +24,13 @@ const PropertyForm = ({
   isEditing = false,
   isLoading = false
 }) => {
-  const { showError } = useToast();
   
   const handleSubmit = (e) => {
     e.preventDefault();
     
     // Basic validation
     if (!formData.titulo?.trim() || !formData.precio || !formData.direccion?.trim()) {
-      showError("Por favor completa todos los campos requeridos");
+      toast.error("Por favor completa todos los campos requeridos");
       return;
     }
     

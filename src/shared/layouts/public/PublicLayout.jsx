@@ -1,9 +1,9 @@
 import { Outlet } from "react-router-dom";
-import Header from '../components/ui/Header';
-import Footer from '../components/ui/Footer';
-import WhatsAppButton from "../components/share/WhatsappButton";
+import Header from '../../../components/ui/Header';
+import Footer from '../../../components/ui/Footer';
+import WhatsAppButton from "../../components/WhatsappButton";
 
-export const PublicLayout = () => {
+const PublicLayout = () => {
 
     return (
         <div className="">
@@ -14,3 +14,5 @@ export const PublicLayout = () => {
         </div>
     )
 }
+
+export default PublicLayout;

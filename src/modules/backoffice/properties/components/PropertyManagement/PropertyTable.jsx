@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Card from "../../../../../components/ui/Card";
 import Modal from "../../../../../components/ui/Modal";
-import useToast from "../../../../../services/Toast/useToast";
+import toast from 'react-hot-toast';
 import { Eye, Pencil, Trash2, Ban } from 'lucide-react';
 
 // Mock de catálogos para tipo, estado y dueño
@@ -30,7 +30,6 @@ const duenoCatalogo = {
 export default function PropertyTable({ properties, onView, onEdit, onDelete, onDisable }) {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [propertyToDelete, setPropertyToDelete] = useState(null);
-  const { showSuccess } = useToast();
 
   const handleDeleteClick = (property) => {
     setPropertyToDelete(property);
@@ -40,7 +39,7 @@ export default function PropertyTable({ properties, onView, onEdit, onDelete, on
   const handleConfirmDelete = () => {
     if (propertyToDelete && onDelete) {
       onDelete(propertyToDelete);
-      showSuccess("Propiedad eliminada exitosamente");
+      toast.success("Propiedad eliminada exitosamente");
     }
     setDeleteModalOpen(false);
     setPropertyToDelete(null);

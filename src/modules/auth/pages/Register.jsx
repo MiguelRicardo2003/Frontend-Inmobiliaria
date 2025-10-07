@@ -1,4 +1,4 @@
-import FormSignUp from "../../../pages/Register/components/FormSignUp";
+import FormSignUp from "../components/FormSignUp";
 import HomeButton from "../../../components/ui/HomeButton";
 
 const Register = () => {

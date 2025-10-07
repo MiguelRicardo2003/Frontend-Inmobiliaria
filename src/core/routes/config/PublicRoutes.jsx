@@ -1,61 +1,67 @@
-// /**
-//  * Configuración de rutas públicas
-//  * Siguiendo principio de Responsabilidad Única (SRP)
-//  *
-//  * @description Maneja únicamente rutas accesibles sin autenticación
-//  * La ruta raíz ("/") muestra directamente LandingPage sin layout
-//  */
+/**
+ * Configuración de rutas públicas
+ * Siguiendo principio de Responsabilidad Única (SRP)
+ *
+ * @description Maneja únicamente rutas accesibles sin autenticación
+ */
 
-// import type { RouteObject } from "react-router-dom";
-// // import { Navigate } from "react-router-dom";
-// import LoginPage from "@/modules/auth/pages/auth.module";
-// import { LandingPage } from "@/modules/landing/pages/landing";
-// import RegisterPage from "@/modules/auth/pages/register.module";
-// import { CompanyProfilePage } from "@/modules/companies/pages/CompanyProfilePage";
-// import { PUBLIC_ROUTES } from "./RouteConfig";
-// import PublicLayout from "@/shared/layouts/public/PublicLayout";
-// import { EmployeeProfilePage } from "@/modules/candidates/pages/EmployeeProfilePage";
+// import { RouteObject } from "react-router-dom";
+import Home from "../../../modules/landing/pages/Home";
+import About from "../../../modules/about/About";
+import Contact from "../../../modules/contact-inmobiliaria/Contact";
+import Properties from "../../../modules/properties-inmobiliaria/Properties";
+import Service from "../../../modules/services-inmobiliaria/Service";
+import Login from "../../../modules/auth/pages/auth.module";
+import Register from "../../../modules/auth/pages/Register";
+import ForgotPassword from "../../../modules/auth/components/ForgotPassword";
+import PublicLayout from "../../../shared/layouts/public/PublicLayout";
+import { PUBLIC_ROUTES } from "./RouteConfig";
 
-// /**
-//  * Rutas públicas del sistema
-//  * - Ruta raíz ("/") -> LandingPage
-//  * - Ruta de autenticación ("/auth") -> LoginPage
-//  * - Ruta de registro ("/register") -> RegisterPage
-//  * - Ruta de perfil de empresa ("/company-profile") -> CompanyProfilePage
-//  * - Ruta de perfil de empleado ("/employee-profile") -> EmployeeProfilePage
-//  */
-// export const publicRoutes: RouteObject[] = [
-//     // Ruta de landing
-//     {
-//         path: PUBLIC_ROUTES.ROOT,
-//         element: <PublicLayout />,
-//         children: [
-//             {
-//                 index: true,
-//                 element: <LandingPage />,
-//             },
-//             {
-//                 path: PUBLIC_ROUTES.COMPANIES,
-//                 element: <CompanyProfilePage />,
-//             },
-//             {
-//                 path: PUBLIC_ROUTES.COMPANY_PROFILE,
-//                 element: <CompanyProfilePage />,
-//             },
-//             {
-//                 path: PUBLIC_ROUTES.EMPLOYEES,
-//                 element: <EmployeeProfilePage />,
-//             },
-//         ],
-//     },
-//     // Ruta de autenticación
-//     {
-//         path: PUBLIC_ROUTES.AUTH,
-//         element: <LoginPage />,
-//     },
-//     // Ruta de registro
-//     {
-//         path: PUBLIC_ROUTES.REGISTER,
-//         element: <RegisterPage />,
-//     },
-// ];
+/**
+ * Rutas públicas del sistema
+ * - Ruta raíz ("/") -> Home con PublicLayout
+ * - Rutas de autenticación sin layout
+ * - Todas las rutas públicas usan PublicLayout
+ */
+export const publicRoutes = [
+  // Rutas con layout público
+  {
+    path: PUBLIC_ROUTES.ROOT,
+    element: <PublicLayout />,
+    children: [
+      {
+        index: true,
+        element: <Home />,
+      },
+      {
+        path: "about",
+        element: <About />,
+      },
+      {
+        path: "contact",
+        element: <Contact />,
+      },
+      {
+        path: "properties",
+        element: <Properties />,
+      },
+      {
+        path: "services",
+        element: <Service />,
+      },
+    ],
+  },
+  // Rutas de autenticación sin layout
+  {
+    path: "login",
+    element: <Login />,
+  },
+  {
+    path: "register",
+    element: <Register />,
+  },
+  {
+    path: "forgotPassword",
+    element: <ForgotPassword />,
+  },
+];

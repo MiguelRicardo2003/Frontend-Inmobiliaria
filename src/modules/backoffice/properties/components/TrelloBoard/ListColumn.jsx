@@ -6,7 +6,7 @@ import { Plus, Trash2 } from "lucide-react";
 import { useDroppable } from "@dnd-kit/core";
 import { SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import SortablePropertyCard from "./SortablePropertyCard";
-import useToast from "../../../../../services/Toast/useToast";
+import toast from 'react-hot-toast';
 
 const ListColumn = ({ 
   id, 
@@ -24,7 +24,6 @@ const ListColumn = ({
   const [propertyToDelete, setPropertyToDelete] = useState(null);
   const [disableModalOpen, setDisableModalOpen] = useState(false);
   const [propertyToDisable, setPropertyToDisable] = useState(null);
-  const { showSuccess } = useToast();
 
   const handleDeleteClick = (property) => {
     setPropertyToDelete(property);

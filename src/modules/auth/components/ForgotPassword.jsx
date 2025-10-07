@@ -29,7 +29,7 @@ const ForgotPassword = () => {
 
       <div className="relative z-10 h-full w-full flex items-center justify-center lg:justify-end lg:px-40">
         <Card className="bg-white h-auto w-96 md:w-[450px] p-8 rounded-xl shadow-md">
-          <form>
+          <form onSubmit={handleSubmit(onSubmit)}>
           <h2 className="text-2xl font-bold mb-6 text-center">Recuperar Contraseña</h2>
           <p className="text-gray-600 mb-4 text-center">
             Ingresa tu correo electrónico para recibir instrucciones de recuperación.
@@ -51,7 +51,6 @@ const ForgotPassword = () => {
               type="submit"
               variant="primary"
               className="w-full py-3 rounded-lg font-semibold transition mb-4 mt-3"
-              onClick={handleSubmit(onSubmit)}
             >
               Restablecer contraseña
             </Button>

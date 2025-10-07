@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Input from '../../../../../components/ui/Input';
 import Select from '../../../../../components/ui/Select';
 import Button from '../../../../../components/ui/Button';
-import useToast from '../../../../../services/Toast/useToast';
+import toast from 'react-hot-toast';
 
 const ProjectForm = ({ onSubmit, onCancel, initialData = null, isEditing = false }) => {
   const [formData, setFormData] = useState(initialData || {
@@ -13,14 +13,13 @@ const ProjectForm = ({ onSubmit, onCancel, initialData = null, isEditing = false
     estado: 'activo'
   });
   const [isLoading, setIsLoading] = useState(false);
-  const { showError } = useToast();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     
     // Validation
     if (!formData.nombre?.trim() || !formData.ciudad?.trim() || !formData.direccion?.trim() || !formData.responsable?.trim()) {
-      showError("Por favor completa todos los campos requeridos");
+      toast.error("Por favor completa todos los campos requeridos");
       return;
     }
     

@@ -1,4 +1,5 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
+import propertyService from '../../../../core/services/propertyService.js';
 
 // Initial property form structure
 const initialProperty = {
@@ -35,6 +36,8 @@ const initialProperty = {
 
 export const useProperties = () => {
   const [properties, setProperties] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const [propertyForm, setPropertyForm] = useState(initialProperty);
   const [editProperty, setEditProperty] = useState(null);
   const [showPropertyModal, setShowPropertyModal] = useState(false);
@@ -42,6 +45,25 @@ export const useProperties = () => {
   const [propertyToView, setPropertyToView] = useState(null);
   const [showDisableModal, setShowDisableModal] = useState(false);
   const [propertyToDisable, setPropertyToDisable] = useState(null);
+
+  // Cargar propiedades al montar el componente
+  useEffect(() => {
+    loadProperties();
+  }, []);
+
+  const loadProperties = useCallback(async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const data = await propertyService.getAllTrelloProperties();
+      setProperties(data.data || data);
+    } catch (err) {
+      setError(err.message);
+      console.error('Error al cargar propiedades:', err);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
   const resetPropertyForm = useCallback(() => {
     setPropertyForm(initialProperty);
@@ -150,9 +172,48 @@ export const useProperties = () => {
     setPropertyForm(prev => ({ ...prev, imagenes: images }));
   }, []);
 
+  const saveProperty = useCallback(async (propertyData) => {
+    try {
+      setLoading(true);
+      let savedProperty;
+      
+      if (editProperty) {
+        savedProperty = await propertyService.updateTrelloProperty(editProperty.id, propertyData);
+        setProperties(prev => prev.map(p => p.id === editProperty.id ? savedProperty : p));
+      } else {
+        savedProperty = await propertyService.createTrelloProperty(propertyData);
+        setProperties(prev => [...prev, savedProperty]);
+      }
+      
+      closePropertyModal();
+      return savedProperty;
+    } catch (err) {
+      setError(err.message);
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  }, [editProperty, closePropertyModal]);
+
+  const deleteProperty = useCallback(async (propertyId) => {
+    try {
+      setLoading(true);
+      await propertyService.deleteTrelloProperty(propertyId);
+      setProperties(prev => prev.filter(p => p.id !== propertyId));
+      closeDisableModal();
+    } catch (err) {
+      setError(err.message);
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  }, [closeDisableModal]);
+
   return {
     // State
     properties,
+    loading,
+    error,
     propertyForm,
     editProperty,
     showPropertyModal,
@@ -162,6 +223,9 @@ export const useProperties = () => {
     propertyToDisable,
     
     // Actions
+    loadProperties,
+    saveProperty,
+    deleteProperty,
     setProperties,
     resetPropertyForm,
     openPropertyModal,

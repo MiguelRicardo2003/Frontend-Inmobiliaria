@@ -1,6 +1,7 @@
 import React, { createContext, useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import { jwtDecode } from 'jwt-decode';
+import apiClient from '../../services/apiService.js';
 
 export const AuthContext = createContext();
 
@@ -13,7 +14,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const checkAuth = () => {
       try {
-        const token = Cookies.get('accessToken');
+        const token = localStorage.getItem('accessToken');
         if (token) {
           const decoded = jwtDecode(token);
           const currentTime = Date.now() / 1000;
@@ -40,45 +41,35 @@ export const AuthProvider = ({ children }) => {
   const login = async (credentials) => {
     try {
       setIsLoading(true);
-      // Aquí iría la llamada a la API de login
-      // Por ahora simulamos un login exitoso
-      const mockUser = {
-        id: 1,
-        email: credentials.email,
-        name: 'Usuario Demo',
-        role: 'admin',
-        roles: ['admin'],
-        areas: ['dashboard'],
-        area_modulos: {
-          dashboard: { activo: true, submodulos: ['home', 'analytics'] },
-          properties: { activo: true, submodulos: ['list', 'create', 'edit'] },
-          users: { activo: true, submodulos: ['list', 'create', 'edit'] }
-        }
-      };
       
-      const mockToken = 'mock-jwt-token';
-      
-      // Guardar en cookies
-      Cookies.set('accessToken', mockToken, { 
-        expires: 7, 
-        secure: true, 
-        sameSite: 'strict' 
+      // Llamada real a la API
+      const response = await apiClient.post('/auth/login', {
+        correo: credentials.correo,
+        contrasenia: credentials.contrasenia
       });
       
-      setUser(mockUser);
+      const { accessToken, usuario } = response.data;
+      
+      // Guardar en localStorage
+      localStorage.setItem('accessToken', accessToken);
+      localStorage.setItem('user', JSON.stringify(usuario));
+      
+      setUser(usuario);
       setIsAuthenticated(true);
       
-      return { success: true, user: mockUser };
+      return { success: true, user: usuario };
     } catch (error) {
       console.error('Error en login:', error);
-      return { success: false, error: error.message };
+      const errorMessage = error.response?.data?.message || 'Error al iniciar sesión';
+      return { success: false, error: errorMessage };
     } finally {
       setIsLoading(false);
     }
   };
 
   const logout = () => {
-    Cookies.remove('accessToken');
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('user');
     setUser(null);
     setIsAuthenticated(false);
     // La navegación se manejará en los componentes que usen el hook

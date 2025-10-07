@@ -1,13 +1,17 @@
-import axios from 'axios';
-
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000/api';
+import apiClient from './apiService.js';
 
 const authService = {
   // Login
   async login(credentials) {
     try {
-      const response = await axios.post(`${API_BASE_URL}/auth/login`, credentials);
-      return response.data;
+      const response = await apiClient.post('/auth/login', credentials);
+      const { accessToken, usuario } = response.data;
+      
+      // Guardar token y usuario
+      localStorage.setItem('accessToken', accessToken);
+      localStorage.setItem('user', JSON.stringify(usuario));
+      
+      return { success: true, data: { accessToken, usuario } };
     } catch (error) {
       throw new Error(error.response?.data?.message || 'Error al iniciar sesión');
     }
@@ -16,45 +20,17 @@ const authService = {
   // Register
   async register(userData) {
     try {
-      const response = await axios.post(`${API_BASE_URL}/auth/register`, userData);
-      return response.data;
+      const response = await apiClient.post('/auth/register', userData);
+      return { success: true, data: response.data };
     } catch (error) {
       throw new Error(error.response?.data?.message || 'Error al registrar usuario');
     }
   },
 
   // Logout
-  async logout() {
-    try {
-      // Limpiar tokens del localStorage
-      localStorage.removeItem('token');
-      localStorage.removeItem('refreshToken');
-      localStorage.removeItem('user');
-    } catch (error) {
-      console.error('Error al cerrar sesión:', error);
-    }
-  },
-
-  // Refresh token
-  async refreshToken() {
-    try {
-      const refreshToken = localStorage.getItem('refreshToken');
-      if (!refreshToken) {
-        throw new Error('No hay refresh token disponible');
-      }
-
-      const response = await axios.post(`${API_BASE_URL}/auth/refresh`, {
-        refreshToken
-      });
-      
-      const { token, refreshToken: newRefreshToken } = response.data;
-      localStorage.setItem('token', token);
-      localStorage.setItem('refreshToken', newRefreshToken);
-      
-      return token;
-    } catch (error) {
-      throw new Error('Error al renovar token');
-    }
+  logout() {
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('user');
   },
 
   // Get current user
@@ -70,7 +46,7 @@ const authService = {
 
   // Check if user is authenticated
   isAuthenticated() {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('accessToken');
     return !!token;
   }
 };

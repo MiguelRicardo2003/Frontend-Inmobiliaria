@@ -1,4 +1,5 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
+import projectService from '../../../../core/services/projectService.js';
 
 // Initial project data
 const initialSedes = [
@@ -78,10 +79,32 @@ const initialNewProject = {
 };
 
 export const useProjects = () => {
-  const [sedes, setSedes] = useState(initialSedes);
+  const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const [selectedProjectId, setSelectedProjectId] = useState(1);
   const [showAddProject, setShowAddProject] = useState(false);
   const [newProject, setNewProject] = useState(initialNewProject);
+  const [editProject, setEditProject] = useState(null);
+
+  // Cargar proyectos al montar el componente
+  useEffect(() => {
+    loadProjects();
+  }, []);
+
+  const loadProjects = useCallback(async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const data = await projectService.getAllProjects();
+      setProjects(data.data || data);
+    } catch (err) {
+      setError(err.message);
+      console.error('Error al cargar proyectos:', err);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
   const selectProject = useCallback((projectId) => {
     setSelectedProjectId(projectId);
@@ -101,47 +124,75 @@ export const useProjects = () => {
     setNewProject(prev => ({ ...prev, [field]: value }));
   }, []);
 
+  const saveProject = useCallback(async (projectData) => {
+    try {
+      setLoading(true);
+      let savedProject;
+      
+      if (editProject) {
+        savedProject = await projectService.updateProject(editProject.id, projectData);
+        setProjects(prev => prev.map(p => p.id === editProject.id ? savedProject : p));
+      } else {
+        savedProject = await projectService.createProject(projectData);
+        setProjects(prev => [...prev, savedProject]);
+      }
+      
+      closeAddProjectModal();
+      return savedProject;
+    } catch (err) {
+      setError(err.message);
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  }, [editProject, closeAddProjectModal]);
+
   const addProject = useCallback((projectData) => {
     const newProjectWithId = {
       ...projectData,
       id: Date.now(), // Simple ID generation for demo
       propiedades: [],
     };
-    setSedes(prev => [...prev, newProjectWithId]);
+    setProjects(prev => [...prev, newProjectWithId]);
     closeAddProjectModal();
   }, [closeAddProjectModal]);
 
   const getSelectedProject = useCallback(() => {
-    return sedes.find(sede => sede.id === selectedProjectId);
-  }, [sedes, selectedProjectId]);
+    return projects.find(project => project.id === selectedProjectId);
+  }, [projects, selectedProjectId]);
 
   const getProjectStatistics = useCallback((project) => {
     if (!project) return { total: 0, disponibles: 0, arrendadas: 0, vendidas: 0 };
     
-    const total = project.propiedades.length;
-    const disponibles = project.propiedades.filter(p => p.estado === "disponible").length;
-    const arrendadas = project.propiedades.filter(p => p.estado === "arrendada").length;
-    const vendidas = project.propiedades.filter(p => p.estado === "vendida").length;
+    const total = project.propiedades?.length || 0;
+    const disponibles = project.propiedades?.filter(p => p.estado === "disponible").length || 0;
+    const arrendadas = project.propiedades?.filter(p => p.estado === "arrendada").length || 0;
+    const vendidas = project.propiedades?.filter(p => p.estado === "vendida").length || 0;
     
     return { total, disponibles, arrendadas, vendidas };
   }, []);
 
   const updateProjectProperties = useCallback((projectId, properties) => {
-    setSedes(prev => prev.map(sede => 
-      sede.id === projectId 
-        ? { ...sede, propiedades: properties }
-        : sede
+    setProjects(prev => prev.map(project => 
+      project.id === projectId 
+        ? { ...project, propiedades: properties }
+        : project
     ));
   }, []);
 
   return {
     // State
-    sedes,
+    projects,
+    loading,
+    error,
     selectedProjectId,
     showAddProject,
     newProject,
+    editProject,
     
     // Actions
+    loadProjects,
+    saveProject,
     selectProject,
     openAddProjectModal,
     closeAddProjectModal,

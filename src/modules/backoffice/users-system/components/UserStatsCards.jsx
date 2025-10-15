@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, CardContent } from "../../../../components/ui/Card";
 
-const UserStatsCards = ({ total, clientes, agentes, activos }) => {
+const UserStatsCards = ({ total, clientes, agentes, administradores }) => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
       <Card>
@@ -24,8 +24,8 @@ const UserStatsCards = ({ total, clientes, agentes, activos }) => {
       </Card>
       <Card>
         <CardContent className="text-center">
-          <p className="text-2xl font-bold text-red-600 dark:text-red-400">{activos}</p>
-          <p className="text-sm text-gray-600 dark:text-gray-300">Activos</p>
+          <p className="text-2xl font-bold text-purple-600 dark:text-purple-400">{administradores}</p>
+          <p className="text-sm text-gray-600 dark:text-gray-300">Administradores</p>
         </CardContent>
       </Card>
     </div>

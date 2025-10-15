@@ -1,73 +1,35 @@
 import { useState, useEffect } from "react";
-import { Pencil, Trash2, Plus } from "lucide-react";
-import Button from "../../../components/ui/Button";
+import { Pencil, Trash2, Plus, RefreshCw } from "lucide-react";
+import Button from "@/components/ui/Button";
 import UserStatsCards from "./components/UserStatsCards";
-import Pagination from "../../../components/ui/Pagination";
+import Pagination from "@/components/ui/Pagination";
 import CreateUserModal from "./components/CreateUserModal";
 import UserSearchBar from "./components/UserSearchBar";
-import { useFilteredUsers } from "../../../hooks/useFilteredUsers";
+import { useFilteredUsers } from "@/hooks/useFilteredUsers";
 import EditUserModal from "./components/EditUserModal";
 import SuccessModal from "./components/SuccessModal";
 import DeleteConfirmModal from "./components/DeleteConfirmModal";
 import DeleteSuccessModal from "./components/DeleteSuccessModal";
-
-const usuarios = [
-  {
-    id: 1,
-    nombre: "Miguel Angel",
-    apellido: "Ricardo",
-    telefono: "+57 300 123 4567",
-    correo: "miguel_@elpoli.edu.com",
-    rol: "Cliente",
-    direccion: "Carepa",
-    descripcion: "Activo",
-  },
-  {
-    id: 2,
-    nombre: "Laura",
-    apellido: "Martínez",
-    telefono: "+57 310 987 6543",
-    correo: "laura@gmail.com",
-    rol: "Cliente",
-    direccion: "Apartadó",
-    descripcion: "Inactivo",
-  },
-  {
-    id: 3,
-    nombre: "Carlos",
-    apellido: "Gómez",
-    telefono: "+57 320 456 7890",
-    correo: "carlos@agente.com",
-    rol: "Agente",
-    direccion: "Turbo",
-    descripcion: "Activo",
-  },
-  {
-    id: 4,
-    nombre: "Ana",
-    apellido: "López",
-    telefono: "+57 315 234 5678",
-    correo: "ana@gmail.com",
-    rol: "Agente",
-    direccion: "Necoclí",
-    descripcion: "Activo",
-  },
-  {
-    id: 5,
-    nombre: "Jorge",
-    apellido: "Restrepo",
-    telefono: "+57 300 321 4321",
-    correo: "jorge@gmail.com",
-    rol: "Cliente",
-    direccion: "Chigorodó",
-    descripcion: "Inactivo",
-  },
-];
+import { useUsers } from "./hooks/useUsers";
+import UserTable from "./components/UserTable";
 
 const Clients = () => {
+  // Hook para manejar usuarios
+  const { 
+    users, 
+    roles, 
+    loading, 
+    error, 
+    loadUsers, 
+    createUser, 
+    updateUser, 
+    deleteUser 
+  } = useUsers();
+
+  // Estados locales
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 3;
+  const itemsPerPage = 10;
   const [searchTerm, setSearchTerm] = useState("");
   const [editUser, setEditUser] = useState(null);
 
@@ -89,45 +51,60 @@ const Clients = () => {
     }
   }, [showSuccessModal]);
 
-  const handleUpdateUser = (updatedUser) => {
-    const idx = usuarios.findIndex((u) => u.id === updatedUser.id);
-    if (idx !== -1) {
-      usuarios[idx] = { ...usuarios[idx], ...updatedUser };
+  const handleCreateUser = async (userData) => {
+    const result = await createUser(userData);
+    if (result.success) {
+      setSuccessMessage("Usuario creado correctamente");
+      setShowSuccessModal(true);
+      setIsModalOpen(false);
+    } else {
+      setSuccessMessage(`Error: ${result.error}`);
+      setShowSuccessModal(true);
     }
-    setEditUser(null);
-    setSuccessMessage("Usuario actualizado correctamente");
-    setShowSuccessModal(true);
+  };
+
+  const handleUpdateUser = async (updatedUser) => {
+    const result = await updateUser(updatedUser.id, updatedUser);
+    if (result.success) {
+      setEditUser(null);
+      setSuccessMessage("Usuario actualizado correctamente");
+      setShowSuccessModal(true);
+    } else {
+      setSuccessMessage(`Error: ${result.error}`);
+      setShowSuccessModal(true);
+    }
   };
 
   const { filteredUsers, paginatedUsers, totalPages } = useFilteredUsers(
-    usuarios,
+    users,
     searchTerm,
     currentPage,
     itemsPerPage
   );
 
-  const totalUsuarios = usuarios.length;
-  const totalClientes = usuarios.filter((u) => u.rol === "Cliente").length;
-  const totalAgentes = usuarios.filter((u) => u.rol === "Agente").length;
-  const totalActivos = usuarios.filter(
-    (u) => u.descripcion === "Activo"
-  ).length;
+  // Calcular estadísticas
+  const totalUsuarios = users.length;
+  const totalClientes = users.filter((u) => u.rol?.nombre === "Cliente").length;
+  const totalAgentes = users.filter((u) => u.rol?.nombre === "Agente").length;
+  const totalAdministradores = users.filter((u) => u.rol?.nombre === "Administrador").length;
 
   const handleDeleteClick = (user) => {
     setUserToDelete(user);
     setShowDeleteConfirm(true);
   };
 
-  const handleDelete = () => {
-    if (userToDelete) {
-      const idx = usuarios.findIndex((u) => u.id === userToDelete.id);
-      if (idx !== -1) {
-        usuarios.splice(idx, 1);
-      }
+  const handleDelete = async () => {
+    const result = await deleteUser(userToDelete.id);
+    if (result.success) {
+      setShowDeleteConfirm(false);
+      setShowDeleteSuccess(true);
+      setUserToDelete(null);
+    } else {
+      setSuccessMessage(`Error: ${result.error}`);
+      setShowSuccessModal(true);
+      setShowDeleteConfirm(false);
+      setUserToDelete(null);
     }
-    setShowDeleteConfirm(false);
-    setShowDeleteSuccess(true);
-    setUserToDelete(null);
   };
 
   const handleCancelDelete = () => {
@@ -138,6 +115,31 @@ const Clients = () => {
   const handleCloseDeleteSuccess = () => {
     setShowDeleteSuccess(false);
   };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600 dark:text-gray-400">Cargando usuarios...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-center">
+          <p className="text-red-600 mb-4">Error: {error}</p>
+          <Button onClick={loadUsers} className="flex items-center gap-2">
+            <RefreshCw size={16} />
+            Reintentar
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6 relative dark:bg-gray-900 min-h-screen text-gray-900 dark:text-gray-100">
@@ -159,8 +161,21 @@ const Clients = () => {
           </p>
         </div>
         <div className="space-x-2 sm:gap-2 flex items-center">
-          <Button variant="outline" className="bg-blue-500 hover:bg-blue-600 dark:bg-gray-800 dark:text-white h-12 flex items-center gap-2">Exportar Datos</Button>
-          <Button className="bg-blue-500 hover:bg-blue-600 text-white h-12 flex items-center gap-2">Generar Informe</Button>
+          <Button 
+            onClick={loadUsers}
+            variant="outline" 
+            className="bg-gray-500 hover:bg-gray-600 dark:bg-gray-800 dark:text-white h-12 flex items-center gap-2"
+          >
+            <RefreshCw size={16} />
+            Actualizar
+          </Button>
+          <Button 
+            onClick={() => setIsModalOpen(true)}
+            className="bg-blue-500 hover:bg-blue-600 text-white h-12 flex items-center gap-2"
+          >
+            <Plus size={16} />
+            Nuevo Usuario
+          </Button>
         </div>
       </div>
 
@@ -169,39 +184,38 @@ const Clients = () => {
         total={totalUsuarios}
         clientes={totalClientes}
         agentes={totalAgentes}
-        activos={totalActivos}
+        administradores={totalAdministradores}
       />
 
-      {/* Buscador + botón nuevo */}
-      <div>
-        <div className="flex flex-col md:flex-row gap-4 md:items-center justify-between">
-          <UserSearchBar
-            value={searchTerm}
-            onChange={(value) => {
-              setSearchTerm(value);
-              setCurrentPage(1);
-            }}
-          />
-          <Button
-            onClick={() => setIsModalOpen(true)}
-            className="bg-blue-500 hover:bg-blue-600 text-white h-12 flex items-center gap-2"
-          >
-            <Plus className="w-4 h-4" />
-            Nuevo Cliente
-          </Button>
-        </div>
+      {/* Buscador */}
+      <div className="space-y-4">
+        <UserSearchBar
+          value={searchTerm}
+          onChange={(value) => {
+            setSearchTerm(value);
+            setCurrentPage(1);
+          }}
+        />
+        {searchTerm && (
+          <div className="text-sm text-gray-600 dark:text-gray-400">
+            {filteredUsers.length === 0 ? (
+              <span>No se encontraron resultados para "{searchTerm}"</span>
+            ) : (
+              <span>
+                {filteredUsers.length} resultado{filteredUsers.length !== 1 ? 's' : ''} encontrado{filteredUsers.length !== 1 ? 's' : ''} para "{searchTerm}"
+              </span>
+            )}
+          </div>
+        )}
       </div>
 
       {/* Modal de crear usuario */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
           <CreateUserModal
+            roles={roles}
             onClose={() => setIsModalOpen(false)}
-            onSubmit={() => {
-              setIsModalOpen(false);
-              setSuccessMessage("Usuario creado correctamente");
-              setShowSuccessModal(true);
-            }}
+            onSubmit={handleCreateUser}
           />
         </div>
       )}
@@ -211,6 +225,7 @@ const Clients = () => {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
           <EditUserModal
             user={editUser}
+            roles={roles}
             onClose={() => setEditUser(null)}
             onSubmit={handleUpdateUser}
           />
@@ -219,62 +234,48 @@ const Clients = () => {
 
       {/* Tabla de usuarios */}
       <div className="overflow-x-auto p-4 rounded-lg shadow-md bg-white dark:bg-gray-800">
-        <table className="min-w-full table-auto">
-          <thead>
-            <tr className="bg-gray-300 dark:bg-gray-700 text-gray-700 dark:text-white text-sm text-left">
-              <th className="px-4 py-2">Id</th>
-              <th className="px-4 py-2">Nombre</th>
-              <th className="px-4 py-2">Apellido</th>
-              <th className="px-4 py-2">Correo</th>
-              <th className="px-4 py-2">Teléfono</th>
-              <th className="px-4 py-2">Rol</th>
-              <th className="px-4 py-2">Dirección</th>
-              <th className="px-4 py-2">Estado</th>
-              <th className="px-4 py-2 text-center">Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            {paginatedUsers.map((user) => (
-              <tr
-                key={user.id + user.correo}
-                className="border-b hover:bg-gray-50 dark:hover:bg-gray-700 text-sm text-gray-800 dark:text-gray-200"
+        {paginatedUsers.length > 0 ? (
+          <UserTable
+            users={paginatedUsers}
+            onEdit={setEditUser}
+            onDelete={handleDeleteClick}
+          />
+        ) : (
+          <div className="text-center py-12">
+            <div className="text-gray-400 dark:text-gray-500 mb-4">
+              <svg className="mx-auto h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.172 16.172a4 4 0 015.656 0M9 12h6m-6-4h6m2 5.291A7.962 7.962 0 0112 15c-2.34 0-4.29-1.009-5.824-2.709M15 6.291A7.962 7.962 0 0012 5c-2.34 0-4.29 1.009-5.824 2.709" />
+              </svg>
+            </div>
+            <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
+              {searchTerm ? 'No se encontraron usuarios' : 'No hay usuarios registrados'}
+            </h3>
+            <p className="text-gray-500 dark:text-gray-400">
+              {searchTerm 
+                ? `No se encontraron usuarios que coincidan con "${searchTerm}"`
+                : 'Comienza agregando un nuevo usuario'
+              }
+            </p>
+            {searchTerm && (
+              <button
+                onClick={() => setSearchTerm('')}
+                className="mt-4 text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
               >
-                <td className="px-4 py-2">{user.id}</td>
-                <td className="px-4 py-2">{user.nombre}</td>
-                <td className="px-4 py-2">{user.apellido}</td>
-                <td className="px-4 py-2">{user.correo}</td>
-                <td className="px-4 py-2">{user.telefono}</td>
-                <td className="px-4 py-2">{user.rol}</td>
-                <td className="px-4 py-2">{user.direccion}</td>
-                <td className="px-4 py-2">{user.descripcion}</td>
-                <td className="px-4 py-2">
-                  <div className="flex space-x-2 items-center justify-center">
-                    <button
-                      className="text-blue-500 hover:text-blue-700"
-                      onClick={() => setEditUser(user)}
-                    >
-                      <Pencil size={18} />
-                    </button>
-                    <button
-                      className="text-blue-500 hover:text-blue-700"
-                      onClick={() => handleDeleteClick(user)}
-                    >
-                      <Trash2 size={18} />
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+                Limpiar búsqueda
+              </button>
+            )}
+          </div>
+        )}
       </div>
 
       {/* Paginación */}
-      <Pagination
-        current={currentPage}
-        total={totalPages}
-        onPageChange={(page) => setCurrentPage(page)}
-      />
+      {paginatedUsers.length > 0 && totalPages > 1 && (
+        <Pagination
+          current={currentPage}
+          total={totalPages}
+          onPageChange={(page) => setCurrentPage(page)}
+        />
+      )}
 
       {/* Confirmación de eliminación */}
       {showDeleteConfirm && (

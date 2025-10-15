@@ -26,7 +26,7 @@ export const privateRoutes = [
   {
     path: "dashboard",
     element: (
-      <ProtectedRoute requiredRole="admin">
+      <ProtectedRoute requiredRole="Administrador">
         <AdminLayout />
       </ProtectedRoute>
     ),

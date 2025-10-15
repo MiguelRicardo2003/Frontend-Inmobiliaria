@@ -1,5 +1,4 @@
 import React, { createContext, useState, useEffect } from 'react';
-import Cookies from 'js-cookie';
 import { jwtDecode } from 'jwt-decode';
 import apiClient from '../../services/apiService.js';
 
@@ -78,7 +77,8 @@ export const AuthProvider = ({ children }) => {
 
   const hasRole = (role) => {
     if (!user) return false;
-    return user.roles?.includes(role) || user.role === role;
+    // Verificar tanto 'role' como 'rol' (backend usa 'rol')
+    return user.roles?.includes(role) || user.role === role || user.rol === role;
   };
 
   const hasPermission = (permission) => {

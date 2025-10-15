@@ -1,20 +1,26 @@
 import React from "react";
 
-const UserTableHeader = () => {
+const PropertyTableHeader = () => {
   return (
     <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
       <tr>
         <th scope="col" className="px-6 py-3">
-          Usuario
+          Propiedad
         </th>
         <th scope="col" className="px-6 py-3">
-          Rol
+          Tipo
         </th>
         <th scope="col" className="px-6 py-3">
-          Teléfono
+          Estado
         </th>
         <th scope="col" className="px-6 py-3">
-          Fecha de registro
+          Precio
+        </th>
+        <th scope="col" className="px-6 py-3">
+          Área
+        </th>
+        <th scope="col" className="px-6 py-3">
+          Fecha
         </th>
         <th scope="col" className="px-6 py-3">
           Acciones
@@ -24,4 +30,4 @@ const UserTableHeader = () => {
   );
 };
 
-export default UserTableHeader;
+export default PropertyTableHeader;

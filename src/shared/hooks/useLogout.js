@@ -1,18 +1,15 @@
 import { useNavigate } from 'react-router-dom';
-import { useAuthStore } from '@/core/store/auth.store';
+import useAuth from '@/core/store/auth/useAuth';
 
 export const useLogout = () => {
-	const navigate = useNavigate();
-	const { clearAuth } = useAuthStore();
+    const navigate = useNavigate();
+    const { logout } = useAuth();
 
-	const logout = () => {
-		// Limpiar el estado de autenticación
-		clearAuth();
-		// Limpiar el historial de navegación
-		window.history.pushState(null, '', '/');
-		// Redirigir al usuario a la landing
-		navigate('/', { replace: true });
-	};
+    const handleLogout = () => {
+        logout();
+        window.history.pushState(null, '', '/');
+        navigate('/', { replace: true });
+    };
 
-	return { logout };
+    return { logout: handleLogout };
 };

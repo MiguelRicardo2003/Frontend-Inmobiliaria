@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import propertyService from '../services/propertyService';
+import { uploadPropertyPhotos } from '@/lib/uploadPropertyPhotos';
 
 export const useProperties = () => {
   const [properties, setProperties] = useState([]);
@@ -49,9 +50,22 @@ export const useProperties = () => {
   // Crear propiedad
   const createProperty = async (propertyData) => {
     try {
-      const result = await propertyService.createProperty(propertyData);
+      // Separar imágenes si vienen adjuntas
+      const { images, ...rest } = propertyData || {};
+      const result = await propertyService.createProperty(rest);
       if (result.success) {
-        setProperties(prev => [...prev, result.data]);
+        const created = result.data;
+        // Si hay imágenes, subir a Supabase (simple y funcional, sin registrar en backend)
+        if (images && images.length > 0 && created?.id) {
+          try {
+            const uploads = await uploadPropertyPhotos(images, created.id);
+            console.log('Imágenes subidas a Supabase:', uploads);
+          } catch (imgErr) {
+            // No romper el flujo de creación de propiedad si falla la subida de imágenes
+            console.error('Fallo al subir/registrar imágenes:', imgErr);
+          }
+        }
+        setProperties(prev => [...prev, created]);
         return { success: true, data: result.data };
       } else {
         return { success: false, error: result.error };

@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Use Vite env var when provided, otherwise use '/api' so Vite dev server proxy can handle requests
-const API_BASE_URL = import.meta.env.VITE_API_URL || '/api';
+const API_BASE_URL = import.meta.env.VITE_API_URL || '/service';
 
 // Crear instancia de axios
 const apiClient = axios.create({

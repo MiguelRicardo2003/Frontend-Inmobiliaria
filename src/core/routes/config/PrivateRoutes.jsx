@@ -10,12 +10,11 @@
 import ProtectedRoute from "../ProtectedRoute";
 import AdminLayout from "../../../shared/layouts/AdminLayout";
 import Dashboard from "../../../modules/backoffice/dashboard/Home";
-import Clients from "../../../modules/backoffice/users-system/Clients";
-import Analytics from "../../../modules/backoffice/analityc/pages/Analytics";
-import Calendar from "../../../modules/backoffice/calendar/pages/Calendar";
+import Clients from "../../../modules/backoffice/users-system/pages/Clients";
+import Analytics from "../../../modules/backoffice/analityc-system/pages/Analytics";
+import Calendar from "../../../modules/backoffice/calendar-system/pages/Calendar";
 import Properties from "../../../modules/backoffice/properties/Properties";
 import Settings from "../../../modules/backoffice/settings/pages/Settings";
-import Message from "../../../pages/Dashboard/Messages/Message";
 import { PRIVATE_ROUTES } from "./RouteConfig";
 
 /**
@@ -54,10 +53,6 @@ export const privateRoutes = [
       {
         path: "settings",
         element: <Settings />,
-      },
-      {
-        path: "messages",
-        element: <Message />,
       },
     ],
   },

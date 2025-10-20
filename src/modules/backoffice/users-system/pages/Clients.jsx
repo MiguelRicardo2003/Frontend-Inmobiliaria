@@ -1,17 +1,17 @@
 import { useState, useEffect } from "react";
 import { Pencil, Trash2, Plus, RefreshCw } from "lucide-react";
 import Button from "@/components/ui/Button";
-import UserStatsCards from "./components/UserStatsCards";
+import UserStatsCards from "../components/UserStatsCards";
 import Pagination from "@/components/ui/Pagination";
-import CreateUserModal from "./components/CreateUserModal";
-import UserSearchBar from "./components/UserSearchBar";
+import CreateUserModal from "../components/CreateUserModal";
+import UserSearchBar from "../components/UserSearchBar";
 import { useFilteredUsers } from "@/hooks/useFilteredUsers";
-import EditUserModal from "./components/EditUserModal";
-import SuccessModal from "./components/SuccessModal";
-import DeleteConfirmModal from "./components/DeleteConfirmModal";
-import DeleteSuccessModal from "./components/DeleteSuccessModal";
-import { useUsers } from "./hooks/useUsers";
-import UserTable from "./components/UserTable";
+import EditUserModal from "../components/EditUserModal";
+import SuccessModal from "../components/SuccessModal";
+import DeleteConfirmModal from "../components/DeleteConfirmModal";
+import DeleteSuccessModal from "../components/DeleteSuccessModal";
+import { useUsers } from "../hooks/useUsers";
+import UserTable from "../components/UserTable";
 
 const Clients = () => {
   // Hook para manejar usuarios

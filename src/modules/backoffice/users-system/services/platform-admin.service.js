@@ -1,73 +1,89 @@
-// import { useApi } from "@/core/api/useApi";
-// import type {
-//     PlatformAdmin,
-//     QueryAdminsParams,
-//     PaginatedAdminsResponse,
-//     CreateAdminData,
-//     CreateAdminResponse,
-//     DeleteAdminResponse
-// } from '../types/platform-admin.types';
+import apiClient from '@/core/services/apiService';
 
-// const api = useApi();
+const userService = {
+  // Obtener todos los usuarios
+  async getUsers() {
+    try {
+      const response = await apiClient.get('/usuarios');
+      return { success: true, data: response.data };
+    } catch (error) {
+      console.error('Error obteniendo usuarios:', error);
+      return { 
+        success: false, 
+        error: error.response?.data?.message || 'Error al obtener usuarios' 
+      };
+    }
+  },
 
-// // Función helper para manejar errores de forma consistente
-// const handleError = (error: any): never => {
-//     const errorMessage = error.response?.data?.message ||
-//         error.response?.data?.error ||
-//         error.message ||
-//         "Error desconocido";
-//     throw new Error(errorMessage);
-// };
+  // Obtener usuario por ID
+  async getUserById(id) {
+    try {
+      const response = await apiClient.get(`/usuarios/${id}`);
+      return { success: true, data: response.data };
+    } catch (error) {
+      console.error('Error obteniendo usuario:', error);
+      return { 
+        success: false, 
+        error: error.response?.data?.message || 'Error al obtener usuario' 
+      };
+    }
+  },
 
-// // Función helper para construir query parameters
-// const buildQueryParams = (params: QueryAdminsParams): string => {
-//     const searchParams = new URLSearchParams();
+  // Crear usuario
+  async createUser(userData) {
+    try {
+      const response = await apiClient.post('/usuarios', userData);
+      return { success: true, data: response.data };
+    } catch (error) {
+      console.error('Error creando usuario:', error);
+      return { 
+        success: false, 
+        error: error.response?.data?.message || 'Error al crear usuario' 
+      };
+    }
+  },
 
-//     Object.entries(params).forEach(([key, value]) => {
-//         if (value !== undefined && value !== null && value !== '') {
-//             searchParams.append(key, value.toString());
-//         }
-//     });
+  // Actualizar usuario
+  async updateUser(id, userData) {
+    try {
+      const response = await apiClient.put(`/usuarios/${id}`, userData);
+      return { success: true, data: response.data };
+    } catch (error) {
+      console.error('Error actualizando usuario:', error);
+      return { 
+        success: false, 
+        error: error.response?.data?.message || 'Error al actualizar usuario' 
+      };
+    }
+  },
 
-//     return searchParams.toString();
-// };
+  // Eliminar usuario
+  async deleteUser(id) {
+    try {
+      const response = await apiClient.delete(`/usuarios/${id}`);
+      return { success: true, data: response.data };
+    } catch (error) {
+      console.error('Error eliminando usuario:', error);
+      return { 
+        success: false, 
+        error: error.response?.data?.message || error.message || 'Error al eliminar usuario' 
+      };
+    }
+  },
 
-// // Wrapper para manejar errores de forma consistente
-// const apiCall = async <T>(apiFunction: () => Promise<T>): Promise<T> => {
-//     try {
-//         return await apiFunction();
-//     } catch (error) {
-//         return handleError(error);
-//     }
-// };
+  // Obtener roles disponibles
+  async getRoles() {
+    try {
+      const response = await apiClient.get('/roles');
+      return { success: true, data: response.data };
+    } catch (error) {
+      console.error('Error obteniendo roles:', error);
+      return { 
+        success: false, 
+        error: error.response?.data?.message || 'Error al obtener roles' 
+      };
+    }
+  }
+};
 
-// // Funciones del servicio
-// export const createAdmin = (adminData: CreateAdminData): Promise<PlatformAdmin> =>
-//     apiCall(async () => {
-//         const response = await api.post<CreateAdminResponse>("/admin/register-admin", adminData);
-//         return response.admin;
-//     });
-
-// export const getAdmins = (params: QueryAdminsParams = {}): Promise<PaginatedAdminsResponse> =>
-//     apiCall(async () => {
-//         const queryString = buildQueryParams(params);
-//         const url = queryString ? `/admin/admins?${queryString}` : "/admin/admins";
-//         return await api.get<PaginatedAdminsResponse>(url);
-//     });
-
-// export const getAdminById = (id: number): Promise<PlatformAdmin> =>
-//     apiCall(async () => {
-//         return await api.get<PlatformAdmin>(`/admin/users/${id}`);
-//     });
-
-// export const deleteAdmin = (id: number): Promise<DeleteAdminResponse> =>
-//     apiCall(async () => {
-//         return await api.deleteData<DeleteAdminResponse>(`/admin/users/${id}`);
-//     });
-
-// export const platformAdminService = {
-//     createAdmin,
-//     getAdmins,
-//     getAdminById,
-//     deleteAdmin,
-// };
+export default userService;

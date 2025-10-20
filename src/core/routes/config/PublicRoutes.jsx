@@ -8,9 +8,9 @@
 // import { RouteObject } from "react-router-dom";
 import Home from "../../../modules/landing/pages/Home";
 import About from "../../../modules/about/About";
-import Contact from "../../../modules/contact-inmobiliaria/Contact";
+import Contact from "../../../modules/contact-inmobiliaria/pages/Contact";
 import Properties from "../../../modules/properties-inmobiliaria/Properties";
-import Service from "../../../modules/services-inmobiliaria/Service";
+import Service from "../../../modules/services-inmobiliaria/pages/Service";
 import Login from "../../../modules/auth/pages/auth.module";
 import Register from "../../../modules/auth/pages/Register";
 import ForgotPassword from "../../../modules/auth/components/ForgotPassword";

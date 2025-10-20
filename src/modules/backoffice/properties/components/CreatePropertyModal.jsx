@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "../../../../components/ui/Button";
+import apiClient from "@/core/services/apiService";
 
 const CreatePropertyModal = ({ onClose, onSubmit, propertyTypes = [], propertyStates = [] }) => {
   const [formData, setFormData] = useState({
@@ -11,12 +12,28 @@ const CreatePropertyModal = ({ onClose, onSubmit, propertyTypes = [], propertySt
     habitaciones: '',
     banos: '',
     tipo_id: '',
-    estado_id: ''
+    estado_id: '',
+    dueno_id: ''
   });
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
   const [images, setImages] = useState([]);
   const [imagePreview, setImagePreview] = useState([]);
+  const [owners, setOwners] = useState([]);
+
+  useEffect(() => {
+    let mounted = true;
+    (async () => {
+      try {
+        const { data } = await apiClient.get('/usuarios');
+        if (mounted) setOwners(Array.isArray(data) ? data : []);
+      } catch (e) {
+        // Silenciar para no bloquear el formulario
+        setOwners([]);
+      }
+    })();
+    return () => { mounted = false };
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -66,6 +83,7 @@ const CreatePropertyModal = ({ onClose, onSubmit, propertyTypes = [], propertySt
     else if (isNaN(formData.banos) || parseInt(formData.banos) < 0) newErrors.banos = 'El número de baños debe ser un número válido';
     if (!formData.tipo_id) newErrors.tipo_id = 'El tipo de propiedad es requerido';
     if (!formData.estado_id) newErrors.estado_id = 'El estado de la propiedad es requerido';
+    if (!formData.dueno_id) newErrors.dueno_id = 'El dueño es requerido';
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -78,10 +96,9 @@ const CreatePropertyModal = ({ onClose, onSubmit, propertyTypes = [], propertySt
 
     setLoading(true);
     try {
-      // Por ahora, no enviamos las imágenes hasta implementar un servicio de almacenamiento
       const propertyData = {
-        ...formData
-        // imagenes: images - Comentado temporalmente
+        ...formData,
+        images
       };
       await onSubmit(propertyData);
     } catch (error) {
@@ -220,6 +237,25 @@ const CreatePropertyModal = ({ onClose, onSubmit, propertyTypes = [], propertySt
             </select>
             {errors.estado_id && <p className="text-red-500 text-xs mt-1">{errors.estado_id}</p>}
           </div>
+
+          <div>
+            <select
+              name="dueno_id"
+              value={formData.dueno_id}
+              onChange={handleChange}
+              className={`w-full px-4 py-2 rounded-md border text-sm text-gray-700 dark:text-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
+                errors.dueno_id ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
+              }`}
+            >
+              <option value="">Seleccionar Dueño</option>
+              {owners.map(u => (
+                <option key={u.id} value={u.id}>
+                  {u.nombre} {u.apellido} ({u.correo})
+                </option>
+              ))}
+            </select>
+            {errors.dueno_id && <p className="text-red-500 text-xs mt-1">{errors.dueno_id}</p>}
+          </div>
         </div>
 
         <div>
@@ -236,21 +272,49 @@ const CreatePropertyModal = ({ onClose, onSubmit, propertyTypes = [], propertySt
           {errors.descripcion && <p className="text-red-500 text-xs mt-1">{errors.descripcion}</p>}
         </div>
 
-        {/* Sección de imágenes - Temporalmente deshabilitada */}
+        {/* Sección de imágenes */}
         <div>
           <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
             Imágenes de la propiedad
           </label>
-          <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6 text-center bg-gray-50 dark:bg-gray-700">
-            <svg className="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
-              <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-            <span className="mt-2 text-sm text-gray-600 dark:text-gray-400">
-              Funcionalidad de imágenes próximamente
-            </span>
-            <span className="text-xs text-gray-500 dark:text-gray-500">
-              Las imágenes se podrán agregar en una futura actualización
-            </span>
+          <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6 bg-gray-50 dark:bg-gray-700">
+            <div className="flex flex-col items-center justify-center text-center gap-2">
+              <svg className="h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
+                <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              <p className="text-sm text-gray-600 dark:text-gray-300">Arrastra y suelta tus imágenes aquí, o</p>
+              <div>
+                <label htmlFor="property-images-input" className="inline-flex items-center px-3 py-2 rounded-md bg-white dark:bg-gray-800 text-sm font-medium text-gray-700 dark:text-gray-100 border border-gray-300 dark:border-gray-600 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700">
+                  Seleccionar archivos
+                </label>
+                <input
+                  id="property-images-input"
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  className="hidden"
+                  onChange={handleImageChange}
+                />
+              </div>
+              <p className="text-xs text-gray-500 dark:text-gray-400">PNG, JPG, JPEG (máx. ~10MB por archivo)</p>
+            </div>
+
+            {imagePreview.length > 0 && (
+              <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+                {imagePreview.map((src, index) => (
+                  <div key={index} className="relative group">
+                    <img src={src} alt={`preview-${index}`} className="w-full h-28 object-cover rounded-md border border-gray-200 dark:border-gray-600" />
+                    <button
+                      type="button"
+                      onClick={() => removeImage(index)}
+                      className="absolute top-1 right-1 px-2 py-0.5 rounded text-xs bg-red-600 text-white opacity-0 group-hover:opacity-100 transition"
+                    >
+                      Quitar
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
 

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Pencil, Trash2, Plus, RefreshCw, Building2 } from "lucide-react";
 import Button from "@/components/ui/Button";
 import Modal from "@/components/ui/Modal";
-import Statistics from "./components/UI/Statistics";
+import Statistics from "./components/Statistics";
 import Pagination from "@/components/ui/Pagination";
 import CreatePropertyModal from "./components/CreatePropertyModal";
 import PropertySearchBar from "./components/PropertySearchBar";

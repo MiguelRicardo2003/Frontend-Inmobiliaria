@@ -56,13 +56,8 @@ export const useUsers = () => {
   // Actualizar usuario
   const updateUser = async (id, userData) => {
     try {
-      console.log('🔍 Hook useUsers - updateUser:');
-      console.log('  - ID:', id);
-      console.log('  - Data:', userData);
-      console.log('  - Token en localStorage:', localStorage.getItem('accessToken'));
       
       const result = await userService.updateUser(id, userData);
-      console.log('🔍 Resultado del servicio:', result);
       
       if (result.success) {
         setUsers(prev => prev.map(user => 
@@ -73,7 +68,6 @@ export const useUsers = () => {
         return { success: false, error: result.error };
       }
     } catch (err) {
-      console.error('❌ Error en hook updateUser:', err);
       return { success: false, error: 'Error inesperado al actualizar usuario' };
     }
   };
@@ -89,7 +83,6 @@ export const useUsers = () => {
         return { success: false, error: result.error };
       }
     } catch (err) {
-      console.error('Error en hook deleteUser:', err);
       return { success: false, error: 'Error inesperado al eliminar usuario' };
     }
   };

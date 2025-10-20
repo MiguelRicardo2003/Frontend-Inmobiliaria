@@ -63,12 +63,3 @@ export const PAGE_TITLES = {
   DASHBOARD: "Dashboard",
   NOT_FOUND: "Página no encontrada",
 };
-
-/**
- * Utilidad para obtener rutas tipadas
- * Nota: Los tipos TypeScript están comentados para compatibilidad con JavaScript
- */
-// export type PublicRoute = typeof PUBLIC_ROUTES[keyof typeof PUBLIC_ROUTES];
-// export type PrivateRoute = typeof PRIVATE_ROUTES[keyof typeof PRIVATE_ROUTES];
-// export type ErrorRoute = typeof ERROR_ROUTES[keyof typeof ERROR_ROUTES];
-// export type AnyRoute = PublicRoute | PrivateRoute | ErrorRoute;

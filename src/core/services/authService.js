@@ -17,7 +17,7 @@ const authService = {
     }
   },
 
-  // Register
+  // Registar
   async register(userData) {
     try {
       const response = await apiClient.post('/auth/register', userData);
@@ -33,7 +33,7 @@ const authService = {
     localStorage.removeItem('user');
   },
 
-  // Get current user
+  // Obtener Usuarios
   getCurrentUser() {
     try {
       const user = localStorage.getItem('user');
@@ -44,7 +44,7 @@ const authService = {
     }
   },
 
-  // Check if user is authenticated
+  // Verificar si el usuario esta autenticado
   isAuthenticated() {
     const token = localStorage.getItem('accessToken');
     return !!token;

@@ -1,369 +1,298 @@
-import React, { useState, useEffect } from "react";
-import Button from "../../../../components/ui/Button";
-import { X, Upload, Plus, Trash2 } from "lucide-react";
+import React from 'react';
+import Input from '../../../../components/ui/Input';
+import Select from '../../../../components/ui/Select';
+import ImageUpload from '../../../../components/ui/ImageUpload';
+import Button from '../../../../components/ui/Button';
+import toast from 'react-hot-toast';
+import { 
+  typeOptions, 
+  operationOptions, 
+  monedaOptions, 
+  statusOptions 
+} from '../constants/formOptions';
 
-const PropertyForm = ({ 
-  property = null, 
-  propertyTypes = [], 
-  propertyStates = [], 
-  onClose, 
-  onSubmit 
+const PropertyForm = ({
+  formData,
+  onFormChange,
+  onNestedChange,
+  onAmenidadChange,
+  onAddAmenidad,
+  onRemoveAmenidad,
+  onImagesChange,
+  onSubmit,
+  onCancel,
+  isEditing = false,
+  isLoading = false
 }) => {
-  const [formData, setFormData] = useState({
-    titulo: '',
-    descripcion: '',
-    precio: '',
-    direccion: '',
-    metros_cuadrados: '',
-    habitaciones: '',
-    banos: '',
-    tipo_id: '',
-    estado_id: '',
-    dueno_id: '',
-    imagenes: []
-  });
-  const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState({});
-  const [newImage, setNewImage] = useState('');
-
-  useEffect(() => {
-    if (property) {
-      setFormData({
-        titulo: property.titulo || '',
-        descripcion: property.descripcion || '',
-        precio: property.precio || '',
-        direccion: property.direccion || '',
-        metros_cuadrados: property.metros_cuadrados || '',
-        habitaciones: property.habitaciones || '',
-        banos: property.banos || '',
-        tipo_id: property.tipo_id || '',
-        estado_id: property.estado_id || '',
-        dueno_id: property.dueno_id || '',
-        imagenes: property.imagenes || []
-      });
-    }
-  }, [property]);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-    
-    // Limpiar error cuando el usuario empiece a escribir
-    if (errors[name]) {
-      setErrors(prev => ({
-        ...prev,
-        [name]: ''
-      }));
-    }
-  };
-
-  const handleImageAdd = () => {
-    if (newImage.trim()) {
-      setFormData(prev => ({
-        ...prev,
-        imagenes: [...prev.imagenes, { url: newImage.trim(), descripcion: '' }]
-      }));
-      setNewImage('');
-    }
-  };
-
-  const handleImageRemove = (index) => {
-    setFormData(prev => ({
-      ...prev,
-      imagenes: prev.imagenes.filter((_, i) => i !== index)
-    }));
-  };
-
-  const validateForm = () => {
-    const newErrors = {};
-    
-    if (!formData.titulo.trim()) newErrors.titulo = 'El título es requerido';
-    if (!formData.precio.trim()) newErrors.precio = 'El precio es requerido';
-    else if (isNaN(formData.precio) || parseFloat(formData.precio) <= 0) {
-      newErrors.precio = 'El precio debe ser un número válido mayor a 0';
-    }
-    if (!formData.direccion.trim()) newErrors.direccion = 'La dirección es requerida';
-    if (!formData.tipo_id) newErrors.tipo_id = 'El tipo de propiedad es requerido';
-    if (!formData.estado_id) newErrors.estado_id = 'El estado es requerido';
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  const handleSubmit = async (e) => {
+  
+  const handleSubmit = (e) => {
     e.preventDefault();
     
-    if (!validateForm()) return;
-
-    setLoading(true);
-    try {
-      // Preparar datos para envío
-      const submitData = {
-        ...formData,
-        precio: parseFloat(formData.precio),
-        metros_cuadrados: formData.metros_cuadrados ? parseFloat(formData.metros_cuadrados) : null,
-        habitaciones: formData.habitaciones ? parseInt(formData.habitaciones) : null,
-        banos: formData.banos ? parseInt(formData.banos) : null,
-        tipo_id: parseInt(formData.tipo_id),
-        estado_id: parseInt(formData.estado_id)
-      };
-
-      await onSubmit(submitData);
-    } catch (error) {
-      console.error('Error al enviar formulario:', error);
-    } finally {
-      setLoading(false);
+    // Basic validation
+    if (!formData.titulo?.trim() || !formData.precio || !formData.direccion?.trim()) {
+      toast.error("Por favor completa todos los campos requeridos");
+      return;
     }
+    
+    onSubmit(formData);
   };
 
   return (
-    <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg w-full max-w-4xl max-h-[90vh] overflow-y-auto">
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
-          {property ? 'Editar Propiedad' : 'Nueva Propiedad'}
-        </h2>
-        <button
-          onClick={onClose}
-          className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
-        >
-          <X className="w-6 h-6" />
-        </button>
+    <form onSubmit={handleSubmit} className="space-y-6">
+      {/* Basic Information */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <Input 
+          label="Código" 
+          className="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-sm text-gray-700 dark:text-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder-gray-400 dark:placeholder-gray-400"
+          value={formData.codigo} 
+          onChange={(e) => onFormChange('codigo', e.target.value)} 
+          required 
+        />
+        <Input 
+          label="Título" 
+          className="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-sm text-gray-700 dark:text-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder-gray-400 dark:placeholder-gray-400"
+          value={formData.titulo} 
+          onChange={(e) => onFormChange('titulo', e.target.value)} 
+          required 
+        />
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Título */}
-          <div className="md:col-span-2">
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-              Título *
-            </label>
-            <input
-              type="text"
-              name="titulo"
-              value={formData.titulo}
-              onChange={handleChange}
-              className={`w-full px-4 py-2 rounded-md border text-sm text-gray-700 dark:text-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
-                errors.titulo ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
-              }`}
-              placeholder="Ej: Hermosa casa en el centro de la ciudad"
+      {/* Description */}
+      <div>
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+          Descripción
+        </label>
+        <textarea
+          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+          value={formData.descripcion}
+          onChange={(e) => onFormChange('descripcion', e.target.value)}
+          rows={3}
+          required
+        />
+      </div>
+
+      {/* Price and Type */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <Input 
+          label="Precio" 
+          type="number" 
+          className="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-sm text-gray-700 dark:text-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder-gray-400 dark:placeholder-gray-400"
+          value={formData.precio} 
+          onChange={(e) => onFormChange('precio', e.target.value)} 
+          required 
+        />
+        <Select 
+          label="Moneda" 
+          options={monedaOptions} 
+          value={formData.moneda} 
+          onChange={(e) => onFormChange('moneda', e.target.value)} 
+          className="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-sm text-gray-700 dark:text-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder-gray-400 dark:placeholder-gray-400"
+        />
+        <Select 
+          label="Tipo" 
+          options={typeOptions} 
+          value={formData.tipo} 
+          onChange={(e) => onFormChange('tipo', e.target.value)} 
+          className="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-sm text-gray-700 dark:text-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder-gray-400 dark:placeholder-gray-400"
+        />
+        <Select 
+          label="Operación" 
+          options={operationOptions} 
+          value={formData.operacion} 
+          onChange={(e) => onFormChange('operacion', e.target.value)} 
+          className="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-sm text-gray-700 dark:text-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder-gray-400 dark:placeholder-gray-400"
+        />
+      </div>
+
+      {/* Characteristics */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <Input 
+          label="Superficie (m²)" 
+          type="number" 
+          className="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-sm text-gray-700 dark:text-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder-gray-400 dark:placeholder-gray-400"
+          value={formData.caracteristicas.superficie} 
+          onChange={(e) => onNestedChange('caracteristicas', 'superficie', e.target.value)} 
+          required 
+        />
+        <Input 
+          label="Habitaciones" 
+          type="number" 
+          className="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-sm text-gray-700 dark:text-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder-gray-400 dark:placeholder-gray-400"
+          value={formData.caracteristicas.habitaciones} 
+          onChange={(e) => onNestedChange('caracteristicas', 'habitaciones', e.target.value)} 
+        />
+        <Input 
+          label="Baños" 
+          type="number" 
+          className="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-sm text-gray-700 dark:text-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder-gray-400 dark:placeholder-gray-400"
+          value={formData.caracteristicas.banos} 
+          onChange={(e) => onNestedChange('caracteristicas', 'banos', e.target.value)} 
+        />
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <Input 
+          label="Garajes" 
+          type="number" 
+          className="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-sm text-gray-700 dark:text-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder-gray-400 dark:placeholder-gray-400"
+          value={formData.caracteristicas.garajes} 
+          onChange={(e) => onNestedChange('caracteristicas', 'garajes', e.target.value)} 
+        />
+        <Input 
+          label="Antigüedad (años)" 
+          type="number" 
+          className="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-sm text-gray-700 dark:text-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder-gray-400 dark:placeholder-gray-400"
+          value={formData.caracteristicas.antiguedad} 
+          onChange={(e) => onNestedChange('caracteristicas', 'antiguedad', e.target.value)} 
+        />
+        <Input 
+          label="Estrato" 
+          type="number" 
+          min="1" 
+          max="6" 
+          className="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-sm text-gray-700 dark:text-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder-gray-400 dark:placeholder-gray-400"
+          value={formData.caracteristicas.estrato} 
+          onChange={(e) => onNestedChange('caracteristicas', 'estrato', e.target.value)} 
+        />
+      </div>
+
+      {/* Location */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <Input 
+          label="Dirección" 
+          className="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-sm text-gray-700 dark:text-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder-gray-400 dark:placeholder-gray-400"
+          value={formData.ubicacion.direccion} 
+          onChange={(e) => onNestedChange('ubicacion', 'direccion', e.target.value)} 
+          required 
+        />
+        <Input 
+          label="Ciudad" 
+          className="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-sm text-gray-700 dark:text-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder-gray-400 dark:placeholder-gray-400"
+          value={formData.ubicacion.ciudad} 
+          onChange={(e) => onNestedChange('ubicacion', 'ciudad', e.target.value)} 
+          required 
+        />
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <Input 
+          label="Departamento" 
+          className="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-sm text-gray-700 dark:text-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder-gray-400 dark:placeholder-gray-400"
+          value={formData.ubicacion.departamento} 
+          onChange={(e) => onNestedChange('ubicacion', 'departamento', e.target.value)} 
+          required 
+        />
+        <Input 
+          label="Código Postal" 
+          className="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-sm text-gray-700 dark:text-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder-gray-400 dark:placeholder-gray-400"
+          value={formData.ubicacion.codigoPostal} 
+          onChange={(e) => onNestedChange('ubicacion', 'codigoPostal', e.target.value)} 
+        />
+      </div>
+
+      {/* Owner Information */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <Input 
+          label="Nombre del Propietario" 
+          className="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-sm text-gray-700 dark:text-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder-gray-400 dark:placeholder-gray-400"
+          value={formData.propietario.nombre} 
+          onChange={(e) => onNestedChange('propietario', 'nombre', e.target.value)} 
+          required 
+        />
+        <Input 
+          label="Teléfono del Propietario" 
+          className="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-sm text-gray-700 dark:text-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder-gray-400 dark:placeholder-gray-400"
+          value={formData.propietario.telefono} 
+          onChange={(e) => onNestedChange('propietario', 'telefono', e.target.value)} 
+          required 
+        />
+        <Input 
+          label="Email del Propietario" 
+          type="email" 
+          className="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-sm text-gray-700 dark:text-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder-gray-400 dark:placeholder-gray-400"
+          value={formData.propietario.email} 
+          onChange={(e) => onNestedChange('propietario', 'email', e.target.value)} 
+        />
+      </div>
+
+      {/* Amenities */}
+      <div>
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+          Amenidades
+        </label>
+        {formData.amenidades.map((amenidad, index) => (
+          <div key={index} className="flex items-center space-x-2 mb-2">
+            <Input
+              className="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-sm text-gray-700 dark:text-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder-gray-400 dark:placeholder-gray-400"
+              placeholder="Amenidad"
+              value={amenidad}
+              onChange={(e) => onAmenidadChange(index, e.target.value)}
             />
-            {errors.titulo && <p className="text-red-500 text-xs mt-1">{errors.titulo}</p>}
-          </div>
-
-          {/* Descripción */}
-          <div className="md:col-span-2">
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-              Descripción
-            </label>
-            <textarea
-              name="descripcion"
-              value={formData.descripcion}
-              onChange={handleChange}
-              rows={3}
-              className="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-sm text-gray-700 dark:text-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              placeholder="Describe las características principales de la propiedad..."
-            />
-          </div>
-
-          {/* Precio */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-              Precio *
-            </label>
-            <input
-              type="number"
-              name="precio"
-              value={formData.precio}
-              onChange={handleChange}
-              className={`w-full px-4 py-2 rounded-md border text-sm text-gray-700 dark:text-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
-                errors.precio ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
-              }`}
-              placeholder="500000000"
-            />
-            {errors.precio && <p className="text-red-500 text-xs mt-1">{errors.precio}</p>}
-          </div>
-
-          {/* Dirección */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-              Dirección *
-            </label>
-            <input
-              type="text"
-              name="direccion"
-              value={formData.direccion}
-              onChange={handleChange}
-              className={`w-full px-4 py-2 rounded-md border text-sm text-gray-700 dark:text-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
-                errors.direccion ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
-              }`}
-              placeholder="Calle 123 #45-67, Barrio Centro"
-            />
-            {errors.direccion && <p className="text-red-500 text-xs mt-1">{errors.direccion}</p>}
-          </div>
-
-          {/* Metros cuadrados */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-              Área (m²)
-            </label>
-            <input
-              type="number"
-              name="metros_cuadrados"
-              value={formData.metros_cuadrados}
-              onChange={handleChange}
-              className="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-sm text-gray-700 dark:text-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              placeholder="120"
-            />
-          </div>
-
-          {/* Habitaciones */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-              Habitaciones
-            </label>
-            <input
-              type="number"
-              name="habitaciones"
-              value={formData.habitaciones}
-              onChange={handleChange}
-              className="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-sm text-gray-700 dark:text-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              placeholder="3"
-            />
-          </div>
-
-          {/* Baños */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-              Baños
-            </label>
-            <input
-              type="number"
-              name="banos"
-              value={formData.banos}
-              onChange={handleChange}
-              className="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-sm text-gray-700 dark:text-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              placeholder="2"
-            />
-          </div>
-
-          {/* Tipo de propiedad */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-              Tipo de Propiedad *
-            </label>
-            <select
-              name="tipo_id"
-              value={formData.tipo_id}
-              onChange={handleChange}
-              className={`w-full px-4 py-2 rounded-md border text-sm text-gray-700 dark:text-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
-                errors.tipo_id ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
-              }`}
-            >
-              <option value="">Seleccionar tipo</option>
-              {propertyTypes.map(type => (
-                <option key={type.id} value={type.id}>
-                  {type.nombre}
-                </option>
-              ))}
-            </select>
-            {errors.tipo_id && <p className="text-red-500 text-xs mt-1">{errors.tipo_id}</p>}
-          </div>
-
-          {/* Estado */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-              Estado *
-            </label>
-            <select
-              name="estado_id"
-              value={formData.estado_id}
-              onChange={handleChange}
-              className={`w-full px-4 py-2 rounded-md border text-sm text-gray-700 dark:text-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
-                errors.estado_id ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
-              }`}
-            >
-              <option value="">Seleccionar estado</option>
-              {propertyStates.map(state => (
-                <option key={state.id} value={state.id}>
-                  {state.nombre}
-                </option>
-              ))}
-            </select>
-            {errors.estado_id && <p className="text-red-500 text-xs mt-1">{errors.estado_id}</p>}
-          </div>
-        </div>
-
-        {/* Imágenes */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-            Imágenes
-          </label>
-          <div className="space-y-2">
-            {formData.imagenes.map((imagen, index) => (
-              <div key={index} className="flex items-center gap-2">
-                <input
-                  type="text"
-                  value={imagen.url}
-                  onChange={(e) => {
-                    const newImagenes = [...formData.imagenes];
-                    newImagenes[index] = { ...imagen, url: e.target.value };
-                    setFormData(prev => ({ ...prev, imagenes: newImagenes }));
-                  }}
-                  className="flex-1 px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="URL de la imagen"
-                />
-                <button
-                  type="button"
-                  onClick={() => handleImageRemove(index)}
-                  className="text-red-500 hover:text-red-700"
-                >
-                  <Trash2 className="w-4 h-4" />
-                </button>
-              </div>
-            ))}
-            <div className="flex items-center gap-2">
-              <input
-                type="text"
-                value={newImage}
-                onChange={(e) => setNewImage(e.target.value)}
-                className="flex-1 px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="URL de la imagen"
-              />
-              <button
+            {formData.amenidades.length > 1 && (
+              <Button
                 type="button"
-                onClick={handleImageAdd}
-                className="px-3 py-2 text-sm bg-blue-500 text-white rounded-md hover:bg-blue-600"
+                variant="danger"
+                size="sm"
+                onClick={() => onRemoveAmenidad(index)}
               >
-                <Plus className="w-4 h-4" />
-              </button>
-            </div>
+                -
+              </Button>
+            )}
+            {index === formData.amenidades.length - 1 && (
+              <Button
+                type="button"
+                variant="danger"
+                size="sm"
+                onClick={onAddAmenidad}
+              >
+                +
+              </Button>
+            )}
           </div>
-        </div>
+        ))}
+      </div>
 
-        {/* Botones */}
-        <div className="flex justify-end gap-3 pt-6 border-t border-gray-200 dark:border-gray-700">
-          <Button 
-            type="button"
-            variant="outline" 
-            onClick={onClose}
-            disabled={loading}
-          >
-            Cancelar
-          </Button>
-          <Button 
-            type="submit"
-            disabled={loading}
-            className="bg-blue-500 hover:bg-blue-600"
-          >
-            {loading ? 'Guardando...' : (property ? 'Actualizar Propiedad' : 'Crear Propiedad')}
-          </Button>
-        </div>
-      </form>
-    </div>
+      {/* Images */}
+      <div>
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+          Imágenes
+        </label>
+        <ImageUpload 
+          images={formData.imagenes} 
+          onImagesChange={onImagesChange} 
+        />
+      </div>
+
+      {/* Status */}
+      <Select 
+        label="Estado" 
+        options={statusOptions} 
+        value={formData.estado} 
+        className="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-sm text-gray-700 dark:text-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder-gray-400 dark:placeholder-gray-400"
+        onChange={(e) => onFormChange('estado', e.target.value)} 
+      />
+
+      {/* Form Actions */}
+      <div className="flex justify-end space-x-4">
+        <Button 
+          type="button"   
+          variant="danger" 
+          className="h-12 flex items-center gap-2"
+          onClick={onCancel}
+          disabled={isLoading}
+        >
+          Cancelar
+        </Button>
+        <Button 
+          type="submit" 
+          className=" text-black h-12 flex items-center gap-2"
+          disabled={isLoading}
+        >
+          {isLoading ? 'Guardando...' : (isEditing ? "Guardar cambios" : "Agregar")} Propiedad
+        </Button>
+      </div>
+    </form>
   );
 };
 
-export default PropertyForm;
+export default PropertyForm; 

@@ -1,4 +1,4 @@
-import Card from '../../../components/ui/Card';
+import Card from '../../../../components/ui/Card';
 
 const ServiceCard = ({ icon, title, description, colorClass }) => (
   <Card className={`relative bg-white rounded-[20px] border-2 ${colorClass} p-6 flex gap-6 items-center min-h-[150px]`}>

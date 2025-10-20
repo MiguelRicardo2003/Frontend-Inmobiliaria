@@ -2,7 +2,7 @@ import { useState } from "react";
 import { services, colorVariants, iconMap } from "../utils/serviceData";
 import ServiceCard from "../components/ServiceCard";
 import AttentionModal from "../components/AttentionModal";
-import Button from '../../../components/ui/Button';
+import Button from '../../../../components/ui/Button';
 import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 

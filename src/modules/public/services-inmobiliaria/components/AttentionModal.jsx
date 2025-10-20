@@ -1,6 +1,5 @@
-import React from "react";
 import { Clock8 } from "lucide-react";
-import Modal from '../../../components/ui/Modal';
+import Modal from '../../../../components/ui/Modal';
 
 const AttentionModal = ({ show, onClose }) => {
   return (

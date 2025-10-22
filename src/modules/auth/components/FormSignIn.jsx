@@ -25,12 +25,16 @@ const FormSignIn = () => {
                        result.user?.rol === 'administrador' ||
                        result.user?.rol?.toLowerCase() === 'administrador';
         
+        const isAgent = result.user?.rol === 'Agente' ||
+                       result.user?.rol === 'agente' ||
+                       result.user?.rol?.toLowerCase() === 'agente';
+        
         if (isAdmin) {
           console.log('Redirigiendo a dashboard (Administrador)');
           navigate('/dashboard');
-        } else if (result.user?.rol === 'Agente') {
+        } else if (isAgent) {
           console.log('Redirigiendo a dashboard (Agente)');
-          navigate('/dashboard');
+          navigate('/agent/dashboard');
         } else if (result.user?.rol === 'Cliente') {
           console.log('Redirigiendo a dashboard de cliente');
           navigate('/client/dashboard');

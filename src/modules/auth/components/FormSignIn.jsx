@@ -25,15 +25,22 @@ const FormSignIn = () => {
                        result.user?.rol === 'administrador' ||
                        result.user?.rol?.toLowerCase() === 'administrador';
         
+        const isAgent = result.user?.rol === 'Agente' ||
+                       result.user?.rol === 'agente' ||
+                       result.user?.rol?.toLowerCase() === 'agente';
+        
         if (isAdmin) {
           console.log('Redirigiendo a dashboard (Administrador)');
           navigate('/dashboard');
+        } else if (isAgent) {
+          console.log('Redirigiendo a dashboard (Agente)');
+          navigate('/agent/dashboard');
         } else if (result.user?.rol === 'Cliente') {
-          console.log('Redirigiendo a home (Cliente)');
-          navigate('/'); // Página principal para clientes
+          console.log('Redirigiendo a dashboard de cliente');
+          navigate('/client/dashboard');
         } else {
-          console.log('Redirigiendo a dashboard (Rol por defecto):', result.user?.rol);
-          navigate('/dashboard'); // Por defecto al dashboard para otros roles
+          console.log('Redirigiendo a dashboard de cliente (Rol por defecto):', result.user?.rol);
+          navigate('/client/dashboard'); // Por defecto al dashboard de cliente
         }
       } else {
         setError("root", { type: "server", message: result?.error || "Credenciales inválidas" });

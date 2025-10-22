@@ -9,6 +9,7 @@ import useAuth from "../../../core/store/auth/useAuth";
 const FormSignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -34,6 +35,8 @@ const FormSignUp = () => {
       return;
     }
 
+    setIsLoading(true);
+
     const payload = {
       nombre: data.nombre,
       apellido: data.apellido,
@@ -43,18 +46,34 @@ const FormSignUp = () => {
     };
 
     try {
-      const res = await (await import("../../../core/services/authService")).default.register(payload);
+      const authServiceModule = await import("../../../core/services/authService");
+      const res = await authServiceModule.default.register(payload);
+      
       if (res?.success) {
+        // Mostrar mensaje de éxito
+        alert(res.message || 'Usuario registrado correctamente. Redirigiendo...');
+        
         // Después del registro exitoso, hacer login automático
-        const loginResult = await login({ correo: data.email, contrasenia: data.password });
-        if (loginResult?.success) {
-          // Redirigir según el rol
-          window.location.href = '/dashboard';
+        try {
+          const loginResult = await login({ correo: data.email, contrasenia: data.password });
+          if (loginResult?.success) {
+            // Redirigir al dashboard
+            window.location.href = '/dashboard';
+          }
+        } catch (loginError) {
+          console.error('Error en login automático:', loginError);
+          // Si falla el login automático, redirigir a login manual
+          window.location.href = '/login';
         }
+      } else {
+        setError("root", { type: "server", message: res.message || "Error al registrar" });
       }
     } catch (error) {
-      const message = error?.message || "Error al registrar";
+      console.error('Error en registro:', error);
+      const message = error?.message || "Error al registrar usuario";
       setError("root", { type: "server", message });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -175,8 +194,9 @@ const FormSignUp = () => {
           type="submit"
           variant="primary"
           className="w-full py-2 rounded-lg font-semibold transition text-sm"
+          disabled={isLoading}
         >
-          Registrarse
+          {isLoading ? 'Registrando...' : 'Registrarse'}
         </Button>
       </form>
 

@@ -57,8 +57,8 @@ const FormSignUp = () => {
         try {
           const loginResult = await login({ correo: data.email, contrasenia: data.password });
           if (loginResult?.success) {
-            // Redirigir al dashboard
-            window.location.href = '/dashboard';
+            // Redirigir al dashboard de cliente (los usuarios registrados son clientes por defecto)
+            window.location.href = '/client/dashboard';
           }
         } catch (loginError) {
           console.error('Error en login automático:', loginError);

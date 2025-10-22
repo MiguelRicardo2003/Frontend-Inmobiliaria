@@ -1,34 +1,84 @@
-import React from "react";
-import { BarChart2, Users, Home, Building2, Wallet, ArrowUp, ArrowDown, DollarSign,Key, } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { BarChart2, Users, Home, Building2, Wallet, ArrowUp, ArrowDown, DollarSign, Key } from "lucide-react";
 import StatCard from "../../../components/ui/StatCard";
 import Button from "../../../components/ui/Button";
 import ActivityChart from "./components/ActivityChart";
 import RecentActivity from "./components/RecentActivity";
 import TasksList from "./components/TasksList";
-import { Card, CardContent, CardHeader, } from "../../../components/ui/Card";
+import { Card, CardContent, CardHeader } from "../../../components/ui/Card";
+import dashboardService from "./services/dashboardService";
 
 const Dashboard = () => {
-  // Datos de ejemplo para el dashboard
-  const stats = {
+  const [stats, setStats] = useState({
     revenue: {
-      total: 2450000,
-      trend: { value: 12.5, isPositive: true },
+      total: 0,
+      trend: { value: 0, isPositive: true },
     },
     properties: {
-      sold: 145,
-      rented: 89,
-      available: 234,
-      trend: { value: 8.2, isPositive: true },
+      sold: 0,
+      rented: 0,
+      available: 0,
+      total: 0,
+      trend: { value: 0, isPositive: true },
     },
     customers: {
-      total: 1250,
-      active: 890,
-      trend: { value: 15.3, isPositive: true },
+      total: 0,
+      active: 0,
+      trend: { value: 0, isPositive: true },
     },
     transactions: {
-      monthly: 42,
-      trend: { value: 5.7, isPositive: false },
+      monthly: 0,
+      trend: { value: 0, isPositive: false },
     },
+  });
+
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  // Cargar estadísticas al montar el componente
+  useEffect(() => {
+    loadDashboardStats();
+  }, []);
+
+  const loadDashboardStats = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      
+      const result = await dashboardService.getDashboardStats();
+      
+      if (result.success) {
+        setStats({
+          revenue: {
+            total: 2450000, // Este valor puede venir del backend en el futuro
+            trend: { value: 12.5, isPositive: true },
+          },
+          properties: {
+            sold: 0, // Esto puede calcularse con ventas
+            rented: 0, // Esto puede calcularse con arriendos
+            available: result.data.propiedades.total,
+            total: result.data.propiedades.total,
+            trend: { value: 8.2, isPositive: true },
+          },
+          customers: {
+            total: result.data.usuarios.total,
+            active: result.data.usuarios.activos,
+            trend: { value: 15.3, isPositive: true },
+          },
+          transactions: {
+            monthly: 0, // Esto puede calcularse con transacciones
+            trend: { value: 5.7, isPositive: false },
+          },
+        });
+      } else {
+        setError(result.error || 'Error al cargar estadísticas');
+      }
+    } catch (err) {
+      console.error('Error cargando estadísticas:', err);
+      setError('Error inesperado al cargar estadísticas');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const formatCurrency = (amount) => {
@@ -52,37 +102,69 @@ const Dashboard = () => {
           </p>
         </div>
         <div className="space-x-2 sm:gap-2 flex">
-          <Button variant="outline" className="h-12 flex items-center gap-2">Exportar Datos</Button>
-          <Button className="bg-blue-500 hover:bg-blue-600 text-white h-12 flex items-center gap-2">Generar Informe</Button>
+          <Button 
+            variant="outline" 
+            className="h-12 flex items-center gap-2"
+            onClick={loadDashboardStats}
+            disabled={loading}
+          >
+            {loading ? 'Actualizando...' : 'Actualizar'}
+          </Button>
+          <Button className="bg-blue-500 hover:bg-blue-600 text-white h-12 flex items-center gap-2">
+            Generar Informe
+          </Button>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
-        <StatCard
-          title="Ingresos Totales"
-          value={formatCurrency(stats.revenue.total)}
-          icon={<DollarSign size={20} />}
-          trend={stats.revenue.trend}
-        />
-        <StatCard
-          title="Propiedades Vendidas"
-          value={stats.properties.sold.toString()}
-          icon={<Home size={20} />}
-          trend={stats.properties.trend}
-        />
-        <StatCard
-          title="Clientes Activos"
-          value={stats.customers.active.toString()}
-          icon={<Users size={20} />}
-          trend={stats.customers.trend}
-        />
-        <StatCard
-          title="Transacciones Mensuales"
-          value={stats.transactions.monthly.toString()}
-          icon={<Wallet size={20} />}
-          trend={stats.transactions.trend}
-        />
-      </div>
+      {/* Mensaje de Error */}
+      {error && (
+        <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-800 dark:text-red-200 px-4 py-3 rounded-lg">
+          <p className="font-medium">Error al cargar datos</p>
+          <p className="text-sm">{error}</p>
+        </div>
+      )}
+
+      {/* Estado de Carga */}
+      {loading && !error ? (
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+          {[1, 2, 3, 4].map((i) => (
+            <div key={i} className="bg-white dark:bg-gray-800 rounded-lg p-6 animate-pulse">
+              <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-3/4 mb-4"></div>
+              <div className="h-8 bg-gray-200 dark:bg-gray-700 rounded w-1/2"></div>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <>
+          {/* Stats Cards */}
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+            <StatCard
+              title="Total Usuarios"
+              value={stats.customers.total.toString()}
+              icon={<Users size={20} />}
+              trend={stats.customers.trend}
+            />
+            <StatCard
+              title="Total Propiedades"
+              value={stats.properties.total.toString()}
+              icon={<Building2 size={20} />}
+              trend={stats.properties.trend}
+            />
+            <StatCard
+              title="Usuarios Activos"
+              value={stats.customers.active.toString()}
+              icon={<Users size={20} />}
+              trend={stats.customers.trend}
+            />
+            <StatCard
+              title="Transacciones Mensuales"
+              value={stats.transactions.monthly.toString()}
+              icon={<Wallet size={20} />}
+              trend={stats.transactions.trend}
+            />
+          </div>
+        </>
+      )}
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         <div className="lg:col-span-2">

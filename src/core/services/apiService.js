@@ -2,10 +2,12 @@ import axios from 'axios';
 
 const isProduction = import.meta.env.MODE === 'production';
 
-// Base URL automática
-const API_BASE_URL = isProduction
+// Base URL desde variable de entorno o fallback
+const API_BASE_URL = import.meta.env.VITE_API_URL || (isProduction
   ? 'https://backend-inmobiliaria.vercel.app/service'
-  : 'http://localhost:5000/service';
+  : 'http://localhost:5000/service');
+
+console.log('🔗 API Base URL:', API_BASE_URL); // Para debug
 
 const apiClient = axios.create({
   baseURL: API_BASE_URL,

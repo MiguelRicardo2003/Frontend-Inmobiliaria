@@ -9,6 +9,7 @@ import useAuth from "../../../core/store/auth/useAuth";
 const FormSignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -28,109 +29,140 @@ const FormSignUp = () => {
   const { login } = useAuth();
 
   const onSubmit = async (data) => {
+    // Validar que las contraseñas coincidan
+    if (data.password !== data.confirmPassword) {
+      setError("confirmPassword", { type: "manual", message: "Las contraseñas no coinciden" });
+      return;
+    }
+
+    setIsLoading(true);
+
     const payload = {
       nombre: data.nombre,
       apellido: data.apellido,
       correo: data.email,
       celular: data.telefono,
       contrasenia: data.password,
-      rol: 'agente inmobiliario',
     };
 
     try {
-      const res = await (await import("../../../core/services/authService")).default.register(payload);
-      if (res) {
-        await login({ email: data.email, password: data.password });
+      const authServiceModule = await import("../../../core/services/authService");
+      const res = await authServiceModule.default.register(payload);
+      
+      if (res?.success) {
+        // Mostrar mensaje de éxito
+        alert(res.message || 'Usuario registrado correctamente. Redirigiendo...');
+        
+        // Después del registro exitoso, hacer login automático
+        try {
+          const loginResult = await login({ correo: data.email, contrasenia: data.password });
+          if (loginResult?.success) {
+            // Redirigir al dashboard de cliente (los usuarios registrados son clientes por defecto)
+            window.location.href = '/client/dashboard';
+          }
+        } catch (loginError) {
+          console.error('Error en login automático:', loginError);
+          // Si falla el login automático, redirigir a login manual
+          window.location.href = '/login';
+        }
+      } else {
+        setError("root", { type: "server", message: res.message || "Error al registrar" });
       }
     } catch (error) {
-      const message = error?.message || "Error al registrar";
+      console.error('Error en registro:', error);
+      const message = error?.message || "Error al registrar usuario";
       setError("root", { type: "server", message });
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
-    <div className="w-full max-w-md bg-white p-6 sm:p-8 rounded-xl shadow-2xl">
-      <header className="text-center mb-8">
-        <p className="text-gray-500 text-left mb-4">Bienvenido a JustHome</p>
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">Registro Deshabilitado</h1>
-        <p className="text-sm text-gray-600">El registro de agentes lo realiza el administrador desde el panel.</p>
-        <p className="text-sm text-gray-600">Si necesitas acceso, contacta al administrador.</p>
-        <div className="mt-4">
-          <Link to="/login" className="font-semibold text-brand-dark hover:underline">Ir a Iniciar Sesión</Link>
-        </div>
-      </header>
+    <div className="w-full max-w-md p-4 rounded-xl shadow-md bg-white max-h-[90vh] overflow-y-auto">
+      {/* Encabezado */}
+      <div className="text-center space-y-1 mb-4">
+        <div className="text-left text-sm text-gray-600">Bienvenido a JustHome</div>
+        <h1 className="text-2xl font-bold text-black">Crear cuenta</h1>
+      </div>
 
-      <form className="w-full opacity-50 pointer-events-none" onSubmit={handleSubmit(onSubmit)}>
-        <div className="flex flex-col sm:flex-row gap-4 mb-4">
+      <form id="register-form" onSubmit={handleSubmit(onSubmit)} className="grid gap-3">
+        <div className="flex flex-col sm:flex-row gap-2">
           <Input
             label="Nombre"
             type="text"
             name="nombre"
             placeholder="Nombre"
-            className="flex-1 border-2"
+            className="flex-1 border-2 text-sm"
             {...register("nombre", { required: "Este campo es obligatorio" })}
+            error={errors.nombre?.message}
           />
           <Input
             label="Apellido"
             type="text"
             name="apellido"
             placeholder="Apellido"
-            className="flex-1 border-2"
+            className="flex-1 border-2 text-sm"
             {...register("apellido", { required: "Este campo es obligatorio" })}
+            error={errors.apellido?.message}
           />
         </div>
 
-        <div className="flex flex-col sm:flex-row gap-4 mb-4">
+        <div className="flex flex-col sm:flex-row gap-2">
           <Input
             label="Correo Electrónico"
             type="email"
             name="email"
             placeholder="Correo Electrónico"
-            className="flex-1 border-2"
-            {...register("email", { required: "Este campo es obligatorio" })}
+            className="flex-1 border-2 text-sm"
+            {...register("email", { 
+              required: "Este campo es obligatorio",
+              pattern: {
+                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                message: "Correo electrónico inválido"
+              }
+            })}
+            error={errors.email?.message}
           />
           <Input
             label="Teléfono"
             type="tel"
             name="telefono"
             placeholder="Máximo 10 dígitos"
-            className="flex-1 border-2"
+            className="flex-1 border-2 text-sm"
             {...register("telefono", { required: "Este campo es obligatorio" })}
+            error={errors.telefono?.message}
           />
         </div>
 
-        {/* Campo de Contraseña con botón para mostrar/ocultar (centrado) */}
-        <div className="mb-4">
-          <Input
-            label="Contraseña"
-            type={showPassword ? "text" : "password"}
-            name="password"
-            placeholder="Contraseña"
-            icon={showPassword ? EyeOff : Eye}
-            iconPosition="right"
-            onIconClick={togglePasswordVisibility}
-            className="border-2 pr-12" // reserva espacio para el icono
-            {...register("password", { required: "Este campo es obligatorio" })}
-          />
-        </div>
+        <Input
+          label="Contraseña"
+          type={showPassword ? "text" : "password"}
+          name="password"
+          placeholder="Contraseña"
+          icon={showPassword ? EyeOff : Eye}
+          iconPosition="right"
+          onIconClick={togglePasswordVisibility}
+          className="border-2 text-sm"
+          {...register("password", { required: "Este campo es obligatorio" })}
+          error={errors.password?.message}
+        />
 
-        <div className="mb-6">
-          <Input
-            label="Confirmar Contraseña"
-            type={showConfirmPassword ? "text" : "password"}
-            name="confirmPassword"
-            placeholder="Confirmar Contraseña"
-            icon={showConfirmPassword ? EyeOff : Eye}
-            iconPosition="right"
-            onIconClick={toggleConfirmPasswordVisibility}
-            className="border-2 pr-12" // reserva espacio para el icono
-            {...register("confirmPassword", {
-              required: "Este campo es obligatorio",
-            })}
-          />
-        </div>
+        <Input
+          label="Confirmar Contraseña"
+          type={showConfirmPassword ? "text" : "password"}
+          name="confirmPassword"
+          placeholder="Confirmar Contraseña"
+          icon={showConfirmPassword ? EyeOff : Eye}
+          iconPosition="right"
+          onIconClick={toggleConfirmPasswordVisibility}
+          className="border-2 text-sm"
+          {...register("confirmPassword", {
+            required: "Este campo es obligatorio",
+          })}
+          error={errors.confirmPassword?.message}
+        />
 
-        <div className="flex items-center mb-6">
+        <div className="flex items-center">
           <input
             id="terms"
             name="termsAccepted"
@@ -140,7 +172,7 @@ const FormSignUp = () => {
               required: "Debes aceptar los términos y condiciones",
             })}
           />
-          <label htmlFor="terms" className="ml-2 block text-sm text-gray-700">
+          <label htmlFor="terms" className="ml-2 block text-xs text-gray-700">
             Aceptar{" "}
             <a
               href="/terms"
@@ -150,24 +182,30 @@ const FormSignUp = () => {
             </a>
           </label>
         </div>
-
-        {errors.root?.message && (
-          <p className="text-sm text-red-600 mb-4">{errors.root.message}</p>
+        {errors.termsAccepted?.message && (
+          <p className="text-xs text-red-600 -mt-1">{errors.termsAccepted.message}</p>
         )}
 
-        <Button type="submit" className="w-full">
-          Registrarse
+        {errors.root?.message && (
+          <p className="text-xs text-red-600 -mt-1">{errors.root.message}</p>
+        )}
+
+        <Button
+          type="submit"
+          variant="primary"
+          className="w-full py-2 rounded-lg font-semibold transition text-sm"
+          disabled={isLoading}
+        >
+          {isLoading ? 'Registrando...' : 'Registrarse'}
         </Button>
       </form>
-      <footer className="mt-6 text-sm text-center text-gray-500">
+
+      <div className="text-xs text-center text-gray-400 mt-4">
         ¿Ya tienes una cuenta?{" "}
-        <Link
-          to="/login"
-          className="font-semibold text-brand-dark hover:underline"
-        >
+        <Link to="/login" className="text-[#1E2A3A] font-medium cursor-pointer hover:underline">
           Inicia Sesión
         </Link>
-      </footer>
+      </div>
     </div>
   );
 };

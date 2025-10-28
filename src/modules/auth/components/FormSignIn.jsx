@@ -17,10 +17,30 @@ const FormSignIn = () => {
       const result = await login({ correo: data.email, contrasenia: data.password });
       if (result?.success) {
         // Redirigir según el rol del usuario
-        if (result.user?.role === 'admin') {
+        console.log('Usuario logueado:', result.user); // Para debug
+        
+        // Verificar si es administrador (diferentes variaciones posibles)
+        const isAdmin = result.user?.rol === 'Administrador' || 
+                       result.user?.rol === 'Admin' || 
+                       result.user?.rol === 'administrador' ||
+                       result.user?.rol?.toLowerCase() === 'administrador';
+        
+        const isAgent = result.user?.rol === 'Agente' ||
+                       result.user?.rol === 'agente' ||
+                       result.user?.rol?.toLowerCase() === 'agente';
+        
+        if (isAdmin) {
+          console.log('Redirigiendo a dashboard (Administrador)');
           navigate('/dashboard');
+        } else if (isAgent) {
+          console.log('Redirigiendo a dashboard (Agente)');
+          navigate('/agent/dashboard');
+        } else if (result.user?.rol === 'Cliente') {
+          console.log('Redirigiendo a dashboard de cliente');
+          navigate('/client/dashboard');
         } else {
-          navigate('/'); // O a la página principal para otros roles
+          console.log('Redirigiendo a dashboard de cliente (Rol por defecto):', result.user?.rol);
+          navigate('/client/dashboard'); // Por defecto al dashboard de cliente
         }
       } else {
         setError("root", { type: "server", message: result?.error || "Credenciales inválidas" });

@@ -1,11 +1,3 @@
-/**
- * Configuración de rutas de error
- * Siguiendo principio de Responsabilidad Única (SRP)
- *
- * @description Maneja únicamente rutas de error como 404
- */
-
-// import { RouteObject } from "react-router-dom";
 import { NotFoundPage } from "../../../modules/not-found/pages/NotFoundPage";
 import { ERROR_ROUTES } from "./RouteConfig";
 

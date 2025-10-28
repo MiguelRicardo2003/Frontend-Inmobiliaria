@@ -1,8 +1,14 @@
 import axios from 'axios';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
+const isProduction = import.meta.env.MODE === 'production';
 
-// Crear instancia de axios
+// Base URL desde variable de entorno o fallback
+const API_BASE_URL = import.meta.env.VITE_API_URL || (isProduction
+  ? 'https://backend-inmobiliaria.vercel.app/service'
+  : 'http://localhost:5000/service');
+
+console.log('🔗 API Base URL:', API_BASE_URL); // Para debug
+
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
   timeout: 10000,
@@ -11,21 +17,14 @@ const apiClient = axios.create({
   },
 });
 
-// Interceptor para agregar token de autenticación
-apiClient.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem('accessToken');
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
-  },
-  (error) => {
-    return Promise.reject(error);
-  }
-);
+// Token interceptor
+apiClient.interceptors.request.use((config) => {
+  const token = localStorage.getItem('accessToken');
+  if (token) config.headers.Authorization = `Bearer ${token}`;
+  return config;
+});
 
-// Interceptor para manejar respuestas y errores
+// Logout automático si el token expira
 apiClient.interceptors.response.use(
   (response) => response,
   (error) => {

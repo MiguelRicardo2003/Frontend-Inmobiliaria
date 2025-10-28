@@ -1,343 +1,312 @@
-import React, { useState, useEffect } from 'react';
-import { Building2 } from 'lucide-react';
-import Modal from '../../../components/ui/Modal';
-import Button from '../../../components/ui/Button';
-import Pagination from '../../../components/ui/Pagination';
+import { useState, useEffect } from "react";
+import { Pencil, Trash2, Plus, RefreshCw, Building2 } from "lucide-react";
+import Button from "@/components/ui/Button";
+import Modal from "@/components/ui/Modal";
+import Statistics from "./components/Statistics";
+import Pagination from "@/components/ui/Pagination";
+import CreatePropertyModal from "./components/CreatePropertyModal";
+import PropertySearchBar from "./components/PropertySearchBar";
+import { useFilteredProperties } from "@/hooks/useFilteredProperties";
+import EditPropertyModal from "./components/EditPropertyModal";
+import SuccessModal from "../users-system/components/SuccessModal";
+import DeleteConfirmModal from "../users-system/components/DeleteConfirmModal";
+import DeleteSuccessModal from "../users-system/components/DeleteSuccessModal";
+import { useProperties } from "./hooks/useProperties";
+import PropertyTable from "./components/PropertyTable";
 
-// Custom hooks
-import { useProperties, useProjects, useFilters } from './hooks';
-
-// Components
-import ProjectCard from './components/ProjectManagement/ProjectCard';
-import Statistics from './components/UI/Statistics';
-import FilterBar from './components/UI/FilterBar';
-import PropertyForm from './components/PropertyManagement/PropertyForm';
-import PropertyDetail from './components/PropertyManagement/PropertyDetail';
-import ProjectForm from './components/ProjectManagement/ProjectForm';
-import ViewToggle from './components/UI/ViewToggle';
-import PropertyTable from './components/PropertyManagement/PropertyTable';
-import TrelloBoard from './components/TrelloBoard/TrelloBoard';
-
-// Constants and utilities
-import { statusOptions } from './constants';
-import { validatePropertyForm } from './utils';
-
-const PropertiesRefactored = () => {
-  // Custom hooks
-  const {
-    properties,
-    propertyForm,
-    editProperty,
-    showPropertyModal,
-    showDetailModal,
-    propertyToView,
-    showDisableModal,
-    propertyToDisable,
-    setProperties,
-    resetPropertyForm,
-    openPropertyModal,
-    closePropertyModal,
-    openDetailModal,
-    closeDetailModal,
-    openDisableModal,
-    closeDisableModal,
-    updatePropertyForm,
-    updatePropertyFormNested,
-    updateAmenidades,
-    addAmenidad,
-    removeAmenidad,
-    updateImages,
+const Properties = () => {
+  // Hook para manejar propiedades
+  const { 
+    properties, 
+    propertyTypes,
+    propertyStates,
+    loading, 
+    error, 
+    loadProperties, 
+    createProperty, 
+    updateProperty, 
+    deleteProperty
   } = useProperties();
 
-  const {
-    sedes,
-    selectedProjectId,
-    showAddProject,
-    newProject,
-    selectProject,
-    openAddProjectModal,
-    closeAddProjectModal,
-    updateNewProject,
-    addProject,
-    getSelectedProject,
-    getProjectStatistics,
-    updateProjectProperties,
-  } = useProjects();
+  // Estados locales
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+  const [searchTerm, setSearchTerm] = useState("");
+  const [editProperty, setEditProperty] = useState(null);
 
-  const {
-    searchTerm,
-    filterEstado,
-    setSearchTerm,
-    setFilterEstado,
-    filterProperties,
-    clearFilters,
-    hasActiveFilters,
-  } = useFilters();
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
 
-  // Local state
-  const [currentView, setCurrentView] = useState('table');
-  const [isLoading, setIsLoading] = useState(false);
-  const [currentSedePage, setCurrentSedePage] = useState(1);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [showDeleteSuccess, setShowDeleteSuccess] = useState(false);
+  const [propertyToDelete, setPropertyToDelete] = useState(null);
 
-  // Pagination constants
-  const SEDES_PER_PAGE = 4;
-
-  // Get current project and its properties
-  const currentProject = getSelectedProject();
-  const currentProjectProperties = currentProject?.propiedades || [];
-  const filteredProperties = filterProperties(currentProjectProperties);
-  const stats = getProjectStatistics(currentProject);
-
-  // --- PAGINACIÓN DE SEDES ---
-  const totalSedesPages = Math.ceil(sedes.length / SEDES_PER_PAGE);
-  const startIndex = (currentSedePage - 1) * SEDES_PER_PAGE;
-  const endIndex = startIndex + SEDES_PER_PAGE;
-  const sedesToShow = sedes.slice(startIndex, endIndex);
-
-  const handleSedePageChange = (page) => {
-    setCurrentSedePage(page);
-  };
-
-  // Load properties for current project
+  // Cerrar el modal de éxito después de 3 segundos
   useEffect(() => {
-    if (currentProject) {
-      setProperties(currentProject.propiedades || []);
+    if (showSuccessModal) {
+      const timeout = setTimeout(() => {
+        setShowSuccessModal(false);
+        setSuccessMessage("");
+      }, 2000);
+      return () => clearTimeout(timeout);
     }
-  }, [currentProject, setProperties]);
+  }, [showSuccessModal]);
 
-  // Handlers
-  const handleAddProject = (formData) => {
-    addProject(formData);
-  };
-
-  const handleSaveProperty = async (formData) => {
-    setIsLoading(true);
-    
-    try {
-      // Validate form
-      const validation = validatePropertyForm(formData);
-      if (!validation.isValid) {
-        console.error('Validation errors:', validation.errors);
-        return;
-      }
-
-      // Create or update property
-      const newProperty = {
-        ...formData,
-        id: editProperty ? editProperty.id : Date.now(),
-        sedeId: selectedProjectId,
-      };
-
-      if (editProperty) {
-        // Update existing property
-        const updatedProperties = properties.map(p => 
-          p.id === editProperty.id ? newProperty : p
-        );
-        setProperties(updatedProperties);
-        updateProjectProperties(selectedProjectId, updatedProperties);
-      } else {
-        // Add new property
-        const updatedProperties = [...properties, newProperty];
-        setProperties(updatedProperties);
-        updateProjectProperties(selectedProjectId, updatedProperties);
-      }
-
-      closePropertyModal();
-    } catch (error) {
-      console.error('Error saving property:', error);
-    } finally {
-      setIsLoading(false);
+  const handleCreateProperty = async (propertyData) => {
+    const result = await createProperty(propertyData);
+    if (result.success) {
+      setSuccessMessage("Propiedad creada correctamente");
+      setShowSuccessModal(true);
+      setIsModalOpen(false);
+    } else {
+      setSuccessMessage(`Error: ${result.error}`);
+      setShowSuccessModal(true);
     }
   };
 
-  const handleDeleteProperty = (property) => {
-    const updatedProperties = properties.filter(p => p.id !== property.id);
-    setProperties(updatedProperties);
-    updateProjectProperties(selectedProjectId, updatedProperties);
-  };
-
-  const handleDisableProperty = (property) => {
-    openDisableModal(property);
-  };
-
-  const confirmDisableProperty = () => {
-    if (propertyToDisable) {
-      const updatedProperty = { ...propertyToDisable, estado: 'deshabilitada' };
-      const updatedProperties = properties.map(p => 
-        p.id === propertyToDisable.id ? updatedProperty : p
-      );
-      setProperties(updatedProperties);
-      updateProjectProperties(selectedProjectId, updatedProperties);
+  const handleUpdateProperty = async (updatedProperty) => {
+    const result = await updateProperty(updatedProperty.id, updatedProperty);
+    if (result.success) {
+      setEditProperty(null);
+      setSuccessMessage("Propiedad actualizada correctamente");
+      setShowSuccessModal(true);
+    } else {
+      setSuccessMessage(`Error: ${result.error}`);
+      setShowSuccessModal(true);
     }
-    closeDisableModal();
   };
 
-  const handlePropertyMove = (propertyId, newStatus) => {
-    const updatedProperties = properties.map(p => 
-      p.id === propertyId ? { ...p, estado: newStatus } : p
+  const { filteredProperties, paginatedProperties, totalPages } = useFilteredProperties(
+    properties,
+    searchTerm,
+    {},
+    currentPage,
+    itemsPerPage
+  );
+
+  // Calcular estadísticas
+  const totalPropiedades = properties?.length || 0;
+  const totalVentas = properties?.filter(p => p.estado?.nombre === 'Vendida').length || 0;
+  const totalArriendos = properties?.filter(p => p.estado?.nombre === 'Arrendada').length || 0;
+  const totalActivas = properties?.filter(p => p.estado?.nombre === 'Disponible').length || 0;
+
+  const handleDeleteClick = (property) => {
+    setPropertyToDelete(property);
+    setShowDeleteConfirm(true);
+  };
+
+  const handleDelete = async () => {
+    const result = await deleteProperty(propertyToDelete.id);
+    if (result.success) {
+      setShowDeleteConfirm(false);
+      setShowDeleteSuccess(true);
+      setPropertyToDelete(null);
+    } else {
+      setSuccessMessage(`Error: ${result.error}`);
+      setShowSuccessModal(true);
+      setShowDeleteConfirm(false);
+      setPropertyToDelete(null);
+    }
+  };
+
+  const handleCancelDelete = () => {
+    setShowDeleteConfirm(false);
+    setPropertyToDelete(null);
+  };
+
+  const handleCloseDeleteSuccess = () => {
+    setShowDeleteSuccess(false);
+  };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600 dark:text-gray-400">Cargando propiedades...</p>
+        </div>
+      </div>
     );
-    setProperties(updatedProperties);
-    updateProjectProperties(selectedProjectId, updatedProperties);
-  };
+  }
 
-  const handleViewProperty = (property) => {
-    openDetailModal(property);
-  };
+  if (error) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-center">
+          <p className="text-red-600 mb-4">Error: {error}</p>
+          <Button onClick={loadProperties} className="flex items-center gap-2">
+            <RefreshCw size={16} />
+            Reintentar
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="p-6">
-      {/* Projects/Sedes Section */}
-      <div className="mb-8">
-        <h2 className="text-xl font-bold mb-4 flex items-center gap-2 text-gray-900 dark:text-white">
-          <Building2 className="w-6 h-6 text-primary-500" /> 
-          Sedes
-        </h2>
-        
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {sedesToShow.map((sede) => (
-            <ProjectCard
-              key={sede.id}
-              project={sede}
-              isActive={sede.id === selectedProjectId}
-              onClick={selectProject}
-            />
-          ))}
-          
-          <ProjectCard
-            showAddButton={true}
-            onAddClick={openAddProjectModal}
-          />
+    <div className="space-y-6 relative dark:bg-gray-900 min-h-screen text-gray-900 dark:text-gray-100">
+      {showSuccessModal && (
+        <SuccessModal
+          message={successMessage}
+          onClose={() => setShowSuccessModal(false)}
+        />
+      )}
+
+      {/* Encabezado */}
+      <div className="flex justify-between items-center">
+        <div>
+          <h1 className="text-2xl font-semibold text-gray-900 dark:text-white">
+            Propiedades
+          </h1>
+          <p className="text-gray-500 dark:text-gray-400 mt-1">
+            Gestión y administración de las propiedades del sistema
+          </p>
         </div>
-        {/* Paginación de sedes - solo mostrar si hay más de 4 sedes */}
-        {sedes.length > SEDES_PER_PAGE && (
-          <div className="mt-6">
-            <Pagination
-              current={currentSedePage}
-              total={totalSedesPages}
-              onPageChange={handleSedePageChange}
-            />
+        <div className="space-x-2 sm:gap-2 flex items-center">
+          <Button 
+            onClick={loadProperties}
+            variant="outline" 
+            className="bg-gray-500 hover:bg-gray-600 dark:bg-gray-800 dark:text-white h-12 flex items-center gap-2"
+          >
+            <RefreshCw size={16} />
+            Actualizar
+          </Button>
+          <Button 
+            onClick={() => setIsModalOpen(true)}
+            className="bg-blue-500 hover:bg-blue-600 text-white h-12 flex items-center gap-2"
+          >
+            <Plus size={16} />
+            Nueva Propiedad
+          </Button>
+        </div>
+      </div>
+
+      {/* Tarjetas estadísticas */}
+      <Statistics
+        stats={{
+          total: totalPropiedades,
+          disponibles: totalActivas,
+          arrendadas: totalArriendos,
+          vendidas: totalVentas
+        }}
+      />
+
+      {/* Buscador */}
+      <div className="space-y-4">
+        <PropertySearchBar
+          value={searchTerm}
+          onChange={(value) => {
+            setSearchTerm(value);
+            setCurrentPage(1);
+          }}
+        />
+        {searchTerm && (
+          <div className="text-sm text-gray-600 dark:text-gray-400">
+            {filteredProperties.length === 0 ? (
+              <span>No se encontraron resultados para "{searchTerm}"</span>
+            ) : (
+              <span>
+                {filteredProperties.length} resultado{filteredProperties.length !== 1 ? 's' : ''} encontrado{filteredProperties.length !== 1 ? 's' : ''} para "{searchTerm}"
+              </span>
+            )}
           </div>
         )}
       </div>
 
-      {/* Statistics */}
-      <Statistics stats={stats} />
-
-      {/* View Toggle and Filters */}
-      <div className="flex flex-col md:flex-row gap-4 mb-4 items-center justify-between">
-        <ViewToggle 
-          currentView={currentView} 
-          onViewChange={setCurrentView} 
-        />
-        
-        <FilterBar
-          searchTerm={searchTerm}
-          onSearchChange={setSearchTerm}
-          filterEstado={filterEstado}
-          onFilterChange={setFilterEstado}
-          onAddProperty={() => openPropertyModal()}
-          hasActiveFilters={hasActiveFilters}
-          onClearFilters={clearFilters}
-        />
-      </div>
-
-      {/* Content View */}
-      {currentView === 'table' ? (
-        <PropertyTable
-          properties={filteredProperties}
-          onView={handleViewProperty}
-          onEdit={openPropertyModal}
-          onDelete={handleDeleteProperty}
-          onDisable={handleDisableProperty}
-        />
-      ) : (
-        <div className="h-[600px]">
-          <TrelloBoard
-            properties={filteredProperties}
-            onPropertyMove={handlePropertyMove}
-            onPropertyEdit={openPropertyModal}
-            onPropertyDelete={handleDeleteProperty}
-            onAddProperty={(status) => {
-              updatePropertyForm('estado', status);
-              openPropertyModal();
-            }}
+      {/* Modal de crear propiedad */}
+      {isModalOpen && (
+        <Modal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          title="Nueva Propiedad"
+          size="xl"
+        >
+          <CreatePropertyModal
+            propertyTypes={propertyTypes}
+            propertyStates={propertyStates}
+            onClose={() => setIsModalOpen(false)}
+            onSubmit={handleCreateProperty}
           />
-        </div>
+        </Modal>
       )}
 
-      {/* Modals */}
-      
-      {/* Add Project Modal */}
-      <Modal 
-        isOpen={showAddProject} 
-        onClose={closeAddProjectModal} 
-        title="Crear nueva sede"
-      >
-        <ProjectForm
-          formData={newProject}
-          onFormChange={updateNewProject}
-          onSubmit={handleAddProject}
-          onCancel={closeAddProjectModal}
-        />
-      </Modal>
+      {/* Modal de edición */}
+      {editProperty && (
+        <Modal
+          isOpen={!!editProperty}
+          onClose={() => setEditProperty(null)}
+          title="Editar Propiedad"
+          size="xl"
+        >
+          <EditPropertyModal
+            property={editProperty}
+            propertyTypes={propertyTypes}
+            propertyStates={propertyStates}
+            onClose={() => setEditProperty(null)}
+            onSubmit={handleUpdateProperty}
+          />
+        </Modal>
+      )}
 
-      {/* Property Form Modal */}
-      <Modal 
-        isOpen={showPropertyModal} 
-        onClose={closePropertyModal} 
-        title={editProperty ? "Editar propiedad" : "Nueva propiedad"} 
-        size="xl"
-      >
-        <PropertyForm
-          formData={propertyForm}
-          onFormChange={updatePropertyForm}
-          onNestedChange={updatePropertyFormNested}
-          onAmenidadChange={updateAmenidades}
-          onAddAmenidad={addAmenidad}
-          onRemoveAmenidad={removeAmenidad}
-          onImagesChange={updateImages}
-          onSubmit={handleSaveProperty}
-          onCancel={closePropertyModal}
-          isEditing={!!editProperty}
-          isLoading={isLoading}
-        />
-      </Modal>
-
-      {/* Property Detail Modal */}
-      <Modal 
-        isOpen={showDetailModal} 
-        onClose={closeDetailModal} 
-        title={propertyToView ? (propertyToView.titulo || propertyToView.name) : "Detalles de propiedad"} 
-        size="xl"
-      >
-        <PropertyDetail property={propertyToView} />
-      </Modal>
-
-      {/* Disable Property Confirmation Modal */}
-      <Modal 
-        isOpen={showDisableModal} 
-        onClose={closeDisableModal} 
-        title="Deshabilitar propiedad"
-      >
-        <div className="space-y-4">
-          <p className="text-gray-900 dark:text-white">
-            ¿Estás seguro que deseas deshabilitar la propiedad{' '}
-            <span className="font-semibold text-gray-700 dark:text-gray-300">
-              {propertyToDisable?.titulo || propertyToDisable?.name}
-            </span>?
-          </p>
-          <div className="flex justify-end gap-2">
-            <Button variant="danger" className="h-12 flex items-center gap-2" onClick={closeDisableModal}>
-              Cancelar
-            </Button>
-            <Button className="bg-blue-500 hover:bg-blue-600 text-white h-12 flex items-center gap-2" onClick={confirmDisableProperty}>
-              Deshabilitar
-            </Button>
+      {/* Tabla de propiedades */}
+      <div className="overflow-x-auto p-4 rounded-lg shadow-md bg-white dark:bg-gray-800">
+        {paginatedProperties.length > 0 ? (
+          <PropertyTable
+            properties={paginatedProperties}
+            onEdit={setEditProperty}
+            onDelete={handleDeleteClick}
+          />
+        ) : (
+          <div className="text-center py-12">
+            <div className="text-gray-400 dark:text-gray-500 mb-4">
+              <svg className="mx-auto h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+              </svg>
+            </div>
+            <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
+              {searchTerm ? 'No se encontraron propiedades' : 'No hay propiedades registradas'}
+            </h3>
+            <p className="text-gray-500 dark:text-gray-400">
+              {searchTerm 
+                ? `No se encontraron propiedades que coincidan con "${searchTerm}"`
+                : 'Comienza agregando una nueva propiedad'
+              }
+            </p>
+            {searchTerm && (
+              <button
+                onClick={() => setSearchTerm('')}
+                className="mt-4 text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
+              >
+                Limpiar búsqueda
+              </button>
+            )}
           </div>
-        </div>
-      </Modal>
+        )}
+      </div>
+
+      {/* Paginación */}
+      {paginatedProperties.length > 0 && totalPages > 1 && (
+        <Pagination
+          current={currentPage}
+          total={totalPages}
+          onPageChange={(page) => setCurrentPage(page)}
+        />
+      )}
+
+      {/* Confirmación de eliminación */}
+      {showDeleteConfirm && (
+        <DeleteConfirmModal
+          onCancel={handleCancelDelete}
+          onConfirm={handleDelete}
+        />
+      )}
+      {/* Éxito de eliminación */}
+      {showDeleteSuccess && (
+        <DeleteSuccessModal onClose={handleCloseDeleteSuccess} />
+      )}
     </div>
   );
 };
 
-export default PropertiesRefactored; 
+export default Properties;

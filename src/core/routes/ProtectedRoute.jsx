@@ -11,6 +11,7 @@ const ProtectedRoute = ({
   fallbackComponent = null
 }) => {
   const { 
+    user,
     isAuthenticated, 
     isLoading, 
     hasRole, 
@@ -40,6 +41,7 @@ const ProtectedRoute = ({
 
   // Verificar rol específico
   if (requiredRole && !hasRole(requiredRole)) {
+    
     return fallbackComponent || (
       <AccessDeniedMessage
         title="Acceso Denegado"

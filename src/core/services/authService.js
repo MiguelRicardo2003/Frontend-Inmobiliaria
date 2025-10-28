@@ -17,13 +17,29 @@ const authService = {
     }
   },
 
-  // Register
+  // Registar
   async register(userData) {
     try {
       const response = await apiClient.post('/auth/register', userData);
-      return { success: true, data: response.data };
+      
+      // Verificar si la respuesta es exitosa
+      if (response.data.success) {
+        return { 
+          success: true, 
+          data: response.data,
+          message: response.data.message || 'Usuario registrado correctamente'
+        };
+      }
+      
+      return { 
+        success: false, 
+        message: response.data.message || 'Error al registrar usuario'
+      };
     } catch (error) {
-      throw new Error(error.response?.data?.message || 'Error al registrar usuario');
+      const errorMessage = error.response?.data?.message || 
+                          error.response?.data?.errors?.[0]?.msg ||
+                          'Error al registrar usuario';
+      throw new Error(errorMessage);
     }
   },
 
@@ -33,7 +49,7 @@ const authService = {
     localStorage.removeItem('user');
   },
 
-  // Get current user
+  // Obtener Usuarios
   getCurrentUser() {
     try {
       const user = localStorage.getItem('user');
@@ -44,7 +60,7 @@ const authService = {
     }
   },
 
-  // Check if user is authenticated
+  // Verificar si el usuario esta autenticado
   isAuthenticated() {
     const token = localStorage.getItem('accessToken');
     return !!token;

@@ -11,7 +11,7 @@ const UserTableHeader = () => {
           Rol
         </th>
         <th scope="col" className="px-6 py-3">
-          Estado
+          Teléfono
         </th>
         <th scope="col" className="px-6 py-3">
           Fecha de registro

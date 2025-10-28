@@ -12,7 +12,7 @@ const UserTableActions = ({ user, onEdit, onDelete }) => {
         <Edit className="w-4 h-4" />
       </button>
       <button
-        onClick={() => onDelete(user.id)}
+        onClick={() => onDelete(user)}
         className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300 transition-colors"
         title="Eliminar usuario"
       >

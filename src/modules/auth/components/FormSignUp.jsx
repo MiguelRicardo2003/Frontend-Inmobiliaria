@@ -1,81 +1,21 @@
-import React, { useState } from "react";
-import Input from "../../../components/ui/Input";
-import Button from "../../../components/ui/Button";
+import Input from "@components/ui/Input";
+import Button from "@components/ui/Button";
 import { Eye, EyeOff } from "lucide-react";
-import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
-import useAuth from "../../../core/store/auth/useAuth";
+import { useFormRegister } from "@modules/auth/hooks/useFormRegister";
 
 const FormSignUp = () => {
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
-
-  const toggleConfirmPasswordVisibility = () => {
-    setShowConfirmPassword(!showConfirmPassword);
-  };
-
   const {
+    showPassword,
+    showConfirmPassword,
+    togglePasswordVisibility,
+    toggleConfirmPasswordVisibility,
+    isLoading,
     register,
     handleSubmit,
-    formState: { errors },
-    setError,
-  } = useForm();
-
-  const { login } = useAuth();
-
-  const onSubmit = async (data) => {
-    // Validar que las contraseñas coincidan
-    if (data.password !== data.confirmPassword) {
-      setError("confirmPassword", { type: "manual", message: "Las contraseñas no coinciden" });
-      return;
-    }
-
-    setIsLoading(true);
-
-    const payload = {
-      nombre: data.nombre,
-      apellido: data.apellido,
-      correo: data.email,
-      celular: data.telefono,
-      contrasenia: data.password,
-    };
-
-    try {
-      const authServiceModule = await import("../../../core/services/authService");
-      const res = await authServiceModule.default.register(payload);
-      
-      if (res?.success) {
-        // Mostrar mensaje de éxito
-        alert(res.message || 'Usuario registrado correctamente. Redirigiendo...');
-        
-        // Después del registro exitoso, hacer login automático
-        try {
-          const loginResult = await login({ correo: data.email, contrasenia: data.password });
-          if (loginResult?.success) {
-            // Redirigir al dashboard de cliente (los usuarios registrados son clientes por defecto)
-            window.location.href = '/client/dashboard';
-          }
-        } catch (loginError) {
-          console.error('Error en login automático:', loginError);
-          // Si falla el login automático, redirigir a login manual
-          window.location.href = '/login';
-        }
-      } else {
-        setError("root", { type: "server", message: res.message || "Error al registrar" });
-      }
-    } catch (error) {
-      console.error('Error en registro:', error);
-      const message = error?.message || "Error al registrar usuario";
-      setError("root", { type: "server", message });
-    } finally {
-      setIsLoading(false);
-    }
-  };
+    errors,
+    onSubmit,
+  } = useFormRegister();
 
   return (
     <div className="w-full max-w-md p-4 rounded-xl shadow-md bg-white max-h-[90vh] overflow-y-auto">

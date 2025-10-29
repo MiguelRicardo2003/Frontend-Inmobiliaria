@@ -1,68 +1,70 @@
-// import { useApi } from "@/core/api/useApi";
-// import type { LoginRequest, LoginResponse, AuthResponse } from "@/modules/auth/types/Auth.types";
-// import type { RegisterCandidateDto, RegisterCompanyDto } from "@/modules/auth/types/Auth.types";
+import apiClient from '@core/services/apiService';
 
-// const api = useApi();
+const authService = {
+  // Login
+  async login(credentials) {
+    try {
+      const response = await apiClient.post('/auth/login', credentials);
+      const { accessToken, usuario } = response.data;
+      
+      // Guardar token y usuario
+      localStorage.setItem('accessToken', accessToken);
+      localStorage.setItem('user', JSON.stringify(usuario));
+      
+      return { success: true, data: { accessToken, usuario } };
+    } catch (error) {
+      throw new Error(error.response?.data?.message || 'Error al iniciar sesión');
+    }
+  },
 
-// // Función helper para mapear la respuesta del backend
-// const mapResponse = (response: AuthResponse): LoginResponse['data'] => {
-//     return {
-//         user: response.user,
-//         accessToken: response.tokens.accessToken,
-//         refreshToken: response.tokens.refreshToken
-//     };
-// };
+  // Registar
+  async register(userData) {
+    try {
+      const response = await apiClient.post('/auth/register', userData);
+      
+      // Verificar si la respuesta es exitosa
+      if (response.data.success) {
+        return { 
+          success: true, 
+          data: response.data,
+          message: response.data.message || 'Usuario registrado correctamente'
+        };
+      }
+      
+      return { 
+        success: false, 
+        message: response.data.message || 'Error al registrar usuario'
+      };
+    } catch (error) {
+      const errorMessage = error.response?.data?.message || 
+                          error.response?.data?.errors?.[0]?.msg ||
+                          'Error al registrar usuario';
+      throw new Error(errorMessage);
+    }
+  },
 
-// // Función helper para manejar errores
-// const handleError = (error: any): LoginResponse => {
-//     const errorMessage = error.response?.data?.message ||
-//                         error.response?.data?.error ||
-//                         error.message ||
-//                         "Error desconocido";
+  // Logout
+  logout() {
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('user');
+  },
 
-//     return {
-//         success: false,
-//         message: errorMessage,
-//         data: undefined
-//     };
-// };
+  // Obtener Usuarios
+  getCurrentUser() {
+    try {
+      const user = localStorage.getItem('user');
+      return user ? JSON.parse(user) : null;
+    } catch (error) {
+      console.error('Error al obtener usuario actual:', error);
+      return null;
+    }
+  },
 
-// // Funciones del servicio de autenticación
-// export const login = async (data: LoginRequest): Promise<LoginResponse> => {
-//     try {
-//         const response = await api.authPost<AuthResponse>("/auth/login", data);
-//         const mappedResponse = mapResponse(response);
-//         return { success: true, data: mappedResponse, message: "Login exitoso" };
-//     } catch (error: any) {
-//         return handleError(error);
-//     }
-// };
+  // Verificar si el usuario esta autenticado
+  isAuthenticated() {
+    const token = localStorage.getItem('accessToken');
+    return !!token;
+  }
+};
 
-// // Registrar candidato
-// export const registerCandidate = async (data: RegisterCandidateDto): Promise<LoginResponse> => {
-//     try {
-//         const response = await api.authPost<AuthResponse>("/auth/register-candidate", data);
-//         const mappedResponse = mapResponse(response);
-//         return { success: true, data: mappedResponse, message: "Registro exitoso" };
-//     } catch (error: any) {
-//         return handleError(error);
-//     }
-// };
-
-// // Registrar empresa
-// export const registerCompany = async (data: RegisterCompanyDto): Promise<LoginResponse> => {
-//     try {
-//         const response = await api.authPost<AuthResponse>("/auth/register-company", data);
-//         const mappedResponse = mapResponse(response);
-//         return { success: true, data: mappedResponse, message: "Registro de empresa exitoso" };
-//     } catch (error: any) {
-//         return handleError(error);
-//     }
-// };
-
-// export const authService = {
-//     login,
-//     registerCandidate,
-//     registerCompany
-// };
-
+export default authService;

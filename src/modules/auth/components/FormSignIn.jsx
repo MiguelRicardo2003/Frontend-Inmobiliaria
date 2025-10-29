@@ -1,54 +1,18 @@
-import Input from "../../../components/ui/Input";
+import Input from "@components/ui/Input";
 import { Eye, EyeOff } from "lucide-react";
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useForm } from "react-hook-form";
-import Button from "../../../components/ui/Button";
-import useAuth from "../../../core/store/auth/useAuth";
+import { Link } from "react-router-dom";
+import Button from "@components/ui/Button";
+import { useFormLogin } from "@modules/auth/hooks/useFormLogin";
 
 const FormSignIn = () => {
-  const [showPassword, setShowPassword] = useState(false);
-  const { register, handleSubmit, formState: { errors }, setError } = useForm();
-  const { login } = useAuth();
-  const navigate = useNavigate();
-
-  const onSubmit = async (data) => {
-    try {
-      const result = await login({ correo: data.email, contrasenia: data.password });
-      if (result?.success) {
-        // Redirigir según el rol del usuario
-        console.log('Usuario logueado:', result.user); // Para debug
-        
-        // Verificar si es administrador (diferentes variaciones posibles)
-        const isAdmin = result.user?.rol === 'Administrador' || 
-                       result.user?.rol === 'Admin' || 
-                       result.user?.rol === 'administrador' ||
-                       result.user?.rol?.toLowerCase() === 'administrador';
-        
-        const isAgent = result.user?.rol === 'Agente' ||
-                       result.user?.rol === 'agente' ||
-                       result.user?.rol?.toLowerCase() === 'agente';
-        
-        if (isAdmin) {
-          console.log('Redirigiendo a dashboard (Administrador)');
-          navigate('/dashboard');
-        } else if (isAgent) {
-          console.log('Redirigiendo a dashboard (Agente)');
-          navigate('/agent/dashboard');
-        } else if (result.user?.rol === 'Cliente') {
-          console.log('Redirigiendo a dashboard de cliente');
-          navigate('/client/dashboard');
-        } else {
-          console.log('Redirigiendo a dashboard de cliente (Rol por defecto):', result.user?.rol);
-          navigate('/client/dashboard'); // Por defecto al dashboard de cliente
-        }
-      } else {
-        setError("root", { type: "server", message: result?.error || "Credenciales inválidas" });
-      }
-    } catch (error) {
-      setError("root", { type: "server", message: error?.message || "Error al iniciar sesión" });
-    }
-  };
+  const {
+    showPassword,
+    togglePasswordVisibility,
+    register,
+    handleSubmit,
+    errors,
+    onSubmit,
+  } = useFormLogin();
 
   return (
     <div className="w-full max-w-md md:max-w-lg p-6 md:p-8 rounded-xl shadow-md bg-white">
@@ -80,7 +44,7 @@ const FormSignIn = () => {
           placeholder="Contraseña"
           icon={showPassword ? EyeOff : Eye}
           iconPosition="right"
-          onIconClick={() => setShowPassword(!showPassword)}
+          onIconClick={togglePasswordVisibility}
           className="border-2"
           {...register("password", {
             required: "La contraseña es requerida"

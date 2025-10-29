@@ -13,7 +13,9 @@ import Properties from "../../../modules/public/properties-inmobiliaria/Properti
 import Service from "../../../modules/public/services-inmobiliaria/pages/Service";
 import Login from "../../../modules/auth/pages/auth.module";
 import Register from "../../../modules/auth/pages/Register";
-import ForgotPassword from "../../../modules/auth/components/ForgotPassword";
+import ForgotPassword from "../../../modules/auth/ForgotPassword";
+import VerifyOTP from "../../../modules/auth/VerifyOTP";
+import ResetPassword from "../../../modules/auth/ResetPassword";
 import PublicLayout from "../../../shared/layouts/public/PublicLayout";
 import { PUBLIC_ROUTES } from "./RouteConfig";
 
@@ -61,7 +63,15 @@ export const publicRoutes = [
     element: <Register />,
   },
   {
-    path: "forgotPassword",
+    path: "forgot-password",
     element: <ForgotPassword />,
+  },
+  {
+    path: "verify-otp",
+    element: <VerifyOTP />,
+  },
+  {
+    path: "reset-password",
+    element: <ResetPassword />,
   },
 ];

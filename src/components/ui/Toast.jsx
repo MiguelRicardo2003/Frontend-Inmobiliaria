@@ -49,8 +49,8 @@ const Toast = ({
   if (!isVisible) return null;
 
   return (
-    <div className={`fixed top-4 right-4 z-50 max-w-sm w-full animate-in slide-in-from-right-full duration-300`}>
-      <div className={`${style.bg} ${style.border} border rounded-lg p-4 shadow-lg`}>
+    <div className="animate-in slide-in-from-right-5 fade-in duration-300">
+      <div className={`${style.bg} ${style.border} border rounded-lg p-4 shadow-lg max-w-sm`}>
         <div className="flex items-start">
           <div className="flex-shrink-0">
             {style.icon}
@@ -63,7 +63,7 @@ const Toast = ({
           <div className="ml-4 flex-shrink-0">
             <button
               onClick={onClose}
-              className={`inline-flex text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 focus:outline-none focus:text-gray-600 dark:focus:text-gray-300`}
+              className={`inline-flex text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 focus:outline-none focus:text-gray-600 dark:focus:text-gray-300 transition-colors`}
             >
               <X className="w-4 h-4" />
             </button>
@@ -74,4 +74,4 @@ const Toast = ({
   );
 };
 
-export default Toast; 
+export default Toast;

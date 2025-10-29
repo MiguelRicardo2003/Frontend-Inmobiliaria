@@ -64,7 +64,51 @@ const authService = {
   isAuthenticated() {
     const token = localStorage.getItem('accessToken');
     return !!token;
+  },
+
+  // Solicitar restablecimiento de contraseña (envía OTP)
+  async forgotPassword(correo) {
+    try {
+      const response = await apiClient.post('/auth/forgot-password', { correo });
+      return { 
+        success: true, 
+        message: response.data.message 
+      };
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  // Verificar OTP
+  async verifyOTP(correo, otp) {
+    try {
+      const response = await apiClient.post('/auth/verify-otp', { correo, otp });
+      return { 
+        success: true, 
+        resetToken: response.data.resetToken,
+        message: response.data.message 
+      };
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  // Restablecer contraseña
+  async resetPassword(resetToken, nuevaContrasenia) {
+    try {
+      const response = await apiClient.post('/auth/reset-password', { 
+        resetToken, 
+        nuevaContrasenia 
+      });
+      return { 
+        success: true, 
+        message: response.data.message 
+      };
+    } catch (error) {
+      throw error;
+    }
   }
 };
 
+export { authService };
 export default authService;

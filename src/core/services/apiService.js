@@ -24,11 +24,18 @@ apiClient.interceptors.request.use((config) => {
   return config;
 });
 
-// Logout automático si el token expira
+// Logout automático si el token expira (excepto en rutas de auth)
 apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response?.status === 401) {
+    // No redirigir en rutas de autenticación
+    const isAuthRoute = error.config?.url?.includes('/auth/login') || 
+                       error.config?.url?.includes('/auth/register') ||
+                       error.config?.url?.includes('/auth/forgot-password') ||
+                       error.config?.url?.includes('/auth/verify-otp') ||
+                       error.config?.url?.includes('/auth/reset-password');
+    
+    if (error.response?.status === 401 && !isAuthRoute) {
       localStorage.removeItem('accessToken');
       localStorage.removeItem('user');
       window.location.href = '/login';

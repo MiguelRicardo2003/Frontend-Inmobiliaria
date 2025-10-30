@@ -34,7 +34,7 @@ const Statistics = ({ stats }) => {
     <div className="mb-6">
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         {statItems.map((item, index) => (
-          <Card key={index}>
+          <Card key={index} className="bg-white dark:bg-gray-800">
             <CardContent className="text-center">
               <div className="flex items-center justify-center gap-2 mb-1">
                 <span className="text-lg">{item.icon}</span>

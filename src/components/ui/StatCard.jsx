@@ -11,7 +11,7 @@ const StatCard = ({ title, value, icon, trend, className = '', variant = 'defaul
   };
 
   return (
-    <Card className={`${className} hover:translate-y-[-2px] transition-all duration-200`}>
+    <Card className={`bg-white dark:bg-gray-800 ${className} hover:translate-y-[-2px] transition-all duration-200`}>
       <CardContent className="flex items-start">
         <div className={`mr-4 p-2 rounded-md ${variantClasses[variant]}`}>
           {icon}

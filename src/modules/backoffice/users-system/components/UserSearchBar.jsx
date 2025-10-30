@@ -2,7 +2,7 @@ import { Search } from "lucide-react";
 
 const UserSearchBar = ({ value, onChange }) => {
   return (
-    <div className="w-full md:w-1/4 relative">
+    <div className="w-full relative">
       <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
       <input
         type="text"

@@ -1,5 +1,4 @@
 import React from "react";
-import { Edit, Trash2, UserCheck, UserX } from "lucide-react";
 import UserTableStatus from "./UserTableStatus";
 import UserTableActions from "./UserTableActions";
 

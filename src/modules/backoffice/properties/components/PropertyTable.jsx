@@ -66,7 +66,6 @@ export default function PropertyTable({ properties, onView, onEdit, onDelete, on
                 <th className="text-left py-3 px-4 font-medium text-gray-900 dark:text-white">Baños</th>
                 <th className="text-left py-3 px-4 font-medium text-gray-900 dark:text-white">Tipo</th>
                 <th className="text-left py-3 px-4 font-medium text-gray-900 dark:text-white">Estado</th>
-                <th className="text-left py-3 px-4 font-medium text-gray-900 dark:text-white">Dueño</th>
                 <th className="text-left py-3 px-4 font-medium text-gray-900 dark:text-white">Fecha publicación</th>
                 <th className="text-left py-3 px-4 font-medium text-gray-900 dark:text-white">Acciones</th>
               </tr>
@@ -74,7 +73,7 @@ export default function PropertyTable({ properties, onView, onEdit, onDelete, on
             <tbody>
               {properties.length === 0 ? (
                 <tr>
-                  <td colSpan={12} className="px-6 py-12 text-center text-gray-500 dark:text-gray-400">
+                  <td colSpan={11} className="px-6 py-12 text-center text-gray-500 dark:text-gray-400">
                     No hay propiedades para mostrar.
                   </td>
                 </tr>
@@ -115,30 +114,26 @@ export default function PropertyTable({ properties, onView, onEdit, onDelete, on
                           {estado}
                         </span>
                       </td>
-                      <td className="py-4 px-4 dark:text-white">
-                        <span>{dueno}</span>
-                        {duenoEmail && <div className="text-xs text-gray-500 dark:text-white">{duenoEmail}</div>}
-                      </td>
                       <td className="py-4 px-4 dark:text-white">{fecha}</td>
                       <td className="py-4 px-4">
                         <div className="flex items-center space-x-2">
                           <button
                             onClick={() => onView && onView(property)}
-                            className="p-1 text-gray-600 hover:text-primary-600 dark:text-gray-400 dark:hover:text-primary-400"
+                            className="p-1 text-gray-600 dark:text-gray-400 hover:opacity-70 transition-opacity"
                             title="Ver detalles"
                           >
                             <Eye className="w-4 h-4" />
                           </button>
                           <button
                             onClick={() => onEdit && onEdit(property)}
-                            className="p-1 text-gray-600 hover:text-yellow-600 dark:text-gray-400 dark:hover:text-yellow-400"
+                            className="p-1 text-gray-600 dark:text-gray-400 hover:opacity-70 transition-opacity"
                             title="Editar"
                           >
                             <Pencil className="w-4 h-4" />
                           </button>
                           <button
                             onClick={() => handleDeleteClick(property)}
-                            className="p-1 text-gray-600 hover:text-red-600 dark:text-gray-400 dark:hover:text-red-400"
+                            className="p-1 text-gray-600 dark:text-gray-400 hover:opacity-70 transition-opacity"
                             title="Eliminar"
                           >
                             <Trash2 className="w-4 h-4" />
@@ -146,7 +141,7 @@ export default function PropertyTable({ properties, onView, onEdit, onDelete, on
                           {onDisable && estado !== 'Deshabilitada' && (
                             <button
                               onClick={() => onDisable(property)}
-                              className="p-1 text-gray-600 hover:text-red-700 dark:text-gray-400 dark:hover:text-red-400"
+                              className="p-1 text-gray-600 dark:text-gray-400 hover:opacity-70 transition-opacity"
                               title="Deshabilitar"
                             >
                               <Ban className="w-4 h-4" />

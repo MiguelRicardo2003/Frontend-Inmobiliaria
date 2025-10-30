@@ -1,9 +1,9 @@
-import Input from "../../../components/ui/Input";
+import Input from "@components/ui/Input";
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import Button from "../../../components/ui/Button";
+import Button from "@components/ui/Button";
 import useAuth from "../../../core/store/auth/useAuth";
 import useToast from "../../../shared/hooks/useToast";
 import ToastContainer from "../../../components/ui/ToastContainer";
@@ -16,7 +16,6 @@ const FormSignIn = () => {
   const { toasts, showSuccess, showError, removeToast } = useToast();
 
   const onSubmit = async (data, event) => {
-    // Prevenir el comportamiento por defecto del formulario
     if (event) {
       event.preventDefault();
     }
@@ -24,13 +23,9 @@ const FormSignIn = () => {
     try {
       const result = await login({ correo: data.email, contrasenia: data.password });
       if (result?.success) {
-        // Mostrar toast de éxito
         showSuccess('¡Inicio de sesión exitoso! Redirigiendo...', 3000);
-        
-        // Redirigir según el rol del usuario
         console.log('Usuario logueado:', result.user);
         
-        // Verificar si es administrador
         const isAdmin = result.user?.rol === 'Administrador' || 
                        result.user?.rol === 'Admin' || 
                        result.user?.rol === 'administrador' ||
@@ -40,7 +35,6 @@ const FormSignIn = () => {
                        result.user?.rol === 'agente' ||
                        result.user?.rol?.toLowerCase() === 'agente';
         
-        // Esperar un momento antes de redirigir para que se vea el toast
         setTimeout(() => {
           if (isAdmin) {
             console.log('Redirigiendo a dashboard (Administrador)');
@@ -57,12 +51,10 @@ const FormSignIn = () => {
           }
         }, 1000);
       } else {
-        // Mostrar toast de error sin recargar la página
         showError(result?.error || 'Credenciales inválidas', 5000);
         setError("root", { type: "server", message: result?.error || "Credenciales inválidas" });
       }
     } catch (error) {
-      // Mostrar toast de error sin recargar la página
       console.error('Error en login:', error);
       showError(error?.message || 'Error al iniciar sesión', 5000);
       setError("root", { type: "server", message: error?.message || "Error al iniciar sesión" });
@@ -79,7 +71,6 @@ const FormSignIn = () => {
     <>
       <ToastContainer toasts={toasts} onRemoveToast={removeToast} />
       <div className="w-full max-w-md md:max-w-lg p-6 md:p-8 rounded-xl shadow-md bg-white">
-        {/* Encabezado */}
         <div className="text-center space-y-1 mb-6">
           <div className="text-left text-sm text-gray-600">Bienvenido a JustHome</div>
           <h1 className="text-3xl md:text-4xl font-bold text-black">Iniciar sesión</h1>

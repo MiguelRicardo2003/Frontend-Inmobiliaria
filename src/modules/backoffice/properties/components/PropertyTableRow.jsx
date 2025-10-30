@@ -1,5 +1,4 @@
 import React from "react";
-import { Edit, Trash2, Eye } from "lucide-react";
 import PropertyTableActions from "./PropertyTableActions";
 
 const PropertyTableRow = ({ property, onEdit, onDelete }) => {

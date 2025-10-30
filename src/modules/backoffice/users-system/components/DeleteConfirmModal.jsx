@@ -1,7 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { AlertCircle } from "lucide-react";
 
-const DeleteConfirmModal = ({ onCancel, onConfirm }) => {
+const DeleteConfirmModal = ({ onCancel, onConfirm, message = "¿Está seguro que desea eliminar este usuario?" }) => {
   return (
     <AnimatePresence>
       <motion.div
@@ -21,7 +21,7 @@ const DeleteConfirmModal = ({ onCancel, onConfirm }) => {
             <AlertCircle className="text-blue-500" size={32} />
           </div>
           <h2 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">
-            ¿Está seguro que desea eliminar este usuario?
+            {message}
           </h2>
           <div className="flex justify-center space-x-4">
             <button

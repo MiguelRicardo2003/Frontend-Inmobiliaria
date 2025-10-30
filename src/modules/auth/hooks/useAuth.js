@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { toast } from "sonner";
-import authService from "@/core/services/authService";
+import authService from "../services/auth.service";
 import useAuth from "@/core/store/auth/useAuth";
 import { useNavigate } from "react-router-dom";
 

@@ -7,6 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../../../core/store/auth/useAuth";
 import useToast from "../../../shared/hooks/useToast";
 import ToastContainer from "../../../components/ui/ToastContainer";
+import authService from "../services/auth.service";
 
 const FormSignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -55,8 +56,7 @@ const FormSignUp = () => {
     };
 
     try {
-      const authServiceModule = await import("../../../core/services/authService");
-      const res = await authServiceModule.default.register(payload);
+      const res = await authService.register(payload);
       
       if (res?.success) {
         // Mostrar toast de éxito

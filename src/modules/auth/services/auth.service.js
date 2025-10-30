@@ -64,6 +64,58 @@ const authService = {
   isAuthenticated() {
     const token = localStorage.getItem('accessToken');
     return !!token;
+  },
+
+  // Solicitar código de recuperación de contraseña
+  async forgotPassword(email) {
+    try {
+      const response = await apiClient.post('/auth/forgot-password', { correo: email });
+      return { 
+        success: true, 
+        data: response.data,
+        message: response.data.message || 'Código enviado correctamente'
+      };
+    } catch (error) {
+      const errorMessage = error.response?.data?.message || 'Error al enviar el código';
+      throw new Error(errorMessage);
+    }
+  },
+
+  // Verificar código OTP
+  async verifyOTP(email, otp) {
+    try {
+      const response = await apiClient.post('/auth/verify-otp', { 
+        correo: email, 
+        otp: otp 
+      });
+      return { 
+        success: true, 
+        data: response.data,
+        resetToken: response.data.resetToken,
+        message: response.data.message || 'Código verificado correctamente'
+      };
+    } catch (error) {
+      const errorMessage = error.response?.data?.message || 'Código de verificación inválido';
+      throw new Error(errorMessage);
+    }
+  },
+
+  // Restablecer contraseña
+  async resetPassword(resetToken, newPassword) {
+    try {
+      const response = await apiClient.post('/auth/reset-password', { 
+        resetToken: resetToken,
+        nuevaContrasenia: newPassword 
+      });
+      return { 
+        success: true, 
+        data: response.data,
+        message: response.data.message || 'Contraseña restablecida exitosamente'
+      };
+    } catch (error) {
+      const errorMessage = error.response?.data?.message || 'Error al restablecer la contraseña';
+      throw new Error(errorMessage);
+    }
   }
 };
 

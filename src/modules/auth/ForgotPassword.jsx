@@ -23,7 +23,7 @@ const ForgotPassword = () => {
         setError(response.message || 'Error al enviar el código');
       }
     } catch (err) {
-      setError(err.response?.data?.message || 'Error al procesar la solicitud');
+      setError(err.message || 'Error al procesar la solicitud');
     } finally {
       setLoading(false);
     }

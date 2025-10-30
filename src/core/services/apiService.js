@@ -12,15 +12,26 @@ console.log('🔗 API Base URL:', API_BASE_URL); // Para debug
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
   timeout: 10000,
-  headers: {
-    'Content-Type': 'application/json',
-  },
+  // NO establecer Content-Type por defecto aquí
+  // Se manejará en el interceptor según el tipo de datos
 });
 
 // Token interceptor
 apiClient.interceptors.request.use((config) => {
   const token = localStorage.getItem('accessToken');
   if (token) config.headers.Authorization = `Bearer ${token}`;
+  
+  // Si NO es FormData, establecer Content-Type como JSON
+  // Si ES FormData, dejar que Axios maneje el Content-Type automáticamente
+  if (config.data && config.data instanceof FormData) {
+    // Es FormData - NO establecer Content-Type, Axios lo maneja automáticamente con boundary
+    // Eliminar Content-Type si existe para que Axios lo establezca correctamente
+    delete config.headers['Content-Type'];
+  } else {
+    // No es FormData o no hay data - establecer Content-Type como JSON
+    config.headers['Content-Type'] = 'application/json';
+  }
+  
   return config;
 });
 

@@ -299,6 +299,7 @@ const Properties = () => {
         <DeleteConfirmModal
           onCancel={handleCancelDelete}
           onConfirm={handleDelete}
+          message="¿Está seguro que desea eliminar esta propiedad?"
         />
       )}
       {/* Éxito de eliminación */}

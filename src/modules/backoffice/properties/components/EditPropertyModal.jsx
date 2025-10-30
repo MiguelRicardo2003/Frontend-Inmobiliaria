@@ -80,16 +80,16 @@ const EditPropertyModal = ({ property, onClose, onSubmit, propertyTypes = [], pr
   const validateForm = () => {
     const newErrors = {};
     
-    if (!formData.titulo.trim()) newErrors.titulo = 'El título es requerido';
-    if (!formData.descripcion.trim()) newErrors.descripcion = 'La descripción es requerida';
-    if (!formData.precio.trim()) newErrors.precio = 'El precio es requerido';
+    if (!formData.titulo || !formData.titulo.trim()) newErrors.titulo = 'El título es requerido';
+    if (!formData.descripcion || !formData.descripcion.trim()) newErrors.descripcion = 'La descripción es requerida';
+    if (!formData.precio || formData.precio.toString().trim() === '') newErrors.precio = 'El precio es requerido';
     else if (isNaN(formData.precio) || parseFloat(formData.precio) <= 0) newErrors.precio = 'El precio debe ser un número válido';
-    if (!formData.direccion.trim()) newErrors.direccion = 'La dirección es requerida';
-    if (!formData.metros_cuadrados.trim()) newErrors.metros_cuadrados = 'Los metros cuadrados son requeridos';
+    if (!formData.direccion || !formData.direccion.trim()) newErrors.direccion = 'La dirección es requerida';
+    if (!formData.metros_cuadrados || formData.metros_cuadrados.toString().trim() === '') newErrors.metros_cuadrados = 'Los metros cuadrados son requeridos';
     else if (isNaN(formData.metros_cuadrados) || parseFloat(formData.metros_cuadrados) <= 0) newErrors.metros_cuadrados = 'Los metros cuadrados deben ser un número válido';
-    if (!formData.habitaciones.trim()) newErrors.habitaciones = 'El número de habitaciones es requerido';
+    if (formData.habitaciones === undefined || formData.habitaciones === null || formData.habitaciones.toString().trim() === '') newErrors.habitaciones = 'El número de habitaciones es requerido';
     else if (isNaN(formData.habitaciones) || parseInt(formData.habitaciones) < 0) newErrors.habitaciones = 'El número de habitaciones debe ser un número válido';
-    if (!formData.banos.trim()) newErrors.banos = 'El número de baños es requerido';
+    if (formData.banos === undefined || formData.banos === null || formData.banos.toString().trim() === '') newErrors.banos = 'El número de baños es requerido';
     else if (isNaN(formData.banos) || parseInt(formData.banos) < 0) newErrors.banos = 'El número de baños debe ser un número válido';
     if (!formData.tipo_id) newErrors.tipo_id = 'El tipo de propiedad es requerido';
     if (!formData.estado_id) newErrors.estado_id = 'El estado de la propiedad es requerido';
@@ -105,12 +105,14 @@ const EditPropertyModal = ({ property, onClose, onSubmit, propertyTypes = [], pr
 
     setLoading(true);
     try {
-      // Por ahora, no enviamos las imágenes hasta implementar un servicio de almacenamiento
       const propertyData = {
         ...property,
-        ...formData
-        // imagenes: images, - Comentado temporalmente
-        // imagenes_existentes: existingImages - Comentado temporalmente
+        ...formData,
+        images, // Nuevas imágenes a subir
+        existingImages, // IDs de imágenes que NO se eliminaron
+        deletedImages: property.imagenes?.filter(img => 
+          !existingImages.find(ei => ei.id === img.id)
+        ).map(img => img.id) || [] // IDs de imágenes a eliminar
       };
       await onSubmit(propertyData);
     } catch (error) {
@@ -265,22 +267,91 @@ const EditPropertyModal = ({ property, onClose, onSubmit, propertyTypes = [], pr
           {errors.descripcion && <p className="text-red-500 text-xs mt-1">{errors.descripcion}</p>}
         </div>
 
-        {/* Sección de imágenes - Temporalmente deshabilitada */}
+        {/* Sección de imágenes existentes */}
+        {existingImages.length > 0 && (
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              Imágenes actuales
+            </label>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {existingImages.map((img, index) => (
+                <div key={img.id || index} className="relative group">
+                  <img
+                    src={img.url_imagen}
+                    alt={`Imagen ${index + 1}`}
+                    className="w-full h-32 object-cover rounded-lg border-2 border-gray-300 dark:border-gray-600"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => removeExistingImage(index)}
+                    className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-600"
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                  <span className="absolute bottom-1 left-1 bg-black bg-opacity-50 text-white text-xs px-2 py-1 rounded">
+                    {index + 1}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Sección para agregar nuevas imágenes */}
         <div>
           <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-            Imágenes de la propiedad
+            Agregar nuevas imágenes
           </label>
           <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6 text-center bg-gray-50 dark:bg-gray-700">
-            <svg className="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
-              <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-            <span className="mt-2 text-sm text-gray-600 dark:text-gray-400">
-              Funcionalidad de imágenes próximamente
-            </span>
-            <span className="text-xs text-gray-500 dark:text-gray-500">
-              Las imágenes se podrán agregar en una futura actualización
-            </span>
+            <input
+              type="file"
+              accept="image/*"
+              multiple
+              onChange={handleImageChange}
+              className="hidden"
+              id="image-upload"
+            />
+            <label htmlFor="image-upload" className="cursor-pointer">
+              <svg className="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
+                <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              <span className="mt-2 block text-sm text-gray-600 dark:text-gray-400">
+                Haz clic para seleccionar imágenes
+              </span>
+              <span className="text-xs text-gray-500 dark:text-gray-500">
+                PNG, JPG, GIF hasta 5MB
+              </span>
+            </label>
           </div>
+          
+          {/* Preview de nuevas imágenes */}
+          {imagePreview.length > 0 && (
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
+              {imagePreview.map((preview, index) => (
+                <div key={index} className="relative group">
+                  <img
+                    src={preview}
+                    alt={`Nueva ${index + 1}`}
+                    className="w-full h-32 object-cover rounded-lg border-2 border-blue-300 dark:border-blue-600"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => removeImage(index)}
+                    className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-600"
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                  <span className="absolute bottom-1 left-1 bg-blue-500 text-white text-xs px-2 py-1 rounded">
+                    Nueva
+                  </span>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
         <div className="flex justify-end gap-3 mt-6">

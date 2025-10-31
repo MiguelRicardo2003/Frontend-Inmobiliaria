@@ -4,8 +4,8 @@ const isProduction = import.meta.env.MODE === 'production';
 
 // Base URL desde variable de entorno o fallback
 const API_BASE_URL = import.meta.env.VITE_API_URL || (isProduction
-  ? 'https://backend-inmobiliaria.vercel.app/service'
-  : 'http://localhost:5000/service');
+  ? 'https://backend-inmobiliaria.vercel.app/api'
+  : 'http://localhost:5000/api');
 
 console.log('🔗 API Base URL:', API_BASE_URL); // Para debug
 
